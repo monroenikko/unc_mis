@@ -82,10 +82,7 @@
                         </select>
                         <div class="help-block text-red text-center" id="js-total_months">
                         </div>
-                    </div>
-
- 
-                    
+                    </div>                   
                     
                 </div>
                 <div class="modal-footer">

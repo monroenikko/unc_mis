@@ -134,19 +134,61 @@
                             </div>
                         @endforeach
                     </div>
-
+                    <hr>
                     <div class="row">                        
-                        <div class="col-md-4 col-sm-4">
+                        <div class="col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="">O.R. # </label>
                                 <input type="number" placeholder="00000000000" class="form-control" name="or_number" value="">
                             </div>
                         </div>
                         
-                        <div class="col-md-4 col-sm-4">
+                        <div class="col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="">Downpayment </label>
                                 <input placeholder="0.00" type="number" class="form-control" name="downpayment" value="">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-3">
+                            <div class="form-group">
+                                <label for="">From</label>
+                                <select name="total_months" id="total_months" class="form-control">
+                                    <option value="">Select months</option>
+                                    <option value="1" >June</option>
+                                    <option value="2" >July</option>
+                                    <option value="3" >August</option>
+                                    <option value="4" >September</option>
+                                    <option value="5" >October</option>
+                                    <option value="6" >November</option>
+                                    <option value="7" >December</option>
+                                    <option value="8" >January</option>
+                                    <option value="9" >February</option>
+                                    <option value="10" >March</option>
+                                </select>
+                                <div class="help-block text-red text-center" id="js-total_months">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-3">
+                            <div class="form-group">
+                                <label for="">To</label>
+                                <select name="total_months" id="total_months" class="form-control">
+                                    <option value="">Select months</option>
+                                    <option value="1" >June</option>
+                                    <option value="2" >July</option>
+                                    <option value="3" >August</option>
+                                    <option value="4" >September</option>
+                                    <option value="5" >October</option>
+                                    <option value="6" >November</option>
+                                    <option value="7" >December</option>
+                                    <option value="8" >January</option>
+                                    <option value="9" >February</option>
+                                    <option value="10" >March</option>
+                                </select>
+                                <div class="help-block text-red text-center" id="js-total_months">
+                                </div>
                             </div>
                         </div>
 

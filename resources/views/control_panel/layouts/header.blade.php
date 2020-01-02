@@ -21,7 +21,7 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="{{ asset('cms/dist/css/skins/_all-skins.css') }}">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/bootstrap-slider.js">
   <link href="{{ asset('favicon.png') }}" rel=icon>
 
   <link href="{{ asset('img/sja-logo.png') }}" rel=icon>

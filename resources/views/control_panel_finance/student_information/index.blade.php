@@ -64,9 +64,10 @@
                         $('.js-modal_holder .modal').modal({ backdrop : 'static' });
                         $('.js-modal_holder .modal').on('shown.bs.modal', function () {
                             //Date picker
-                            $('#datepicker').datepicker({
-                                autoclose: true
-                            })  
+                            // $( "#from, #to" ).datepicker({
+                            //     autoclose: true
+                            // })
+                            
                         });;
                     }
                 });
@@ -226,5 +227,7 @@
                 }
             }
         });
+
+        
     </script>
 @endsection
