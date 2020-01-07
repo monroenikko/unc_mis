@@ -66,8 +66,7 @@
                             //Date picker
                             // $( "#from, #to" ).datepicker({
                             //     autoclose: true
-                            // })
-                            
+                            // })                            
                         });;
                     }
                 });
@@ -110,11 +109,11 @@
             
             
 
-            $('body').on('submit', '#js-form_subject_details', function (e) {
+            $('body').on('submit', '#js-form_payment_transaction', function (e) {
                 e.preventDefault();
                 var formData = new FormData($(this)[0]);
                 $.ajax({
-                    url         : "{{ route('admin.student.information.save_data') }}",
+                    url         : "{{ route('finance.student_account.save_data') }}",
                     type        : 'POST',
                     data        : formData,
                     processData : false,
@@ -130,7 +129,7 @@
                         }
                         else
                         {
-                            $('.js-modal_holder .modal').modal('hide');
+                            // $('.js-modal_holder .modal').modal('hide');
                             fetch_data();
                         }
                     }

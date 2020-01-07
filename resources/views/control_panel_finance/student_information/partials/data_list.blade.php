@@ -23,7 +23,7 @@
                                             <td>{{ $data->status == 1 ? 'Active' : 'Inactive' }}</td>
                                             <td>
                                                 <div class="input-group-btn pull-left text-left">
-                                                    <a href="#" class="js-btn_account btn btn-flat btn-primary btn-sm" data-id="{{ $data->id }}">Account</a>
+                                                    <a href="#"  class="js-btn_account btn btn-flat btn-primary btn-sm" data-id="{{ $data->id }}">Account</a>
                                                 </div>
                                             </td>
                                         </tr>

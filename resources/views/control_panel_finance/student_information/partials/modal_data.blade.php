@@ -6,36 +6,15 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>                            
                         <h4 style="margin-right: 5em;" class="modal-title">
                             {{-- {{ $StudentInformation ? 'Edit Registrar Information' : 'Add Registrar Information' }} --}}
-                            Student Account
+                            <img src="{{ asset('/img/unc-logo.png') }}" style="height: 70px;"> Student Account
                         </h4>
-
-                        <div style="" class="col-md-10 col-md-offset-1">
-                            <center>
-                            {{-- @if ($Profile)
-                                <img class="profile-user-img img-responsive img-circle" id="img--user_photo" src="{{ $Profile->photo ? \File::exists(public_path('/img/account/photo/'.$Profile->photo)) ? asset('/img/account/photo/'.$Profile->photo) : asset('/img/account/photo/blank-user.gif') : asset('/img/account/photo/blank-user.gif') }}" style="width:150px; height:150px;  border-radius:50%;">
-                            @else
-                                <img class="profile-user-img img-responsive img-circle" id="img--user_photo" src="{{  asset('/img/account/photo/blank-user.png') }}" style="width:150px; height:150px;  border-radius:50%;">
-                            @endif     --}}
-                            {{-- <h2>{{ $Profile ? $Profile->first_name : 'User' }}'s Profile</h2>
-                                <div class="box-body">
-                            
-                                    <button type="button" class="btn btn-flat btn-success btn--update-photo" title="Change photo">
-                                        browse
-                                    </button> --}}
-                            </center>
-                            <form class="hidden" id="form_user_photo_uploader">
-                                <input type="file" id="user--photo" name="user_photo">
-                                <input type="hidden" name="id" value="{{ $StudentInformation ? $StudentInformation->id : '' }}">
-                                <button type="submit">fsdfasd</button>
-                            </form>
-                        </div>
                 </div>
             </div>
 
            
                 
            
-            <form id="js-form_subject_details">
+            <form id="js-form_payment_transaction">
                 {{ csrf_field() }}
                                 
                 @if ($StudentInformation)
@@ -69,6 +48,7 @@
                         <div class="col-sm-3 invoice-col">
                             <label for="">School Year: </label>
                             <p style="margin-top: -5px">{{ $SchoolYear->school_year }}</p>
+                            {{-- <input type="hidden" name="school_year_id" value="{{ $SchoolYear->school_year_id }}"> --}}
 
                             <label for="">Payment Status: </label>
                             <p style="margin-top: -5px; color: red">Paid/not yet paid</p>
@@ -88,30 +68,32 @@
                         </div>
                     </div>        
                 <hr>
+               
+                
                     <div class="row">
                         <div class="col-md-8 col-sm-8">
                             <div class="form-group">
                                 <label for="">Student Category</label>
-                                <select name="grades" id="grades" class="form-control">
+                                <select name="payment_category" id="payment_category" class="form-control">
                                     <option value="">Select Student Category</option>                                    
                                     @foreach($PaymentCategory as $p_cat)
-                                <option value="{{$p_cat->id}}">{{$p_cat->stud_category->student_category}} {{$p_cat->grade_level_id}} - Tuition Fee: {{ number_format($p_cat->tuition->tuition_amt, 2) }} | Miscelleneous Fee {{ number_format($p_cat->misc_fee->misc_amt, 2) }}</option>                    
+                                        <option value="{{$p_cat->id}}">{{$p_cat->stud_category->student_category}} {{$p_cat->grade_level_id}} - Tuition Fee: {{ number_format($p_cat->tuition->tuition_amt, 2) }} | Miscelleneous Fee {{ number_format($p_cat->misc_fee->misc_amt, 2) }}</option>                    
                                     @endforeach
                                 </select>
-                                <div class="help-block text-red text-center" id="js-gradelvl">
+                                <div class="help-block text-red text-center" id="js-payment_category">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-4">
                             <div class="form-group">
                                 <label for="">Discount: </label>
-                                <select name="grades" id="grades" class="form-control">
+                                <select name="discount" id="discount" class="form-control">
                                     <option value="">Select Discount Fee</option>
                                     @foreach($Discount as $disc_fee)
                                         <option value="{{$disc_fee->id}}">{{$disc_fee->disc_type}} {{number_format($disc_fee->disc_amt)}}</option>                    
                                     @endforeach
                                 </select>
-                                <div class="help-block text-red text-center" id="js-gradelvl">
+                                <div class="help-block text-red text-center" id="js-discount">
                                 </div>
                             </div>
                         </div>
@@ -122,7 +104,7 @@
                             <div class="col-md-4 col-sm-4">
                                 <div class="form-group">
                                     <label for="">{{ $otherfee->other_fee_name }} </label>
-                                    <select name="grades" id="grades" class="form-control">
+                                    <select name="others[]" class="form-control">
                                         <option value="">Select {{ $otherfee->other_fee_name }}</option>
                                         {{-- @foreach($OtherFee as $others) --}}
                                             <option value="{{ $otherfee->id }}">{{ $otherfee->other_fee_name }} {{ number_format($otherfee->other_fee_amt) }}</option>                    
@@ -139,21 +121,23 @@
                         <div class="col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="">O.R. # </label>
-                                <input type="number" placeholder="00000000000" class="form-control" name="or_number" value="">
+                                <input type="text" placeholder="00000000000" class="form-control" name="or_number" id="or_number" value="">
+                                <div class="help-block text-red text-center" id="js-or_number"></div>
                             </div>
                         </div>
                         
                         <div class="col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="">Downpayment </label>
-                                <input placeholder="0.00" type="number" class="form-control" name="downpayment" value="">
+                                <input placeholder="0.00" type="number" class="form-control" name="downpayment" id="downpayment" value="">
+                                <div class="help-block text-red text-center" id="js-downpayment"></div>
                             </div>
                         </div>
 
                         <div class="col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="">From</label>
-                                <select name="total_months" id="total_months" class="form-control">
+                                <select name="from_months" id="from_months" class="form-control">
                                     <option value="">Select months</option>
                                     <option value="1" >June</option>
                                     <option value="2" >July</option>
@@ -166,7 +150,7 @@
                                     <option value="9" >February</option>
                                     <option value="10" >March</option>
                                 </select>
-                                <div class="help-block text-red text-center" id="js-total_months">
+                                <div class="help-block text-red text-center" id="js-from_months">
                                 </div>
                             </div>
                         </div>
@@ -174,8 +158,8 @@
                         <div class="col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="">To</label>
-                                <select name="total_months" id="total_months" class="form-control">
-                                    <option value="">Select months</option>
+                                <select name="to_months" id="to_months" class="form-control">
+                                    <option value="0">Select months</option>
                                     <option value="1" >June</option>
                                     <option value="2" >July</option>
                                     <option value="3" >August</option>
@@ -187,35 +171,47 @@
                                     <option value="9" >February</option>
                                     <option value="10" >March</option>
                                 </select>
-                                <div class="help-block text-red text-center" id="js-total_months">
+                                <div class="help-block text-red text-center" id="js-to_months">
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-md-4 col-sm-4">
+                        <div class="col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label for="">&nbsp; </label><br>
-                                <button type="submit" class="btn btn-primary btn-flat mt-5">PAY</button>
+                                <button type="submit" class="btn btn-primary btn-flat pull-right">Save</button>
                             </div>
                         </div>
                         
                     </div>
-
+                
                     <div class="row">
-                        
                         <div class="col-md-12">
-                            <table class="table table-bordered table-hover">
+                            <h2>Summary Bill for Invoice</h2>
+                            <table class="table table-bordered table-striped table-hover">
                                 <thead>
                                   <tr>
                                     <th scope="col">Month</th>
                                     <th scope="col">Monthly</th>
                                     <th scope="col">Collection</th>
+                                    <th scope="col">Other</th>
                                     <th scope="col">Balance</th>
                                     <th scope="col">Remarks</th>
                                   </tr>
                                 </thead>
                                 <tbody>
+                               
                                   <tr>
+                                    <td>&nbps;</td>
+                                    <td>&nbps;</td>
+                                    <td>&nbps;</td>
+                                    <td>&nbps;</td>
+                                    <td>&nbps;</td>
+                                    <td>&nbps;</td>
+                                  </tr>
+                                
+                                  <tr>
+                                    <td>&nbps;</td>
                                     <td>&nbps;</td>
                                     <td>&nbps;</td>
                                     <td>&nbps;</td>
@@ -224,12 +220,6 @@
                                   </tr>
                                   <tr>
                                     <td>&nbps;</td>
-                                    <td>&nbps;</td>
-                                    <td>&nbps;</td>
-                                    <td>&nbps;</td>
-                                    <td>&nbps;</td>
-                                  </tr>
-                                  <tr>
                                     <td>&nbps;</td>
                                     <td>&nbps;</td>
                                     <td>&nbps;</td>
@@ -243,7 +233,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary btn-flat">Save</button>
+                    {{-- <button type="submit" class="btn btn-primary btn-flat">Save</button> --}}
                 </div>
             </form>
         </div><!-- /.modal-content -->
