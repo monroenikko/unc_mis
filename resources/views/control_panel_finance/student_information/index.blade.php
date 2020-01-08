@@ -64,11 +64,17 @@
                         $('.js-modal_holder .modal').modal({ backdrop : 'static' });
                         $('.js-modal_holder .modal').on('shown.bs.modal', function () {
                             //Date picker
+<<<<<<< HEAD
                             $('#datepicker').datepicker({
                                 autoclose: true
                             })  
 
                             $('.select2').select2();
+=======
+                            // $( "#from, #to" ).datepicker({
+                            //     autoclose: true
+                            // })                            
+>>>>>>> a65d06c7c07a384451462079721ebba41f371188
                         });;
                     }
                 });
@@ -111,11 +117,11 @@
             
             
 
-            $('body').on('submit', '#js-form_subject_details', function (e) {
+            $('body').on('submit', '#js-form_payment_transaction', function (e) {
                 e.preventDefault();
                 var formData = new FormData($(this)[0]);
                 $.ajax({
-                    url         : "{{ route('admin.student.information.save_data') }}",
+                    url         : "{{ route('finance.student_account.save_data') }}",
                     type        : 'POST',
                     data        : formData,
                     processData : false,
@@ -131,7 +137,7 @@
                         }
                         else
                         {
-                            $('.js-modal_holder .modal').modal('hide');
+                            // $('.js-modal_holder .modal').modal('hide');
                             fetch_data();
                         }
                     }
@@ -228,5 +234,7 @@
                 }
             }
         });
+
+        
     </script>
 @endsection
