@@ -105,13 +105,13 @@
                         <div class="col-md-4 col-sm-4">
                             <div class="form-group">
                                 <label for="">Discount: </label>
-                                <select name="grades" id="grades" class="form-control">
+                                <select name="discount" id="discount" class="form-control">
                                     <option value="">Select Discount Fee</option>
                                     @foreach($Discount as $disc_fee)
                                         <option value="{{$disc_fee->id}}">{{$disc_fee->disc_type}} {{number_format($disc_fee->disc_amt)}}</option>                    
                                     @endforeach
                                 </select>
-                                <div class="help-block text-red text-center" id="js-gradelvl">
+                                <div class="help-block text-red text-center" id="js-discount">
                                 </div>
                             </div>
                         </div>
@@ -122,7 +122,7 @@
                             <div class="col-md-4 col-sm-4">
                                 <div class="form-group">
                                     <label for="">{{ $otherfee->other_fee_name }} </label>
-                                    <select name="grades" id="grades" class="form-control">
+                                    <select name="others[]" id="others" class="form-control">
                                         <option value="">Select {{ $otherfee->other_fee_name }}</option>
                                         {{-- @foreach($OtherFee as $others) --}}
                                             <option value="{{ $otherfee->id }}">{{ $otherfee->other_fee_name }} {{ number_format($otherfee->other_fee_amt) }}</option>                    
@@ -133,6 +133,21 @@
                                 </div>
                             </div>
                         @endforeach
+                        {{-- <div class="col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <label>Multiple</label>
+                                <select class="form-control select2" multiple="multiple" data-placeholder="Select a State"
+                                        style="width: 100%;">
+                                  <option>Alabama</option>
+                                  <option>Alaska</option>
+                                  <option>California</option>
+                                  <option>Delaware</option>
+                                  <option>Tennessee</option>
+                                  <option>Texas</option>
+                                  <option>Washington</option>
+                                </select>
+                              </div>
+                        </div> --}}
                     </div>
 
                     <div class="row">                        
