@@ -12,7 +12,8 @@
             </div>
 
            
-                
+            
+            
            
             <form id="js-form_payment_transaction">
                 {{ csrf_field() }}
@@ -68,74 +69,9 @@
                         </div>
                     </div>        
                 <hr>
-               
-                
-                    <div class="row">
-                        <div class="col-md-8 col-sm-8">
-                            <div class="form-group">
-                                <label for="">Student Category</label>
-                                <select name="payment_category" id="payment_category" class="form-control">
-                                    <option value="">Select Student Category</option>                                    
-                                    @foreach($PaymentCategory as $p_cat)
-                                        <option value="{{$p_cat->id}}">{{$p_cat->stud_category->student_category}} {{$p_cat->grade_level_id}} - Tuition Fee: {{ number_format($p_cat->tuition->tuition_amt, 2) }} | Miscelleneous Fee {{ number_format($p_cat->misc_fee->misc_amt, 2) }}</option>                    
-                                    @endforeach
-                                </select>
-                                <div class="help-block text-red text-center" id="js-payment_category">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-4">
-                            <div class="form-group">
-                                <label for="">Discount: </label>
-                                <select name="discount" id="discount" class="form-control">
-                                    <option value="">Select Discount Fee</option>
-                                    @foreach($Discount as $disc_fee)
-                                        <option value="{{$disc_fee->id}}">{{$disc_fee->disc_type}} {{number_format($disc_fee->disc_amt)}}</option>                    
-                                    @endforeach
-                                </select>
-                                <div class="help-block text-red text-center" id="js-discount">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="row">
-                        @foreach ($OtherFee as $otherfee)
-                            <div class="col-md-4 col-sm-4">
-                                <div class="form-group">
-                                    <label for="">{{ $otherfee->other_fee_name }} </label>
-<<<<<<< HEAD
-                                    <select name="others[]" id="others" class="form-control">
-=======
-                                    <select name="others[]" class="form-control">
->>>>>>> a65d06c7c07a384451462079721ebba41f371188
-                                        <option value="">Select {{ $otherfee->other_fee_name }}</option>
-                                        {{-- @foreach($OtherFee as $others) --}}
-                                            <option value="{{ $otherfee->id }}">{{ $otherfee->other_fee_name }} {{ number_format($otherfee->other_fee_amt) }}</option>                    
-                                        {{-- @endforeach --}}
-                                    </select>
-                                    <div class="help-block text-red text-center" id="js-{{ $otherfee->other_fee_name }}">
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                        {{-- <div class="col-md-4 col-sm-4">
-                            <div class="form-group">
-                                <label>Multiple</label>
-                                <select class="form-control select2" multiple="multiple" data-placeholder="Select a State"
-                                        style="width: 100%;">
-                                  <option>Alabama</option>
-                                  <option>Alaska</option>
-                                  <option>California</option>
-                                  <option>Delaware</option>
-                                  <option>Tennessee</option>
-                                  <option>Texas</option>
-                                  <option>Washington</option>
-                                </select>
-                              </div>
-                        </div> --}}
-                    </div>
-                    <hr>
+ 
+                @if(!$Transaction)
+
                     <div class="row">                        
                         <div class="col-md-3 col-sm-3">
                             <div class="form-group">
@@ -151,12 +87,13 @@
                                 <input placeholder="0.00" type="number" class="form-control" name="downpayment" id="downpayment" value="">
                                 <div class="help-block text-red text-center" id="js-downpayment"></div>
                             </div>
-                        </div>
-
-                        <div class="col-md-3 col-sm-3">
+                        </div>                        
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label for="">From</label>
-                                <select name="from_months" id="from_months" class="form-control">
+                                <label>Months</label>
+                                <select class="form-control select2" name="months[]" multiple="multiple" data-placeholder="Select month(s)" style="width: 100%;">
                                     <option value="">Select months</option>
                                     <option value="1" >June</option>
                                     <option value="2" >July</option>
@@ -169,85 +106,155 @@
                                     <option value="9" >February</option>
                                     <option value="10" >March</option>
                                 </select>
-                                <div class="help-block text-red text-center" id="js-from_months">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-sm-3">
+                            </div> 
+                        </div>        
+                        <div class="col-md-8 col-sm-8">
                             <div class="form-group">
-                                <label for="">To</label>
-                                <select name="to_months" id="to_months" class="form-control">
-                                    <option value="0">Select months</option>
-                                    <option value="1" >June</option>
-                                    <option value="2" >July</option>
-                                    <option value="3" >August</option>
-                                    <option value="4" >September</option>
-                                    <option value="5" >October</option>
-                                    <option value="6" >November</option>
-                                    <option value="7" >December</option>
-                                    <option value="8" >January</option>
-                                    <option value="9" >February</option>
-                                    <option value="10" >March</option>
+                                <label for="">Student Category</label>
+                                <select name="payment_category" id="payment_category" class="form-control">
+                                    <option value="">Select Student Category</option>                                    
+                                    @foreach($PaymentCategory as $p_cat)
+                                        <option value="{{$p_cat->id}}">{{$p_cat->stud_category->student_category}} {{$p_cat->grade_level_id}} - Tuition Fee: {{ number_format($p_cat->tuition->tuition_amt, 2) }} | Miscelleneous Fee {{ number_format($p_cat->misc_fee->misc_amt, 2) }}</option>                    
+                                    @endforeach
                                 </select>
-                                <div class="help-block text-red text-center" id="js-to_months">
+                                <div class="help-block text-red text-center" id="js-payment_category">
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12 col-sm-12">
-                            <div class="form-group">
-                                <label for="">&nbsp; </label><br>
-                                <button type="submit" class="btn btn-primary btn-flat pull-right">Save</button>
                             </div>
                         </div>
                         
                     </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <label for="">Discount: </label>
+                                <select name="discount[]" id="discount[]" class="form-control select2" multiple="multiple" data-placeholder="Select Discount" style="width: 100%;">
+                                    <option value="">Select Discount Fee</option>
+                                    @foreach($Discount as $disc_fee)
+                                        <option value="{{$disc_fee->id}}">{{$disc_fee->disc_type}} {{number_format($disc_fee->disc_amt)}}</option>                    
+                                    @endforeach
+                                </select>
+                                <div class="help-block text-red text-center" id="js-discount">
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="col-md-6 ">
+                            <div class="form-group">
+                                <label>Other(s)</label>
+                                <select class="form-control select2" name="others[]" multiple="multiple" data-placeholder="Select Other" style="width: 100%;">
+                                        <option>Select Others</option>
+                                        @foreach ($OtherFee as $otherfee)                                        
+                                            <option value="{{ $otherfee->id }}">{{ $otherfee->other_fee_name }} {{ number_format($otherfee->other_fee_amt) }}</option>
+                                        @endforeach
+                                </select>
+                                <div class="help-block text-red text-center" id="js-others">
+                            </div>
+                        </div>
+                @else
+                        other control
+                @endif
+                            
+                    </div>
+                    <hr>
+                    <div class="col-md-3 col-sm-3">
+                        <div class="form-group">
+                            <label for="">From</label>
+                            <select name="from_months" id="from_months" class="form-control">
+                                <option value="">Select months</option>
+                                <option value="1" >June</option>
+                                <option value="2" >July</option>
+                                <option value="3" >August</option>
+                                <option value="4" >September</option>
+                                <option value="5" >October</option>
+                                <option value="6" >November</option>
+                                <option value="7" >December</option>
+                                <option value="8" >January</option>
+                                <option value="9" >February</option>
+                                <option value="10" >March</option>
+                            </select>
+                            <div class="help-block text-red text-center" id="js-from_months">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-3">
+                        <div class="form-group">
+                            <label for="">To</label>
+                            <select name="to_months" id="to_months" class="form-control">
+                                <option value="0">Select months</option>
+                                <option value="1" >June</option>
+                                <option value="2" >July</option>
+                                <option value="3" >August</option>
+                                <option value="4" >September</option>
+                                <option value="5" >October</option>
+                                <option value="6" >November</option>
+                                <option value="7" >December</option>
+                                <option value="8" >January</option>
+                                <option value="9" >February</option>
+                                <option value="10" >March</option>
+                            </select>
+                            <div class="help-block text-red text-center" id="js-to_months">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="container">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    <label for="">&nbsp; </label><br>
+                                    <button type="submit" class="btn btn-primary btn-flat pull-right">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 
                     <div class="row">
-                        <div class="col-md-12">
-                            <h2>Summary Bill for Invoice</h2>
-                            <table class="table table-bordered table-striped table-hover">
-                                <thead>
-                                  <tr>
-                                    <th scope="col">Month</th>
-                                    <th scope="col">Monthly</th>
-                                    <th scope="col">Collection</th>
-                                    <th scope="col">Other</th>
-                                    <th scope="col">Balance</th>
-                                    <th scope="col">Remarks</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                               
-                                  <tr>
-                                    <td>&nbps;</td>
-                                    <td>&nbps;</td>
-                                    <td>&nbps;</td>
-                                    <td>&nbps;</td>
-                                    <td>&nbps;</td>
-                                    <td>&nbps;</td>
-                                  </tr>
+                        <div class="container">
+                            <div class="col-md-12">
+                                <h2>Summary Bill for Invoice</h2>
+                                <table class="table table-bordered table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Month</th>
+                                        <th scope="col">Monthly</th>
+                                        <th scope="col">Collection</th>
+                                        <th scope="col">Other</th>
+                                        <th scope="col">Balance</th>
+                                        <th scope="col">Remarks</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
                                 
-                                  <tr>
-                                    <td>&nbps;</td>
-                                    <td>&nbps;</td>
-                                    <td>&nbps;</td>
-                                    <td>&nbps;</td>
-                                    <td>&nbps;</td>
-                                    <td>&nbps;</td>
-                                  </tr>
-                                  <tr>
-                                    <td>&nbps;</td>
-                                    <td>&nbps;</td>
-                                    <td>&nbps;</td>
-                                    <td>&nbps;</td>
-                                    <td>&nbps;</td>
-                                    <td>&nbps;</td>
-                                  </tr>
-                                </tbody>
-                            </table>
-                        </div>                        
+                                    <tr>
+                                        <td>&nbps;</td>
+                                        <td>&nbps;</td>
+                                        <td>&nbps;</td>
+                                        <td>&nbps;</td>
+                                        <td>&nbps;</td>
+                                        <td>&nbps;</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td>&nbps;</td>
+                                        <td>&nbps;</td>
+                                        <td>&nbps;</td>
+                                        <td>&nbps;</td>
+                                        <td>&nbps;</td>
+                                        <td>&nbps;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbps;</td>
+                                        <td>&nbps;</td>
+                                        <td>&nbps;</td>
+                                        <td>&nbps;</td>
+                                        <td>&nbps;</td>
+                                        <td>&nbps;</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>   
+                        </div>                     
                     </div>
                 </div>
                 <div class="modal-footer">

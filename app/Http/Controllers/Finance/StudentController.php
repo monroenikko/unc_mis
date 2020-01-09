@@ -16,6 +16,7 @@ use App\TransactionOtherFee;
 use App\TransactionMonthPaid;
 use App\TuitionFee;
 use App\MiscFee;
+use App\TransactionDiscount;
 
 class StudentController extends Controller
 {
@@ -59,8 +60,9 @@ class StudentController extends Controller
             // $PaymentCategory = PaymentCategory::where('status', 1)->where('current', 1)->get();
             $PaymentCategory = PaymentCategory::with('stud_category','tuition','misc_fee')
                 ->where('status', 1)->where('current', 1)->get();
-            $Transaction = Transaction::with('transaction_others_fee')->where('student_id', $request->id)
-                ->where('status', 1)->orderBy('id', 'desc')->first();
+
+            $Transaction = Transaction::where('student_id', $request->id)
+                ->where('status', 1)->first();
 
 
             // return view('control_panel.student_information.partials.modal_data', compact('StudentInformation','Profile'))->render(); 
@@ -78,7 +80,7 @@ class StudentController extends Controller
             'payment_category' => 'required',
             'or_number' => 'required',
             'downpayment' => 'required',     
-            'from_months' => 'required',
+            // 'from_months' => 'required',
         ];
 
         $Validator = \Validator($request->all(), $rules);
@@ -134,17 +136,44 @@ class StudentController extends Controller
         $total_others = 0;
         if(!empty($request->others)){
             foreach($request->others as $get_data){
-                $total_others += $get_data;
+                $OtherFee = OtherFee::where('id', $get_data)
+                    ->where('current', 1)
+                    ->where('status', 1)->first();
+
+                $total_others += $OtherFee->other_fee_amt;
+
+                $OtherFeeSave = new TransactionOtherFee();
+                $OtherFeeSave->or_no = $request->or_number;
+                $OtherFeeSave->student_id = $request->id;
+                $OtherFeeSave->others_fee_id = $get_data;
+                $OtherFeeSave->save();
             }
         }
-        echo $total_others;
+
+        $total_disc = 0;
+        if(!empty($request->discount)){
+            foreach($request->discount as $get_data){
+                $DiscountFee = DiscountFee::where('id', $get_data)
+                    ->where('current', 1)
+                    ->where('status', 1)->first();
+
+                $total_disc += $DiscountFee->disc_amt;
+
+                $DiscountFeeSave = new TransactionDiscount();
+                $DiscountFeeSave->or_no = $request->or_number;
+                $DiscountFeeSave->student_id = $request->id;
+                $DiscountFeeSave->discount_fee_id = $get_data;
+                $DiscountFeeSave->save();
+            }
+        }
+        // echo $total_others;
 
         $TutionFee = TuitionFee::where('id', $PaymentCategory->tuition_fee_id)->where('status', 1)->first();
         $MiscFee = MiscFee::where('id', $PaymentCategory->misc_fee_id)->where('status', 1)->first();
         $Discount = DiscountFee::where('id', $request->discount)->where('status', 1)->where('current', 1)->first();
         
         $total_1 = $TutionFee->tuition_amt + $MiscFee->misc_amt;
-        $total_2 = ($total_1 - $Discount->disc_amt);
+        $total_2 = ($total_1 - $total_disc);
         $total_3 = ($total_2 - $request->downpayment);
         $totalmonths =  $PaymentCategory->months - 1;
         $monthlyfee = $total_3 / $totalmonths;

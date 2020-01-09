@@ -24,8 +24,7 @@
             <div class="js-data-container">
                 @include('control_panel_finance.student_information.partials.data_list')                
             </div>
-        </div>
-        
+        </div>        
     </div>
 @endsection
 
@@ -64,17 +63,11 @@
                         $('.js-modal_holder .modal').modal({ backdrop : 'static' });
                         $('.js-modal_holder .modal').on('shown.bs.modal', function () {
                             //Date picker
-<<<<<<< HEAD
                             $('#datepicker').datepicker({
                                 autoclose: true
                             })  
-
                             $('.select2').select2();
-=======
-                            // $( "#from, #to" ).datepicker({
-                            //     autoclose: true
-                            // })                            
->>>>>>> a65d06c7c07a384451462079721ebba41f371188
+
                         });;
                     }
                 });
@@ -113,8 +106,6 @@
                 window.open("{{ route('admin.student.information.print_student_grades') }}?id="+id+"&cid="+print_sy, '', 'height=800,width=800')
                 
             })
-            
-            
             
 
             $('body').on('submit', '#js-form_payment_transaction', function (e) {
