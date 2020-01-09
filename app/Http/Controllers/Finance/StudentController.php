@@ -33,15 +33,21 @@ class StudentController extends Controller
             })
             // ->orWhere('first_name', 'like', '%'.$request->search.'%')
             ->paginate(10);
+
+            $Transaction = Transaction::where('student_id', $request->id)
+            ->where('status', 1)->first();
             // return json_encode(['student_info' => $StudentInformation]);
-            return view('control_panel_finance.student_information.partials.data_list', compact('StudentInformation'))->render();
+            return view('control_panel_finance.student_information.partials.data_list', compact('StudentInformation','Transaction'))->render();
         }
         
         $StudentInformation = StudentInformation::with(['user', 'enrolled_class'])->where('status', 1)
             ->orderBY('last_name', 'ASC')
             ->paginate(10);
+
+        $Transaction = Transaction::where('student_id', $request->id)
+            ->where('status', 1)->first();
         // return json_encode(['student_info' => $StudentInformation]);
-        return view('control_panel_finance.student_information.index', compact('StudentInformation'));
+        return view('control_panel_finance.student_information.index', compact('StudentInformation','Transaction'));
     }
 
     public function modal_data (Request $request) 
@@ -68,10 +74,15 @@ class StudentController extends Controller
             // return view('control_panel.student_information.partials.modal_data', compact('StudentInformation','Profile'))->render(); 
             // return view('control_panel.student_information.partials.modal_data', compact('StudentInformation'))->render()        
         }
-
-        return view('control_panel_finance.student_information.partials.modal_data', 
-            compact('StudentInformation','Profile','Gradelvl','Discount','OtherFee','SchoolYear','StudentCategory','PaymentCategory','Transaction'))->render();  
-    	// return view('profile', array('user' => Auth::user()) );        
+        if(!$Transaction){
+            return view('control_panel_finance.student_information.partials.modal_data', 
+                compact('StudentInformation','Profile','Gradelvl','Discount','OtherFee','SchoolYear','StudentCategory','PaymentCategory','Transaction'))->render();  
+        }else{
+            return view('control_panel_finance.student_information.partials.modal_account', 
+                compact('StudentInformation','Profile','Gradelvl','Discount','OtherFee','SchoolYear','StudentCategory','PaymentCategory','Transaction'))->render(); 
+        }
+        
+                // return view('profile', array('user' => Auth::user()) );        
     }
 
     public function save_data (Request $request) 
@@ -101,26 +112,25 @@ class StudentController extends Controller
         $Transaction->student_id = $request->id;
         $Transaction->school_year_id = $School_year_id->id;
         $Transaction->downpayment = $request->downpayment;
-        $Transaction->date_from = $request->from_months;
+        // $Transaction->date_from = $request->from_months;
 
-        if($request->to_months == '')
-        {
-            $Transaction->date_to = '0';
-        }else{
-            $Transaction->date_to = $request->to_months;
-        }
+        // if($request->to_months == '')
+        // {
+        //     $Transaction->date_to = '0';
+        // }else{
+        //     $Transaction->date_to = $request->to_months;
+        // }
 
-        if($request->to_months){
-            $total1= $request->to_months - $request->from_months;
-            $total2= $total1 + 1;
-        }
-        else{
-            $total1= $request->from_months - $request->to_months;
-            $total2= $total1 - 1;
-        }
+        // if($request->to_months){
+        //     $total1= $request->to_months - $request->from_months;
+        //     $total2= $total1 + 1;
+        // }
+        // else{
+        //     $total1= $request->from_months - $request->to_months;
+        //     $total2= $total1 - 1;
+        // }        
         
-        
-        $Transaction->no_month_paid = $total2;
+        $Transaction->no_month_paid = 1;
 
         // if($request->total_months == '')
         // {
@@ -166,6 +176,7 @@ class StudentController extends Controller
                 $DiscountFeeSave->save();
             }
         }
+        
         // echo $total_others;
 
         $TutionFee = TuitionFee::where('id', $PaymentCategory->tuition_fee_id)->where('status', 1)->first();
@@ -175,14 +186,19 @@ class StudentController extends Controller
         $total_1 = $TutionFee->tuition_amt + $MiscFee->misc_amt;
         $total_2 = ($total_1 - $total_disc);
         $total_3 = ($total_2 - $request->downpayment);
+
+        
+
         $totalmonths =  $PaymentCategory->months - 1;
-        $monthlyfee = $total_3 / $totalmonths;
+        $monthlyfee = $total_2 / 10;
         // total months left
         $Transaction->total_no_month = $totalmonths;
         // monthly fee
         $Transaction->monthly_fee = $monthlyfee;
-        $last_fee = $PaymentCategory->months * $monthlyfee;
-        $total_lastfee = $last_fee - $total_3 ;
+        $totalmonths = $PaymentCategory->months - 2;
+        $last_fee = $totalmonths  * $monthlyfee;
+        $total_lastfee = $total_3 - $last_fee  ;
+
         // lastfee 
         $Transaction->last_fee = $total_lastfee;
         $Transaction->balance = $total_3;

@@ -17,11 +17,9 @@ class CreateTransactionsTable extends Migration
             $table->increments('id');
             $table->string('or_number')->unique();
             $table->integer('payment_category_id');
-            $table->integer('student_id');            
+            $table->integer('student_id');        
             $table->integer('school_year_id');
             $table->double('downpayment');
-            $table->string('date_from');
-            $table->string('date_to');
             $table->integer('no_month_paid');
             $table->integer('total_no_month');
             $table->double('monthly_fee');

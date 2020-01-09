@@ -72,6 +72,29 @@
                     }
                 });
             });
+
+            $('body').on('click', '.js-btn_account_modal', function (e) {
+                e.preventDefault();
+                 {{-- loader_overlay();  --}}
+                var id = $(this).data('id');
+                $.ajax({
+                    url : "{{ route('finance.student_account.modal_account') }}",
+                    type : 'POST',
+                    data : { _token : '{{ csrf_token() }}', id : id },
+                    success : function (res) {
+                        $('.js-modal_holder').html(res);
+                        $('.js-modal_holder .modal').modal({ backdrop : 'static' });
+                        $('.js-modal_holder .modal').on('shown.bs.modal', function () {
+                            //Date picker
+                            $('#datepicker').datepicker({
+                                autoclose: true
+                            })  
+                            $('.select2').select2();
+
+                        });;
+                    }
+                });
+            });
             
             $('body').on('click', '.js-btn_print_grade', function (e) {
                 e.preventDefault();
@@ -104,7 +127,6 @@
                     return
                 }
                 window.open("{{ route('admin.student.information.print_student_grades') }}?id="+id+"&cid="+print_sy, '', 'height=800,width=800')
-                
             })
             
 
@@ -129,6 +151,12 @@
                         else
                         {
                             // $('.js-modal_holder .modal').modal('hide');
+                            show_toast_alert({
+                                heading : 'Success',
+                                message : res.res_msg,
+                                type    : 'success'
+                            });
+
                             fetch_data();
                         }
                     }
