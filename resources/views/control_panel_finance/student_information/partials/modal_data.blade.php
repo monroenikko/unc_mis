@@ -68,8 +68,6 @@
                         </div>
                     </div>        
                 <hr>
-               
-                
                     <div class="row">
                         <div class="col-md-8 col-sm-8">
                             <div class="form-group">
@@ -104,11 +102,7 @@
                             <div class="col-md-4 col-sm-4">
                                 <div class="form-group">
                                     <label for="">{{ $otherfee->other_fee_name }} </label>
-<<<<<<< HEAD
                                     <select name="others[]" id="others" class="form-control">
-=======
-                                    <select name="others[]" class="form-control">
->>>>>>> a65d06c7c07a384451462079721ebba41f371188
                                         <option value="">Select {{ $otherfee->other_fee_name }}</option>
                                         {{-- @foreach($OtherFee as $others) --}}
                                             <option value="{{ $otherfee->id }}">{{ $otherfee->other_fee_name }} {{ number_format($otherfee->other_fee_amt) }}</option>                    
