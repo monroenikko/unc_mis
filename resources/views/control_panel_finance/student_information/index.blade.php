@@ -66,7 +66,8 @@
                             //Date picker
                             // $( "#from, #to" ).datepicker({
                             //     autoclose: true
-                            // })                            
+                            // })       
+                            $('.select2').select2();                 
                         });;
                     }
                 });
