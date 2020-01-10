@@ -10,4 +10,9 @@ class Transaction extends Model
     {
         return $this->hasMany(TransactionOtherFee::class, 'or_number', 'or_number');
     }
+
+    public function payment_cat() 
+    {
+        return $this->hasMany(PaymentCategory::class, 'id', 'payment_category_id');
+    }
 }

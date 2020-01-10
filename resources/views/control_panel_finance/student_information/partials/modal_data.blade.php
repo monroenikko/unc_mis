@@ -20,6 +20,7 @@
                                 
                 @if ($StudentInformation)
                     <input type="hidden" name="id" value="{{ $StudentInformation->id }}">
+                    <input type="hidden" name="stud_status" value="0">
                 @endif
                 
                 <div class="modal-body">

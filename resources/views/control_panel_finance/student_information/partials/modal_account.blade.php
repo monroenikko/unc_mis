@@ -17,6 +17,7 @@
                                 
                 @if ($StudentInformation)
                     <input type="hidden" name="id" value="{{ $StudentInformation->id }}">
+                    <input type="hidden" name="stud_status" value="1">
                 @endif
                 
                 <div class="modal-body">
@@ -66,13 +67,19 @@
                         </div>
                     </div>        
                 <hr>
- 
+                    <div class="row">
+                        
+                        <?php
+                            $tuitionfee =  \App\PaymentCategory::where('id', $Transaction->payment_category_id)->first()->tuition_fee_id;
+                            
+                        ?> 
+                    </div>
                
 
                     <div class="row">   
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>Months</label>
+                                <label>Month(s):</label>
                                 <select class="form-control select2" name="months[]" multiple="multiple" data-placeholder="Select month(s)" style="width: 100%;">
                                     <option value="">Select months</option>
                                     <option value="1" >June</option>
@@ -99,8 +106,8 @@
                         <div class="col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="">Payment </label>
-                                <input placeholder="0.00" type="number" class="form-control" name="downpayment" id="downpayment" value="">
-                                <div class="help-block text-red text-center" id="js-downpayment"></div>
+                                <input placeholder="0.00" type="number" class="form-control" name="payment" id="payment" value="">
+                                <div class="help-block text-red text-center" id="js-payment"></div>
                             </div>
                         </div>   
                         <div class="col-md-3 col-sm-3">
