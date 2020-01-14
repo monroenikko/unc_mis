@@ -18,6 +18,7 @@
                 @if ($StudentInformation)
                     <input type="hidden" name="id" value="{{ $StudentInformation->id }}">
                     <input type="hidden" name="stud_status" value="1">
+                    <input type="hidden" name="no_months_paid" value="{{$Transaction->no_month_paid}}" />
                 @endif
                 
                 <div class="modal-body">
@@ -67,15 +68,22 @@
                         </div>
                     </div>        
                 <hr>
-                    <div class="row">
-                        
-                        <?php
-                            $tuitionfee =  \App\PaymentCategory::where('id', $Transaction->payment_category_id)->first()->tuition_fee_id;
-                            
-                        ?> 
-                    </div>
-               
+                    <div class="row">   
+                        <div class="container">
+                            <?php 
+                                $payment =  \App\PaymentCategory::where('id', $Transaction->payment_category_id)->first();
+                                $MiscFee_payment =  \App\MiscFee::where('id', $payment->misc_fee_id)->first();
+                                $tuitionfee_payment =  \App\TuitionFee::where('id', $payment->tuition_fee_id)->first();
+                                $stud_cat_payment =  \App\StudentCategory::where('id', $payment->student_category_id)->first();
+                            ?>
 
+                            <h3 style="margin-bottom: 1em">Payment Category:</h3>
+                            
+                            <h4><b>Student Category:</b> <i style="color: red"><?php echo $stud_cat_payment->student_category; echo -  $payment->grade_level_id;?></i></h4>
+                            <h4><b>Tuition Fee:</b> <i style="color: red"> <?php echo number_format($tuitionfee_payment->tuition_amt, 2); ?> <b>|</b> Miscelleneous Fee: <?php echo number_format($MiscFee_payment->misc_amt,2); ?></i></h4>
+                        </div>
+                    </div>
+               <hr>
                     <div class="row">   
                         <div class="col-md-3">
                             <div class="form-group">
@@ -135,6 +143,7 @@
                         </div>
                     </div>
                 
+                    <hr>
                     <div class="row">
                         <div class="container">
                             <div class="col-md-12">

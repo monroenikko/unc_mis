@@ -18,6 +18,7 @@ class CreateTransactionMonthPaidsTable extends Migration
             $table->string('or_no');
             $table->integer('student_id');
             $table->string('month_paid');
+            $table->integer('school_year_id');
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });

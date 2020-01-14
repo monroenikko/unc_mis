@@ -136,55 +136,9 @@
                             <button type="submit" class="btn btn-primary btn-flat pull-left">Save</button>
                         </div>
                     </div>
-                    <hr>
-                    {{-- <div class="col-md-3 col-sm-3">
-                        <div class="form-group">
-                            <label for="">From</label>
-                            <select name="from_months" id="from_months" class="form-control">
-                                <option value="">Select months</option>
-                                <option value="1" >June</option>
-                                <option value="2" >July</option>
-                                <option value="3" >August</option>
-                                <option value="4" >September</option>
-                                <option value="5" >October</option>
-                                <option value="6" >November</option>
-                                <option value="7" >December</option>
-                                <option value="8" >January</option>
-                                <option value="9" >February</option>
-                                <option value="10" >March</option>
-                            </select>
-                            <div class="help-block text-red text-center" id="js-from_months">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-3">
-                        <div class="form-group">
-                            <label for="">To</label>
-                            <select name="to_months" id="to_months" class="form-control">
-                                <option value="0">Select months</option>
-                                <option value="1" >June</option>
-                                <option value="2" >July</option>
-                                <option value="3" >August</option>
-                                <option value="4" >September</option>
-                                <option value="5" >October</option>
-                                <option value="6" >November</option>
-                                <option value="7" >December</option>
-                                <option value="8" >January</option>
-                                <option value="9" >February</option>
-                                <option value="10" >March</option>
-                            </select>
-                            <div class="help-block text-red text-center" id="js-to_months">
-                            </div>
-                        </div>
-                    </div> --}}
                     
-                    <div class="row">
-                        <div class="container">
-                            
-                        </div>
-                    </div>
-                
+                    <hr>
+                    
                     <div class="row">
                         <div class="container">
                             <div class="col-md-12">

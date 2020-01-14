@@ -64,22 +64,20 @@ class StudentController extends Controller
             $OtherFee = OtherFee::where('current', 1)->where('status', 1)->get();  
             $SchoolYear = SchoolYear::where('current', 1)->where('status', 1)->first();
             $StudentCategory = StudentCategory::where('status', 1)->get();
-            // $PaymentCategory = PaymentCategory::where('status', 1)->where('current', 1)->get();
+            
             $PaymentCategory = PaymentCategory::with('stud_category','tuition','misc_fee')
                 ->where('status', 1)->where('current', 1)->get();
 
-            $Transaction = Transaction::where('student_id', $request->id)
+            $Transaction = Transaction::with('payment_cat')->where('student_id', $request->id)
                 ->where('status', 1)->first();
-
-
-            // return view('control_panel.student_information.partials.modal_data', compact('StudentInformation','Profile'))->render(); 
-            // return view('control_panel.student_information.partials.modal_data', compact('StudentInformation'))->render()        
         }
+
         if(!$Transaction){
             return view('control_panel_finance.student_information.partials.modal_data', 
                 compact('StudentInformation','Profile','Gradelvl','Discount','OtherFee','SchoolYear','StudentCategory','PaymentCategory','Transaction'))->render();  
         }else{
-            return view('control_panel_finance.student_information.partials.modal_account', 
+
+            return view('control_panel_finance.student_information.partials.modal_account',
                 compact('StudentInformation','Profile','Gradelvl','Discount','OtherFee','SchoolYear','StudentCategory','PaymentCategory','Transaction'))->render(); 
         }
         
@@ -88,13 +86,14 @@ class StudentController extends Controller
 
     public function save_data (Request $request) 
     {
+        $School_year_id = SchoolYear::where('status', 1)
+                ->where('current', 1)->first();
         if($request->stud_status == 0){
         
             $rules = [
                 'payment_category' => 'required',
                 'or_number' => 'required',
                 'downpayment' => 'required',     
-                // 'from_months' => 'required',
             ];
 
             $Validator = \Validator($request->all(), $rules);
@@ -104,10 +103,7 @@ class StudentController extends Controller
                 return response()->json(['res_code' => 1, 'res_msg' 
                     => 'Please fill all required fields.', 'res_error_msg' 
                     => $Validator->getMessageBag()]);
-            }   
-
-            $School_year_id = SchoolYear::where('status', 1)
-                ->where('current', 1)->first();
+            }
 
             $Transaction = new Transaction();
             $Transaction->or_number = $request->or_number;
@@ -115,32 +111,8 @@ class StudentController extends Controller
             $Transaction->student_id = $request->id;
             $Transaction->school_year_id = $School_year_id->id;
             $Transaction->downpayment = $request->downpayment;
-            // $Transaction->date_from = $request->from_months;
-
-            // if($request->to_months == '')
-            // {
-            //     $Transaction->date_to = '0';
-            // }else{
-            //     $Transaction->date_to = $request->to_months;
-            // }
-
-            // if($request->to_months){
-            //     $total1= $request->to_months - $request->from_months;
-            //     $total2= $total1 + 1;
-            // }
-            // else{
-            //     $total1= $request->from_months - $request->to_months;
-            //     $total2= $total1 - 1;
-            // }        
-            
+           
             $Transaction->no_month_paid = 1;
-
-            // if($request->total_months == '')
-            // {
-            //     $Transaction->total_months = '0';
-            // }else{
-            //     $Transaction->total_months = $request->total_months;
-            // }
 
             $PaymentCategory = PaymentCategory::with('stud_category','tuition','misc_fee')
                 ->where('id', $request->payment_category)
@@ -159,6 +131,7 @@ class StudentController extends Controller
                     $OtherFeeSave->or_no = $request->or_number;
                     $OtherFeeSave->student_id = $request->id;
                     $OtherFeeSave->others_fee_id = $get_data;
+                    $OtherFeeSave->school_year_id = $School_year_id->id;
                     $OtherFeeSave->save();
                 }
             }
@@ -176,6 +149,7 @@ class StudentController extends Controller
                     $DiscountFeeSave->or_no = $request->or_number;
                     $DiscountFeeSave->student_id = $request->id;
                     $DiscountFeeSave->discount_fee_id = $get_data;
+                    $DiscountFeeSave->school_year_id = $School_year_id->id;
                     $DiscountFeeSave->save();
                 }
             }
@@ -184,15 +158,18 @@ class StudentController extends Controller
 
             $TutionFee = TuitionFee::where('id', $PaymentCategory->tuition_fee_id)->where('status', 1)->first();
             $MiscFee   = MiscFee::where('id', $PaymentCategory->misc_fee_id)->where('status', 1)->first();
-            $Discount   = DiscountFee::where('id', $request->discount)->where('status', 1)->where('current', 1)->first();
+            $Discount  = DiscountFee::where('id', $request->discount)->where('status', 1)->where('current', 1)->first();
             
+            // tuition and misc
             $total_1 = $TutionFee->tuition_amt + $MiscFee->misc_amt;
+
+            
             $total_2 = ($total_1 - $total_disc);
             $total_3 = ($total_2 - $request->downpayment);
             
 
             $totalmonths =  $PaymentCategory->months - 1;
-            $monthlyfee = $total_2 / 10;
+            $monthlyfee = $total_2 / $PaymentCategory->months;
             // total months left
             $Transaction->total_no_month = $totalmonths;
             // monthly fee
@@ -214,8 +191,18 @@ class StudentController extends Controller
                 'months' => 'required',
                 'or_number' => 'required',
                 'payment' => 'required',     
-                // 'from_months' => 'required',
             ];
+
+            $Validator = \Validator($request->all(), $rules);
+
+            if ($Validator->fails())
+            {
+                return response()->json(['res_code' => 1, 'res_msg' 
+                    => 'Please fill all required fields.', 'res_error_msg' 
+                    => $Validator->getMessageBag()]);
+            }   
+
+            $request->no_months_paid;
         }
     }
     

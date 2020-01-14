@@ -13,6 +13,6 @@ class Transaction extends Model
 
     public function payment_cat() 
     {
-        return $this->hasMany(PaymentCategory::class, 'id', 'payment_category_id');
+        return $this->hasOne(PaymentCategory::class, 'id', 'payment_category_id');
     }
 }
