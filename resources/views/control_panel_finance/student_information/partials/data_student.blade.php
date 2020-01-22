@@ -1,4 +1,4 @@
-                        <div class="pull-right">
+                        {{-- <div class="pull-right">
                             {{ $StudentInformation ? $StudentInformation->links() : '' }}
                         </div>
                         <table class="table no-margin">
@@ -39,4 +39,6 @@
                                     @endforeach
                                 @endif
                             </tbody>
-                        </table>
+                        </table> --}}
+
+                        data student

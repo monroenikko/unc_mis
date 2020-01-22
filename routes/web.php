@@ -75,7 +75,9 @@ Route::group(['prefix' => 'finance', 'middleware' => ['auth', 'userroles'], 'rol
 
     Route::get('', 'Finance\StudentController@index')->name('finance.student_account');
     Route::post('', 'Finance\StudentController@index')->name('finance.student_account');
+    Route::get('student-data', 'Finance\StudentController@data_student')->name('finance.student_account.data_student');
     Route::post('modal-data', 'Finance\StudentController@modal_data')->name('finance.student_account.modal');
+    Route::get('modal-data', 'Finance\StudentController@modal_data')->name('finance.student_account.modal');
     Route::post('modal-account', 'Finance\StudentController@modal_data')->name('finance.student_account.modal_account');
     Route::post('save-data', 'Finance\StudentController@save_data')->name('finance.student_account.save_data');
     
@@ -135,6 +137,7 @@ Route::group(['prefix' => 'registrar/class-details', 'middleware' => 'auth', 'ro
     Route::get('', 'Registrar\ClassListController@index')->name('registrar.class_details');
     Route::post('', 'Registrar\ClassListController@index')->name('registrar.class_details');
     Route::post('modal-data', 'Registrar\ClassListController@modal_data')->name('registrar.class_details.modal_data');
+    Route::get('modal-data', 'Registrar\ClassListController@modal_data')->name('registrar.class_details.modal_data');
     Route::post('save-data', 'Registrar\ClassListController@save_data')->name('registrar.class_details.save_data');
     Route::post('deactivate-data', 'Registrar\ClassListController@deactivate_data')->name('registrar.class_details.deactivate_data');
     Route::post('fetch_section-by-grade-level', 'Registrar\ClassListController@fetch_section_by_grade_level')->name('registrar.class_details.fetch_section_by_grade_level');

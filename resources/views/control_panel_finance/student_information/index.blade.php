@@ -21,8 +21,12 @@
         </div>
         <div class="overlay hidden" id="js-loader-overlay"><i class="fa fa-refresh fa-spin"></i></div>
         <div class="box-body">
+            
             <div class="js-data-container">
                 @include('control_panel_finance.student_information.partials.data_list')                
+            </div>
+            <div class="js-data-container_2">
+                @include('control_panel_finance.student_information.partials.data_student')                
             </div>
         </div>        
     </div>
@@ -55,23 +59,52 @@
                  {{-- loader_overlay();  --}}
                 var id = $(this).data('id');
                 $.ajax({
-                    url : "{{ route('finance.student_account.modal') }}",
-                    type : 'POST',
-                    data : { _token : '{{ csrf_token() }}', id : id },
-                    success : function (res) {
-                        $('.js-modal_holder').html(res);
-                        $('.js-modal_holder .modal').modal({ backdrop : 'static' });
-                        $('.js-modal_holder .modal').on('shown.bs.modal', function () {
-                            //Date picker
-                            $('#datepicker').datepicker({
-                                autoclose: true
-                            })  
-                            $('.select2').select2();
+                    url : "{{ route('finance.student_account.data_student') }}",
+                    type : 'GET',
 
-                        });;
+                    
+                    success     : function (res) {
+                        loader_overlay();
+                        $('.js-data-container_2').html(res);
                     }
+                    // data : { _token : '{{ csrf_token() }}', id : id },
+                    // success : function (res) {
+                    //     $('.js-modal_holder').html(res);
+                    //     $('.js-modal_holder .modal').modal({ backdrop : 'static' });
+                    //     $('.js-modal_holder .modal').on('shown.bs.modal', function () {
+                    //         //Date picker
+                    //         $('#datepicker').datepicker({
+                    //             autoclose: true
+                    //         })  
+                    //         $('.select2').select2();
+
+                    //     });;
+                    // }
                 });
             });
+
+            // $('body').on('click', '.js-btn_account', function (e) {
+            //     e.preventDefault();
+            //      {{-- loader_overlay();  --}}
+            //     var id = $(this).data('id');
+            //     $.ajax({
+            //         url : "{{ route('finance.student_account.modal') }}",
+            //         type : 'POST',
+            //         data : { _token : '{{ csrf_token() }}', id : id },
+            //         success : function (res) {
+            //             $('.js-modal_holder').html(res);
+            //             $('.js-modal_holder .modal').modal({ backdrop : 'static' });
+            //             $('.js-modal_holder .modal').on('shown.bs.modal', function () {
+            //                 //Date picker
+            //                 $('#datepicker').datepicker({
+            //                     autoclose: true
+            //                 })  
+            //                 $('.select2').select2();
+
+            //             });;
+            //         }
+            //     });
+            // });
 
             $('body').on('click', '.js-btn_account_modal', function (e) {
                 e.preventDefault();

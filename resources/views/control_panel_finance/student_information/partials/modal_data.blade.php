@@ -138,7 +138,9 @@
                     </div>
                     
                     <hr>
-                    
+                    @if($Transaction)
+                        {{$Transaction->or_number}}
+                    @endif
                     <div class="row">
                         <div class="container">
                             <div class="col-md-12">
