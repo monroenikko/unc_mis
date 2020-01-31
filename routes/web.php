@@ -78,6 +78,8 @@ Route::group(['prefix' => 'finance', 'middleware' => ['auth', 'userroles'], 'rol
     Route::post('modal-data', 'Finance\StudentController@modal_data')->name('finance.student_account.modal');
     Route::post('modal-account', 'Finance\StudentController@modal_data')->name('finance.student_account.modal_account');
     Route::post('save-data', 'Finance\StudentController@save_data')->name('finance.student_account.save_data');
+
+    Route::get('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
     
 
     

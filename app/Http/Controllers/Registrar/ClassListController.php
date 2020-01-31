@@ -10,7 +10,6 @@ class ClassListController extends Controller
     public function index (Request $request) 
     {
 
-
         $ClassDetail = \App\ClassDetail::join('section_details', 'section_details.id', '=' ,'class_details.section_id')
             ->join('rooms', 'rooms.id', '=' ,'class_details.room_id')
             ->leftJoin('faculty_informations', 'faculty_informations.id', '=' ,'class_details.adviser_id')
@@ -62,6 +61,7 @@ class ClassListController extends Controller
     {
         $ClassDetail = NULL;
         $FacultyInformation = \App\FacultyInformation::where('status', 1)->get();
+        
         if ($request->id)
         {
             $ClassDetail = \App\ClassDetail::where('id', $request->id)->first();
