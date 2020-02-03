@@ -73,13 +73,19 @@ Route::group(['prefix' => 'registrar', 'middleware' => ['auth', 'userroles'], 'r
 Route::group(['prefix' => 'finance', 'middleware' => ['auth', 'userroles'], 'roles' => ['admin', 'root','finance']], function () {
     Route::get('dashboard', 'Finance\FinanceDashboardController@index')->name('finance.dashboard');
 
-    Route::get('', 'Finance\StudentController@index')->name('finance.student_account');
-    Route::post('', 'Finance\StudentController@index')->name('finance.student_account');
-    Route::post('modal-data', 'Finance\StudentController@modal_data')->name('finance.student_account.modal');
-    Route::post('modal-account', 'Finance\StudentController@modal_data')->name('finance.student_account.modal_account');
-    Route::post('save-data', 'Finance\StudentController@save_data')->name('finance.student_account.save_data');
+    Route::group(['prefix' => 'student-information'], function (){
+        Route::get('', 'Finance\StudentController@index')->name('finance.student_account');
+        Route::post('', 'Finance\StudentController@index')->name('finance.student_account');
+        Route::post('modal-data', 'Finance\StudentController@modal_data')->name('finance.student_account.modal');
+        Route::post('modal-account', 'Finance\StudentController@modal_data')->name('finance.student_account.modal_account');
+        Route::post('save-data', 'Finance\StudentController@save_data')->name('finance.student_account.save_data'); 
+    });
 
+    
+    Route::group(['prefix' => 'student-payment-account'], function (){
     Route::get('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
+    // Route::post('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
+    });
     
 
     

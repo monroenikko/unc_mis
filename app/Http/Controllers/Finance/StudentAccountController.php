@@ -9,6 +9,6 @@ class StudentAccountController extends Controller
 {
     public function index(){
 
-        return view('control_panel_finance.student_account.index');
+        return view('control_panel_finance.student_payment_account.index');
     }
 }

@@ -22,7 +22,7 @@
         <div class="overlay hidden" id="js-loader-overlay"><i class="fa fa-refresh fa-spin"></i></div>
         <div class="box-body">
             <div class="js-data-container">
-                @include('control_panel_finance.student_account.partials.data_list')                
+                @include('control_panel_finance.student_payment_account.partials.data_list')                
             </div>
         </div>        
     </div>
