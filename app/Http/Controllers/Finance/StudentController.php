@@ -84,10 +84,10 @@ class StudentController extends Controller
                 // return view('profile', array('user' => Auth::user()) );        
     }
 
-    public function data_student (Request $request)
-    {
-        return view('control_panel_finance.student_information.index');
-    }
+    // public function data_student (Request $request)
+    // {
+    //     return view('control_panel_finance.student_information.index');
+    // }
 
     public function save_data (Request $request) 
     {

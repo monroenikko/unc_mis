@@ -1,7 +1,7 @@
 @extends('control_panel.layouts.master')
 
 @section ('content_title')
-    Student List
+    Student Payment
 @endsection
 
 @section ('content')
@@ -23,7 +23,7 @@
         <div class="box-body">
             
             <div class="js-data-container">
-                @include('control_panel_finance.student_information.partials.data_list');              
+                @include('control_panel_finance.student_payment.partials.data_list')                
             </div>
             
         </div>        
@@ -39,7 +39,7 @@
             formData.append('page', page);
             loader_overlay();
             $.ajax({
-                url : "{{ route('finance.student_account') }}",
+                url : "{{ route('finance.student_payment') }}",
                 type : 'POST',
                 data : formData,
                 processData : false,
@@ -52,35 +52,6 @@
         }
         
         $(function () {
-            $('body').on('click', '.js-btn_account', function (e) {
-                e.preventDefault();
-                 {{-- loader_overlay();  --}}
-                var id = $(this).data('id');
-                $.ajax({
-                    url : "{{ route('finance.student_account.data_student') }}",
-                    type : 'GET',
-
-                    
-                    success     : function (res) {
-                        loader_overlay();
-                        $('.js-data-container_2').html(res);
-                    }
-                    // data : { _token : '{{ csrf_token() }}', id : id },
-                    // success : function (res) {
-                    //     $('.js-modal_holder').html(res);
-                    //     $('.js-modal_holder .modal').modal({ backdrop : 'static' });
-                    //     $('.js-modal_holder .modal').on('shown.bs.modal', function () {
-                    //         //Date picker
-                    //         $('#datepicker').datepicker({
-                    //             autoclose: true
-                    //         })  
-                    //         $('.select2').select2();
-
-                    //     });;
-                    // }
-                });
-            });
-
             $('body').on('click', '.js-btn_account', function (e) {
                 e.preventDefault();
                  {{-- loader_overlay();  --}}
@@ -104,28 +75,28 @@
                 });
             });
 
-            $('body').on('click', '.js-btn_account_modal', function (e) {
-                e.preventDefault();
-                 {{-- loader_overlay();  --}}
-                var id = $(this).data('id');
-                $.ajax({
-                    url : "{{ route('finance.student_account.modal_account') }}",
-                    type : 'POST',
-                    data : { _token : '{{ csrf_token() }}', id : id },
-                    success : function (res) {
-                        $('.js-modal_holder').html(res);
-                        $('.js-modal_holder .modal').modal({ backdrop : 'static' });
-                        $('.js-modal_holder .modal').on('shown.bs.modal', function () {
-                            //Date picker
-                            $('#datepicker').datepicker({
-                                autoclose: true
-                            })  
-                            $('.select2').select2();
+            // $('body').on('click', '.js-btn_account_modal', function (e) {
+            //     e.preventDefault();
+            //      {{-- loader_overlay();  --}}
+            //     var id = $(this).data('id');
+            //     $.ajax({
+            //         url : "{{ route('finance.student_account.modal_account') }}",
+            //         type : 'POST',
+            //         data : { _token : '{{ csrf_token() }}', id : id },
+            //         success : function (res) {
+            //             $('.js-modal_holder').html(res);
+            //             $('.js-modal_holder .modal').modal({ backdrop : 'static' });
+            //             $('.js-modal_holder .modal').on('shown.bs.modal', function () {
+            //                 //Date picker
+            //                 $('#datepicker').datepicker({
+            //                     autoclose: true
+            //                 })  
+            //                 $('.select2').select2();
 
-                        });;
-                    }
-                });
-            });
+            //             });;
+            //         }
+            //     });
+            // });
             
             $('body').on('click', '.js-btn_print_grade', function (e) {
                 e.preventDefault();
