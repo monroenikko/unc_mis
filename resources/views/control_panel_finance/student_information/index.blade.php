@@ -52,35 +52,7 @@
         }
         
         $(function () {
-            $('body').on('click', '.js-btn_account', function (e) {
-                e.preventDefault();
-                 {{-- loader_overlay();  --}}
-                var id = $(this).data('id');
-                $.ajax({
-                    url : "{{ route('finance.student_account.data_student') }}",
-                    type : 'GET',
-
-                    
-                    success     : function (res) {
-                        loader_overlay();
-                        $('.js-data-container_2').html(res);
-                    }
-                    // data : { _token : '{{ csrf_token() }}', id : id },
-                    // success : function (res) {
-                    //     $('.js-modal_holder').html(res);
-                    //     $('.js-modal_holder .modal').modal({ backdrop : 'static' });
-                    //     $('.js-modal_holder .modal').on('shown.bs.modal', function () {
-                    //         //Date picker
-                    //         $('#datepicker').datepicker({
-                    //             autoclose: true
-                    //         })  
-                    //         $('.select2').select2();
-
-                    //     });;
-                    // }
-                });
-            });
-
+            
             $('body').on('click', '.js-btn_account', function (e) {
                 e.preventDefault();
                  {{-- loader_overlay();  --}}

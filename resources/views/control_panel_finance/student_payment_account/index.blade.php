@@ -37,7 +37,7 @@
             formData.append('page', page);
             loader_overlay();
             $.ajax({
-                url : "{{ route('finance.student_payment_account') }}",
+                url : "{{ route('finance.student_payment_account', $id) }}",
                 type : 'POST',
                 data : formData,
                 processData : false,

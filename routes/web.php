@@ -70,12 +70,16 @@ Route::group(['prefix' => 'registrar', 'middleware' => ['auth', 'userroles'], 'r
     
 });
 
-Route::group(['prefix' => 'finance', 'middleware' => ['auth', 'userroles'], 'roles' => ['admin', 'root','finance']], function () {
+// Route::group(['prefix' => 'finance/student-payment-account/{id}', 'middleware' => 'auth', 'roles' => ['admin', 'root', 'finance']], function() {
+//     Route::get('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
+//     Route::post('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
+// });
+
+Route::group(['prefix' => 'finance', 'middleware' => 'auth', 'roles' => ['admin', 'root','finance']], function () {
+    
     Route::get('dashboard', 'Finance\FinanceDashboardController@index')->name('finance.dashboard');
 
-
-
-    Route::group(['prefix' => 'student-information'], function (){
+    Route::group(['prefix' => 'finance/student-information'], function (){
         Route::get('', 'Finance\StudentController@index')->name('finance.student_account');
         Route::post('', 'Finance\StudentController@index')->name('finance.student_account');
         Route::post('modal-data', 'Finance\StudentController@modal_data')->name('finance.student_account.modal');
@@ -84,19 +88,11 @@ Route::group(['prefix' => 'finance', 'middleware' => ['auth', 'userroles'], 'rol
     });
 
     
-    Route::group(['prefix' => 'student-payment-account'], function (){
+    Route::group(['prefix' => 'student-payment-account/{id}'], function (){
         Route::get('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
-    // Route::post('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
-
+        Route::post('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
     });
     
-
-    Route::group(['prefix' => 'student-payment'], function () {
-        Route::get('', 'Finance\StudentPaymentController@index')->name('finance.student_payment');
-        Route::post('', 'Finance\StudentPaymentController@index')->name('finance.student_payment');
-    });
-    
-
     Route::group(['prefix' => 'maintenance'], function () {
         Route::group(['prefix' => 'tuition-fee'], function () {
             Route::get('', 'Finance\Maintenance\TuitionFeeController@index')->name('finance.maintenance.tuition_fee');
