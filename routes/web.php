@@ -70,10 +70,16 @@ Route::group(['prefix' => 'registrar', 'middleware' => ['auth', 'userroles'], 'r
     
 });
 
-Route::group(['prefix' => 'finance', 'middleware' => ['auth', 'userroles'], 'roles' => ['admin', 'root','finance']], function () {
+// Route::group(['prefix' => 'finance/student-payment-account/{id}', 'middleware' => 'auth', 'roles' => ['admin', 'root', 'finance']], function() {
+//     Route::get('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
+//     Route::post('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
+// });
+
+Route::group(['prefix' => 'finance', 'middleware' => 'auth', 'roles' => ['admin', 'root','finance']], function () {
+    
     Route::get('dashboard', 'Finance\FinanceDashboardController@index')->name('finance.dashboard');
 
-    Route::group(['prefix' => 'student-information'], function (){
+    Route::group(['prefix' => 'finance/student-information'], function (){
         Route::get('', 'Finance\StudentController@index')->name('finance.student_account');
         Route::post('', 'Finance\StudentController@index')->name('finance.student_account');
         Route::post('modal-data', 'Finance\StudentController@modal_data')->name('finance.student_account.modal');
@@ -82,14 +88,11 @@ Route::group(['prefix' => 'finance', 'middleware' => ['auth', 'userroles'], 'rol
     });
 
     
-    Route::group(['prefix' => 'student-payment-account'], function (){
-    Route::get('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
-    // Route::post('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
+    Route::group(['prefix' => 'student-payment-account/{id}'], function (){
+        Route::get('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
+        Route::post('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
     });
     
-
-    
-
     Route::group(['prefix' => 'maintenance'], function () {
         Route::group(['prefix' => 'tuition-fee'], function () {
             Route::get('', 'Finance\Maintenance\TuitionFeeController@index')->name('finance.maintenance.tuition_fee');
@@ -143,6 +146,7 @@ Route::group(['prefix' => 'registrar/class-details', 'middleware' => 'auth', 'ro
     Route::get('', 'Registrar\ClassListController@index')->name('registrar.class_details');
     Route::post('', 'Registrar\ClassListController@index')->name('registrar.class_details');
     Route::post('modal-data', 'Registrar\ClassListController@modal_data')->name('registrar.class_details.modal_data');
+    Route::get('modal-data', 'Registrar\ClassListController@modal_data')->name('registrar.class_details.modal_data');
     Route::post('save-data', 'Registrar\ClassListController@save_data')->name('registrar.class_details.save_data');
     Route::post('deactivate-data', 'Registrar\ClassListController@deactivate_data')->name('registrar.class_details.deactivate_data');
     Route::post('fetch_section-by-grade-level', 'Registrar\ClassListController@fetch_section_by_grade_level')->name('registrar.class_details.fetch_section_by_grade_level');

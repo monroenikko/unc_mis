@@ -33,8 +33,7 @@
             <div class="js-data-container">
                 @include('control_panel_registrar.class_details.partials.data_list')
             </div>
-        </div>
-        
+        </div>        
     </div>
 @endsection
 

@@ -1,5 +1,13 @@
         <h2>student account</h2>
         
+        @if ($StudentInformation)
+            <input type="text" name="id" value="{{ $StudentInformation->id }}">
+            <input type="text" name="stud_status" value="1">
+            {{-- <input type="hidden" name="no_months_paid" value="{{$Transaction->no_month_paid}}" /> --}}
+        @endif
+
+        <p style="margin-top: 5px">{{ $StudentInformation ? $StudentInformation->user->username : '' }}</p> 
+            
         {{-- <form id="js-form_payment_transaction">
             {{ csrf_field() }}
                             

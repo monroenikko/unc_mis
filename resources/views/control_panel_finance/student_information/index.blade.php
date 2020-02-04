@@ -21,9 +21,11 @@
         </div>
         <div class="overlay hidden" id="js-loader-overlay"><i class="fa fa-refresh fa-spin"></i></div>
         <div class="box-body">
+            
             <div class="js-data-container">
-                @include('control_panel_finance.student_information.partials.data_list')                
+                @include('control_panel_finance.student_information.partials.data_list');              
             </div>
+            
         </div>        
     </div>
 @endsection
@@ -50,6 +52,7 @@
         }
         
         $(function () {
+            
             $('body').on('click', '.js-btn_account', function (e) {
                 e.preventDefault();
                  {{-- loader_overlay();  --}}

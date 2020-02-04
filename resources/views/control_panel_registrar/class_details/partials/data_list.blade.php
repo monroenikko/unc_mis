@@ -1,7 +1,7 @@
                         <div class="pull-right">
                             {{ $ClassDetail ? $ClassDetail->links() : '' }}
                         </div>
-                        <table class="table no-margin">
+                        <table class="table table-responsive-lg no-margin">
                             <thead>
                                 <tr>
                                     <th>School Year</th>
