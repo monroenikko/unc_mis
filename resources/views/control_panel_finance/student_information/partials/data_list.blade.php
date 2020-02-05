@@ -39,6 +39,7 @@
                                                         {{-- <a href="{{ route('finance.student_payment', $data->id) }}" data-id="{{ $data->id }}" class="btn btn-flat btn-primary btn-sm">Account</a> --}}
                                                         {{-- <a href="#"  class="js-btn_account_modal btn btn-flat btn-primary btn-sm" data-id="{{ $data->id }}">Account</a> --}}
                                                     {{-- @endif --}}
+
                                                     <a href="#" style="margin-left: 1em" class="js-btn_account_modal btn btn-flat btn-success btn-sm" data-id="{{ $data->id }}">Balance</a>  
                                                 </div>
                                             </td>
