@@ -23,7 +23,7 @@
         <div class="box-body">
             
             <div class="js-data-container">
-                @include('control_panel_finance.student_information.partials.data_list');              
+                @include('control_panel_finance.student_information.partials.data_list')       
             </div>
             
         </div>        

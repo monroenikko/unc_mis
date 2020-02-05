@@ -49,50 +49,27 @@ Route::get('/students-council', 'StudentsController@students_council')->name('st
 Route::get('/students-handbook', 'StudentsController@students_handbook')->name('students_handbook');
 
 
-Route::group(['prefix' => 'registrar', 'middleware' => ['auth', 'userroles'], 'roles' => ['registrar']], function() {
-    Route::get('dashboard', 'Registrar\RegistrarDashboardController@index')->name('registrar.dashboard');
+// finance
 
-    Route::group(['prefix' => 'my-account', 'middleware' => ['auth']], function() {
-        Route::get('', 'Registrar\UserProfileController@view_my_profile')->name('registrar.my_account.index');
-        // Route::post('change-my-password', 'Registrar\UserProfileController@change_my_password')->name('my_account.change_my_password');
-        Route::post('update-profile', 'Registrar\UserProfileController@update_profile')->name('registrar.my_account.update_profile');
-        Route::post('fetch-profile', 'Registrar\UserProfileController@fetch_profile')->name('registrar.my_account.fetch_profile');
-        Route::post('change-my-photo', 'Registrar\UserProfileController@change_my_photo')->name('registrar.my_account.change_my_photo');
-        Route::post('change-my-password', 'Registrar\UserProfileController@change_my_password')->name('registrar.my_account.change_my_password');
-    });
 
-    
-    Route::group(['prefix' => 'student-grade-sheet'], function() {
-        Route::get('', 'Registrar\GradeSheetController@index')->name('registrar.student_grade_sheet');
-        Route::post('list-class-subject-details', 'Registrar\GradeSheetController@list_class_subject_details')->name('registrar.student_grade_sheet.list_class_subject_details');
-        Route::post('list-students-by-class', 'Registrar\GradeSheetController@list_students_by_class')->name('registrar.student_grade_sheet.list_students_by_class');
-    });
-    
-});
-
-// Route::group(['prefix' => 'finance/student-payment-account/{id}', 'middleware' => 'auth', 'roles' => ['admin', 'root', 'finance']], function() {
-//     Route::get('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
-//     Route::post('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
-// });
 
 Route::group(['prefix' => 'finance', 'middleware' => 'auth', 'roles' => ['admin', 'root','finance']], function () {
     
     Route::get('dashboard', 'Finance\FinanceDashboardController@index')->name('finance.dashboard');
-
-    Route::group(['prefix' => 'finance/student-information'], function (){
+    
+    Route::group(['prefix' => 'student-information'], function (){
         Route::get('', 'Finance\StudentController@index')->name('finance.student_account');
         Route::post('', 'Finance\StudentController@index')->name('finance.student_account');
         Route::post('modal-data', 'Finance\StudentController@modal_data')->name('finance.student_account.modal');
         Route::post('modal-account', 'Finance\StudentController@modal_data')->name('finance.student_account.modal_account');
         Route::post('save-data', 'Finance\StudentController@save_data')->name('finance.student_account.save_data'); 
     });
-
     
-    Route::group(['prefix' => 'student-payment-account/{id}'], function (){
+    Route::group(['prefix' => 'student-payment-account/{stud_id}'], function (){
         Route::get('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
         Route::post('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
     });
-    
+
     Route::group(['prefix' => 'maintenance'], function () {
         Route::group(['prefix' => 'tuition-fee'], function () {
             Route::get('', 'Finance\Maintenance\TuitionFeeController@index')->name('finance.maintenance.tuition_fee');
@@ -141,6 +118,29 @@ Route::group(['prefix' => 'finance', 'middleware' => 'auth', 'roles' => ['admin'
         });
     });
 });
+
+
+Route::group(['prefix' => 'registrar', 'middleware' => ['auth', 'userroles'], 'roles' => ['registrar']], function() {
+    Route::get('dashboard', 'Registrar\RegistrarDashboardController@index')->name('registrar.dashboard');
+
+    Route::group(['prefix' => 'my-account', 'middleware' => ['auth']], function() {
+        Route::get('', 'Registrar\UserProfileController@view_my_profile')->name('registrar.my_account.index');
+        // Route::post('change-my-password', 'Registrar\UserProfileController@change_my_password')->name('my_account.change_my_password');
+        Route::post('update-profile', 'Registrar\UserProfileController@update_profile')->name('registrar.my_account.update_profile');
+        Route::post('fetch-profile', 'Registrar\UserProfileController@fetch_profile')->name('registrar.my_account.fetch_profile');
+        Route::post('change-my-photo', 'Registrar\UserProfileController@change_my_photo')->name('registrar.my_account.change_my_photo');
+        Route::post('change-my-password', 'Registrar\UserProfileController@change_my_password')->name('registrar.my_account.change_my_password');
+    });
+
+    
+    Route::group(['prefix' => 'student-grade-sheet'], function() {
+        Route::get('', 'Registrar\GradeSheetController@index')->name('registrar.student_grade_sheet');
+        Route::post('list-class-subject-details', 'Registrar\GradeSheetController@list_class_subject_details')->name('registrar.student_grade_sheet.list_class_subject_details');
+        Route::post('list-students-by-class', 'Registrar\GradeSheetController@list_students_by_class')->name('registrar.student_grade_sheet.list_students_by_class');
+    });
+    
+});
+
 
 Route::group(['prefix' => 'registrar/class-details', 'middleware' => 'auth', 'roles' => ['admin', 'root', 'registrar']], function() {
     Route::get('', 'Registrar\ClassListController@index')->name('registrar.class_details');

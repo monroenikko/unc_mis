@@ -1,5 +1,4 @@
-        <h2>student account</h2>
-        
+                    
         @if ($StudentInformation)
             <input type="text" name="id" value="{{ $StudentInformation->id }}">
             <input type="text" name="stud_status" value="1">
