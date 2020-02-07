@@ -88,7 +88,7 @@ Route::group(['prefix' => 'finance', 'middleware' => 'auth', 'roles' => ['admin'
     });
 
     
-    Route::group(['prefix' => 'student-payment-account/{id}'], function (){
+    Route::group(['prefix' => 'student-payment-account/{stud_id}'], function (){
         Route::get('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
         Route::post('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
     });
