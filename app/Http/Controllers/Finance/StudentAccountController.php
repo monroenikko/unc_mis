@@ -9,24 +9,20 @@ use App\StudentInformation;
 class StudentAccountController extends Controller
 {
     public function index(Request $request, $stud_id){
+        
+        if($request->ajax()){
+            // $StudentInformation = $StudentInformation->paginate(10);
 
-        // if ($id)
-        // {
-        //     $StudentInformation = StudentInformation::with(['user'])->where('id', $id)->first();
-        //     // $Gradelvl = GradeLevel::where('current', 1)->where('status', 1)->get();
-        //     // $Discount = DiscountFee::where('current', 1)->where('status', 1)->get();
-        //     // $OtherFee = OtherFee::where('current', 1)->where('status', 1)->get();  
-        //     // $SchoolYear = SchoolYear::where('current', 1)->where('status', 1)->first();
-        //     // $StudentCategory = StudentCategory::where('status', 1)->get();
-            
-        //     // $PaymentCategory = PaymentCategory::with('stud_category','tuition','misc_fee')
-        //     //     ->where('status', 1)->where('current', 1)->get();
+            $StudentInformation = StudentInformation::with(['user'])
+            ->where('id', $stud_id)
+            ->first();
 
-        //     // $Transaction = Transaction::with('payment_cat')->where('student_id', $request->id)
-        //     //     ->where('status', 1)->first();
-        // }
+            return view('control_panel_finance.student_payment_account.partials.data_list', compact('StudentInformation'))->render();
+        }
 
-        $StudentInformation = StudentInformation::with(['user'])->where('id', $stud_id)->first();
+        $StudentInformation = StudentInformation::with(['user'])
+            ->where('id', $stud_id)
+            ->first();
 
         return view('control_panel_finance.student_payment_account.index', compact('StudentInformation'));
     }

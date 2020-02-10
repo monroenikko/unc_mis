@@ -1,22 +1,16 @@
 @extends('control_panel.layouts.master')
 
 @section ('content_title')
-    Student List
+    Student Account
 @endsection
 
 @section ('content')
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Search</h3>
+            
             <form id="js-form_search">
                 {{ csrf_field() }}
-                <div id="js-form_search" class="form-group col-sm-12 col-md-3" style="padding-left:0;padding-right:0">
-                    <input type="text" class="form-control" name="search">
-                </div>                
-                <button type="submit" class="btn btn-flat btn-success">Search</button>
-                {{-- <button type="button" class="pull-right btn btn-flat btn-danger btn-sm" id="js-button-add">
-                    <i class="fa fa-plus"></i> Add
-                </button> --}}
+               
             </form>
         </div>
         <div class="overlay hidden" id="js-loader-overlay"><i class="fa fa-refresh fa-spin"></i></div>
@@ -31,13 +25,13 @@
 @section ('scripts')
     <script src="{{ asset('cms/plugins/datepicker/bootstrap-datepicker.js') }}"></script>
     <script>
-        var page = 1;
+        // var page = 1;
         function fetch_data () {
             var formData = new FormData($('#js-form_search')[0]);
-            formData.append('page', page);
+            // formData.append('page', page);
             loader_overlay();
             $.ajax({
-                url : "{{ route('finance.student_payment_account', $stud_id) }}",
+                
                 type : 'POST',
                 data : formData,
                 processData : false,
@@ -48,6 +42,7 @@
                 }
             });
         }
+
         
         $(function () {
             $('body').on('click', '.js-btn_account', function (e) {

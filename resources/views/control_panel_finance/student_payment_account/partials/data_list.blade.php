@@ -1,20 +1,12 @@
-        <h2>student account</h2>
-        
-        @if ($StudentInformation)
-            <input type="text" name="id" value="{{ $StudentInformation->id }}">
-            <input type="text" name="stud_status" value="1">
-            {{-- <input type="hidden" name="no_months_paid" value="{{$Transaction->no_month_paid}}" /> --}}
-        @endif
-
-        <p style="margin-top: 5px">{{ $StudentInformation ? $StudentInformation->user->username : '' }}</p> 
-            
-        {{-- <form id="js-form_payment_transaction">
+                    
+       
+        <form id="js-form_payment_transaction">
             {{ csrf_field() }}
                             
             @if ($StudentInformation)
                 <input type="hidden" name="id" value="{{ $StudentInformation->id }}">
                 <input type="hidden" name="stud_status" value="1">
-                <input type="hidden" name="no_months_paid" value="{{$Transaction->no_month_paid}}" />
+                {{-- <input type="hidden" name="no_months_paid" value="{{$Transaction->no_month_paid}}" /> --}}
             @endif
             
             <div class="modal-body">
@@ -43,7 +35,7 @@
                     
                     <div class="col-sm-3 invoice-col">
                         <label for="">School Year: </label>
-                        <p style="margin-top: -5px">{{ $SchoolYear->school_year }}</p>
+                        {{-- <p style="margin-top: -5px">{{ $SchoolYear->school_year }}</p> --}}
                         
 
                         <label for="">Payment Status: </label>
@@ -52,7 +44,7 @@
                         
                     </div>
                     
-                    <div align="center" class="col-sm-3 invoice-col ">
+                    {{-- <div align="center" class="col-sm-3 invoice-col ">
                         <div class="form-group">
                             @if ($Profile)
                                 <img class="profile-user-img img-responsive img-circle" id="img--user_photo" src="{{ $Profile->photo ? \File::exists(public_path('/img/account/photo/'.$Profile->photo)) ? asset('/img/account/photo/'.$Profile->photo) : asset('/img/account/photo/blank-user.gif') : asset('/img/account/photo/blank-user.gif') }}" style="width:150px; height:150px;  border-radius:50%;">
@@ -60,7 +52,7 @@
                                 <img class="profile-user-img img-responsive img-circle" id="img--user_photo" src="{{  asset('/img/account/photo/blank-user.png') }}" style="width:150px; height:150px;  border-radius:50%;">
                             @endif
                         </div>
-                    </div>
+                    </div> --}}
                 </div>        
             <hr>
                 <div class="row">   
@@ -110,9 +102,9 @@
                             <label>Other(s)</label>
                             <select class="form-control select2" name="others[]" multiple="multiple" data-placeholder="Select Other" style="width: 100%;">
                                     <option>Select Others</option>
-                                    @foreach ($OtherFee as $otherfee)                                        
+                                    {{-- @foreach ($OtherFee as $otherfee)                                        
                                         <option value="{{ $otherfee->id }}">{{ $otherfee->other_fee_name }} {{ number_format($otherfee->other_fee_amt) }}</option>
-                                    @endforeach
+                                    @endforeach --}}
                             </select>
                             <div class="help-block text-red text-center" id="js-others">
                         </div>
@@ -183,4 +175,4 @@
                 <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close</button>
                 
             </div>
-        </form> --}}
+        </form>
