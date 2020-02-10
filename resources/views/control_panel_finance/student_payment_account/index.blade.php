@@ -6,17 +6,23 @@
 
 @section ('content')
     <div class="box">
-        <div class="box-header with-border">
-            
+        {{-- <div class="box-header with-border">
+            <h3 class="box-title">Search</h3>
             <form id="js-form_search">
                 {{ csrf_field() }}
-               
+                <div id="js-form_search" class="form-group col-sm-12 col-md-3" style="padding-left:0;padding-right:0">
+                    <input type="text" class="form-control" name="search">
+                </div>                
+                <button type="submit" class="btn btn-flat btn-success">Search</button>
+                <button type="button" class="pull-right btn btn-flat btn-danger btn-sm" id="js-button-add">
+                    <i class="fa fa-plus"></i> Add
+                </button>
             </form>
-        </div>
+        </div> --}}
         <div class="overlay hidden" id="js-loader-overlay"><i class="fa fa-refresh fa-spin"></i></div>
         <div class="box-body">
-            <div class="js-data-container">
-                @include('control_panel_finance.student_payment_account.partials.data_list')                
+            <div class="js-data-container">                
+                @include('control_panel_finance.student_payment_account.partials.data_list')                       
             </div>
         </div>        
     </div>
@@ -26,7 +32,8 @@
     <script src="{{ asset('cms/plugins/datepicker/bootstrap-datepicker.js') }}"></script>
     <script>
         // var page = 1;
-        function fetch_data () {
+        $('.select2').select2();
+        function fetch_data1 () {
             var formData = new FormData($('#js-form_search')[0]);
             // formData.append('page', page);
             loader_overlay();
@@ -39,6 +46,7 @@
                 success     : function (res) {
                     loader_overlay();
                     $('.js-data-container').html(res);
+                    
                 }
             });
         }
@@ -61,7 +69,7 @@
                             $('#datepicker').datepicker({
                                 autoclose: true
                             })  
-                            $('.select2').select2();
+                            
 
                         });;
                     }
