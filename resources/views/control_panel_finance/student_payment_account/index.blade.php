@@ -35,7 +35,7 @@
         $('.select2').select2();
         function fetch_data1 () {
             var formData = new FormData($('#js-form_search')[0]);
-            // formData.append('page', page);
+            formData.append('page', page);
             loader_overlay();
             $.ajax({
                 

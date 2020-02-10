@@ -18,6 +18,7 @@ class StudentAccountController extends Controller
     public function index(Request $request, $stud_id){
 
         $Profile = StudentInformation::where('id', $stud_id)->first(); 
+        $StudentInformation = NULL;
         if($request->ajax()){
             // $StudentInformation = $StudentInformation->paginate(10);
 
