@@ -126,7 +126,7 @@
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group">
                                     <label for="">&nbsp; </label><br>
-                                    <button type="submit" class="btn btn-primary btn-flat ">Save</button>
+                                    <button type="submit" class="btn btn-primary btn-flat " onclick="myFunction()">Save</button>
                                 </div>
                             </div>
                         </div>
@@ -137,7 +137,7 @@
                         <div class="container">
                             <div class="col-md-12">
                                 <h2>Summary Bill for Invoice</h2>
-                                <table class="table table-bordered table-striped table-hover">
+                                <table id="myTable" class="table table-bordered table-striped table-hover">
                                     <thead>
                                     <tr>
                                         <th scope="col">Month</th>
@@ -149,32 +149,6 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                
-                                    <tr>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                    </tr>
                                     </tbody>
                                 </table>
                             </div>   
