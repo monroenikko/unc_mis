@@ -32,6 +32,7 @@
 
 @section ('scripts')
     <script src="{{ asset('cms/plugins/datepicker/bootstrap-datepicker.js') }}"></script>
+    
     <script>
         var page = 1;
         function fetch_data () {
@@ -71,7 +72,61 @@
                             })  
                             $('.select2').select2();
 
-                        });;
+                            
+                            $('#or_number').keyup(function() {
+                                $('#or_num').text($('#or_number').val());
+                                
+                            });
+
+                            $('#downpayment').keyup(function() {
+                                function currencyFormat(num) {
+                                    return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+                                }
+                                $('#dp_enrollment').text(currencyFormat(parseFloat($('#downpayment').val())));
+                                
+                            });
+                           
+                            
+                            $('#payment_category').on('change', function() {
+                                const dataid = $("#payment_category option:selected").attr('value');
+                                // const dataid = $("#payment_category option:selected").attr('data-gradelvl');
+                                const tuition = $("#payment_category option:selected").attr('data-tuition');
+                                const misc = $("#payment_category option:selected").attr('data-misc');
+                                // alert(dataid);
+                                $('#tuition_fee').text(tuition);
+                                $('#misc_fee').text(misc);
+                            });
+                            
+                            
+
+                            $(".discountSelected").change(function () {
+                                var str = "";
+                                disc = [];
+                                $('#disc_amt').html("");
+                                $( ".discountSelected option:selected" ).each(function() {
+                                // str += $( this ).text() + " ";
+                                    disc.push({
+                                        type: $(this).data('type'),
+                                        fee: $(this).data('fee')
+                                    });
+                                });
+                                $.each(disc, function (index, value) {
+                                    // addonsTotal += parseInt(value.price);
+                                    $item = ''
+                                        + value.type +' '+ value.fee.toLocaleString() + '<br/>'
+                                        ;
+
+                                    $('#disc_amt').append($item);
+                                });
+                                // $( "div" ).text( str );
+                                // alert('str')
+                            })
+                            .change();
+
+                            
+                            
+                            
+                        });
                     }
                 });
             });
@@ -256,6 +311,8 @@
                 }
             }
         });
+
+       
 
         
     </script>

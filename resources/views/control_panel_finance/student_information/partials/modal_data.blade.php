@@ -10,9 +10,6 @@
                         </h4>
                 </div>
             </div>
-
-           
-            
             
            
             <form id="js-form_payment_transaction">
@@ -69,125 +66,11 @@
                             </div>
                         </div>
                     </div>        
-                <hr>               
-
-                    <div class="row">   
-                        <div class="col-md-3 col-sm-3">
-                            <div class="form-group">
-                                <label for="">O.R. # </label>
-                                <input type="text" placeholder="00000000000" class="form-control" name="or_number" id="or_number" value="">
-                                <div class="help-block text-red text-center" id="js-or_number"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-3 col-sm-3">
-                            <div class="form-group">
-                                <label for="">Downpayment </label>
-                                <input placeholder="0.00" type="number" class="form-control" name="downpayment" id="downpayment" value="">
-                                <div class="help-block text-red text-center" id="js-downpayment"></div>
-                            </div>
-                        </div>   
-                        
-                        <div class="col-md-6 col-sm-6">
-                            <div class="form-group">
-                                <label for="">Student Category</label>
-                                <select name="payment_category" id="payment_category" class="form-control">
-                                    <option value="">Select Student Category</option>                                    
-                                    @foreach($PaymentCategory as $p_cat)
-                                        <option value="{{$p_cat->id}}">{{$p_cat->stud_category->student_category}} {{$p_cat->grade_level_id}} - Tuition Fee: {{ number_format($p_cat->tuition->tuition_amt, 2) }} | Miscelleneous Fee {{ number_format($p_cat->misc_fee->misc_amt, 2) }}</option>                    
-                                    @endforeach
-                                </select>
-                                <div class="help-block text-red text-center" id="js-payment_category">
-                                </div>
-                            </div>
-                        </div>
-                    {{-- </div>
-                    <div class="row"> --}}
-                    
-                        <div class="col-md-3 col-sm-3">
-                            <div class="form-group">
-                                <label for="">Discount: </label>
-                                <select name="discount[]" id="discount[]" class="form-control select2" multiple="multiple" data-placeholder="Select Discount" style="width: 100%;">
-                                    <option value="">Select Discount Fee</option>
-                                    @foreach($Discount as $disc_fee)
-                                        <option value="{{$disc_fee->id}}">{{$disc_fee->disc_type}} {{number_format($disc_fee->disc_amt)}}</option>                    
-                                    @endforeach
-                                </select>
-                                <div class="help-block text-red text-center" id="js-discount">
-                                </div>
-                            </div>
-                        </div>  
-                        <div class="col-md-3 col-sm-3">
-                            <div class="form-group">
-                                <label>Other(s)</label>
-                                <select class="form-control select2" name="others[]" multiple="multiple" data-placeholder="Select Other" style="width: 100%;">
-                                        <option>Select Others</option>
-                                        @foreach ($OtherFee as $otherfee)                                        
-                                            <option value="{{ $otherfee->id }}">{{ $otherfee->other_fee_name }} {{ number_format($otherfee->other_fee_amt) }}</option>
-                                        @endforeach
-                                </select>
-                                <div class="help-block text-red text-center" id="js-others">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3">
-                        <div class="form-group">
-                            <label for="">&nbsp; </label><br>
-                            <button type="submit" class="btn btn-primary btn-flat pull-left">Save</button>
-                        </div>
-                    </div>
-                    
-                    <hr>
-                    {{-- @if($Transaction)
-                        {{$Transaction->or_number}}
-                    @endif --}}
+                    <hr>               
                     <div class="row">
-                        <div class="container">
-                            <div class="col-md-12">
-                                <h2>Summary Bill for Invoice</h2>
-                                <table class="table table-bordered table-striped table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">Month</th>
-                                        <th scope="col">Monthly</th>
-                                        <th scope="col">Collection</th>
-                                        <th scope="col">Other</th>
-                                        <th scope="col">Balance</th>
-                                        <th scope="col">Remarks</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                
-                                    <tr>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>   
-                        </div>                     
+                        @include('control_panel_finance.student_information.partials.modal_enroll.modal_data')
                     </div>
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close</button>

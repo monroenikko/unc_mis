@@ -159,6 +159,7 @@
                 }
                 // fetch_data1();
             });
+            
             $('body').on('change', '#search_sy1', function () {
                 $.ajax({
                     url : "{{ route('faculty.student_grade_sheet.semester') }}",
@@ -171,6 +172,7 @@
                     }
                 })
             })
+
             $('body').on('submit', '#js-form_search1', function (e) {
                 e.preventDefault();
                 if (!$('#search_class_subject_sem').val()) {
@@ -179,7 +181,6 @@
                 }
                 fetch_data1();
             });
-
             
             $('body').on('change', '#search_semester', function () {
                 $.ajax({

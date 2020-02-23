@@ -56,6 +56,7 @@ class StudentController extends Controller
         $StudentInformation = NULL;
         $Gradelvl = NULL;
         $Profile = StudentInformation::where('id', $request->id)->first(); 
+        
         if ($request->id)
         {
             $StudentInformation = StudentInformation::with(['user'])->where('id', $request->id)->first();

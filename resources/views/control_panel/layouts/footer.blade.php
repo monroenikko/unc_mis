@@ -20,7 +20,7 @@
 <!-- Bootstrap 3.3.6 -->
 <script src="{{ asset('cms/bootstrap/js/bootstrap.min.js') }}"></script>
 
-<script src="{{ asset('cms/plugins/select2/select2.min.js') }}"></script>
+<script src="{{ asset('cms/plugins/select2/select2.full.js') }}"></script>
 
 <!-- FastClick -->
 <script src="{{ asset('cms/plugins/fastclick/fastclick.js') }}"></script>

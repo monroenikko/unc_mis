@@ -161,31 +161,19 @@
                                     </thead>
                                     <tbody>
                                 
-                                    <tr>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                    </tr>
+                                        @if ($Transaction)
+                                            @foreach ($Transaction as $data)
+                                            <tr>
+                                                <td>{{$data->id}}</td>
+                                                <td>&nbps;</td>
+                                                <td>&nbps;</td>
+                                                <td>&nbps;</td>
+                                                <td>&nbps;</td>
+                                                <td>&nbps;</td>
+                                            </tr>
+                                            @endforeach
+                                        @endif                                   
+                                
                                     </tbody>
                                 </table>
                             </div>   

@@ -38,7 +38,7 @@
             formData.append('page', page);
             loader_overlay();
             $.ajax({
-                
+                url : "{{ route('finance.student_payment_account', $stud_id) }}",
                 type : 'POST',
                 data : formData,
                 processData : false,
@@ -50,6 +50,8 @@
                 }
             });
         }
+
+        
 
         
         $(function () {

@@ -160,33 +160,8 @@
                                         <th scope="col">Remarks</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
-                                
-                                    <tr>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                    </tr>
+                                    <tbody>                                
+                                        
                                     </tbody>
                                 </table>
                             </div>   
@@ -201,3 +176,4 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
