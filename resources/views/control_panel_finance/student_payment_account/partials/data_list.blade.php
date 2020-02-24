@@ -266,10 +266,10 @@
                             <div class="form-group">
                                 <label>Other(s)</label>
                                 <select class="form-control select2" name="others[]" multiple="multiple" data-placeholder="Select Other" style="width: 100%;">
-                                        <option>Select Others</option>
-                                        @foreach ($OtherFee as $otherfee)                                        
-                                            <option value="{{ $otherfee->id }}">{{ $otherfee->other_fee_name }} {{ number_format($otherfee->other_fee_amt) }}</option>
-                                        @endforeach
+                                    <option>Select Others</option>
+                                    @foreach ($OtherFee as $otherfee)                                        
+                                        <option value="{{ $otherfee->id }}">{{ $otherfee->other_fee_name }} {{ number_format($otherfee->other_fee_amt) }}</option>
+                                    @endforeach
                                 </select>
                                 <div class="help-block text-red text-left" id="js-others">
                             </div>
@@ -286,8 +286,7 @@
                     <hr>
 
                                        
-                    <div class="row">
-                        
+                    <div class="row">                        
                         <div class="container">
                             <div class="col-md-12">
                                 <h2>Summary Bill for Invoice</h2>
@@ -303,32 +302,6 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                
-                                    <tr>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                        <td>&nbps;</td>
-                                    </tr>
                                     </tbody>
                                 </table>
                             </div>   
