@@ -25,8 +25,7 @@
                     <hr>               
                     <div class="row">
                         @include('control_panel_finance.student_information.partials.modal_enroll.modal_data')
-                    </div>
-                    
+                    </div>                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close</button>

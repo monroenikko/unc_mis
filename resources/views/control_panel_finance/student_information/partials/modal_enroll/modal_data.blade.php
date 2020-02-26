@@ -105,9 +105,11 @@
             
             
             <hr>
-            <div class="form-group">
-                <button type="submit" class="btn btn-danger btn-flat pr-5" style="float: right">Print</button>
-                <button type="submit" class="btn btn-primary btn-flat pr-5" style="float: right">Save</button>
+            <div class="form-group" align="right">                
+                <button type="submit" class="btn btn-primary btn-flat"><i class="fas fa-save"></i> Save</button>
+                <button type="button" class="btn btn-danger btn-flat" id="js-btn_print" data-or="" data-id="{{ $StudentInformation->id }}">
+                    <i class="fa fa-file-pdf"></i> Print
+                </button>
             </div>  
           
                                
