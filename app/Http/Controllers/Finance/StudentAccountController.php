@@ -167,5 +167,12 @@ class StudentAccountController extends Controller
 
             $request->no_months_paid;
         }
+
+        
+    }
+
+    public function print_enroll(Request $request)
+    {
+
     }
 }

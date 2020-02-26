@@ -72,6 +72,15 @@
                             })  
                             $('.select2').select2();
 
+                            total = 0;
+                            disc_total = 0;
+                            tuition_total = 0;
+                            misc_total = 0;
+                            downpayment_total=0;
+                            less_total = 0;
+                            function currencyFormat(num) {
+                                return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+                            }
                             
                             $('#or_number').keyup(function() {
                                 $('#or_num').text($('#or_number').val());
@@ -83,18 +92,23 @@
                                     return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
                                 }
                                 $('#dp_enrollment').text(currencyFormat(parseFloat($('#downpayment').val())));
-                                
+                                downpayment_total = parseFloat($('#downpayment').val());
+                                total_fees();
                             });
                            
                             
                             $('#payment_category').on('change', function() {
-                                const dataid = $("#payment_category option:selected").attr('value');
+                                var dataid = $("#payment_category option:selected").attr('value');
                                 // const dataid = $("#payment_category option:selected").attr('data-gradelvl');
-                                const tuition = $("#payment_category option:selected").attr('data-tuition');
-                                const misc = $("#payment_category option:selected").attr('data-misc');
+                                var tuition = $("#payment_category option:selected").attr('data-tuition');
+                                var misc = $("#payment_category option:selected").attr('data-misc');
                                 // alert(dataid);
-                                $('#tuition_fee').text(tuition);
-                                $('#misc_fee').text(misc);
+                                $('#tuition_fee').text(currencyFormat(parseFloat(tuition)));
+                                $('#misc_fee').text(currencyFormat(parseFloat(misc)));
+
+                                tuition_total = parseFloat(tuition) + parseFloat(misc);
+                                total_fees();
+                                // alert(total)
                             });
                             
                             
@@ -111,7 +125,9 @@
                                     });
                                 });
                                 $.each(disc, function (index, value) {
-                                    // addonsTotal += parseInt(value.price);
+                                    
+                                    disc_total += parseFloat(value.fee);
+
                                     $item = ''
                                         + value.type +' '+ value.fee.toLocaleString() + '<br/>'
                                         ;
@@ -120,11 +136,18 @@
                                 });
                                 // $( "div" ).text( str );
                                 // alert('str')
+                                total_fees();
                             })
                             .change();
 
                             
-                            
+
+                            function total_fees(){
+                                less_total= disc_total + downpayment_total;
+                                total = tuition_total + misc_total - less_total;
+                                $('#total_balance').text(currencyFormat(total));           
+                            }
+                                             
                             
                         });
                     }
@@ -276,16 +299,17 @@
             $('body').on('click', '.btn--update-photo', function (e) {
                 $('#user--photo').click()
             })
+            
             $('body').on('change', '#user--photo', function (e) {
                 readURL($(this))
             })
+
             function readURL(input) {
                 var url = input[0].value;
                 var id = $(this).data('id');
                 var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
                 if (input[0].files && input[0].files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
                     var reader = new FileReader();
-
                     reader.onload = function (e) {
                         $('#img--user_photo').attr('src', e.target.result);
                         
@@ -304,7 +328,6 @@
                             }
                         })
                     }
-
                     reader.readAsDataURL(input[0].files[0]);
                 }else{
                     $('#img--user_photo').attr('src', '/assets/no_preview.png');

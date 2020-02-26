@@ -9,16 +9,15 @@
                 <label>Month(s):</label>
                 <select class="form-control select2" name="months[]" multiple="multiple" data-placeholder="Select month(s)" style="width: 100%;">
                     <option value="">Select months</option>
-                    {{-- <option value="1" >June</option> --}}
-                    <option value="2" >July</option>
-                    <option value="3" >August</option>
-                    <option value="4" >September</option>
-                    <option value="5" >October</option>
-                    <option value="6" >November</option>
-                    <option value="7" >December</option>
-                    <option value="8" >January</option>
-                    <option value="9" >February</option>
-                    <option value="10" >March</option>
+                    <option value="2">July</option>
+                    <option value="3">August</option>
+                    <option value="4">September</option>
+                    <option value="5">October</option>
+                    <option value="6">November</option>
+                    <option value="7">December</option>
+                    <option value="8">January</option>
+                    <option value="9">February</option>
+                    <option value="10">March</option>
                 </select>
             </div>
 
@@ -48,11 +47,7 @@
                         <tr>
                             <td style="width:140px">OR Number</td>
                             <td id="result_rsvn_no1"></td>
-                        </tr>
-                        <tr>
-                            <td style="width:140px">Customer Name</td>
-                            <td><span id="fn"></span> <span id="ln"></span></td>
-                        </tr>
+                        </tr>                       
                         <tr>
                             <td style="width:140px">Month</td>
                             <td id="arrivaldate"></td>
@@ -65,24 +60,25 @@
                             <td style="width:140px">Collection</td>
                             <td id="result2">0</td>
                         </tr>
-                        
-                        <tr>
-                            <td style="width:140px">Total Bill </td>
-                                <td>
-                                    ₱ <span id="total_costt2">0</span>
-                                </td>
-                        </tr>
                         <tr>
                             <td style="width:140px">Downpayment </td>
-                                <td>
-                                    ₱ <span id="downpayment_reserved">0</span>
-                                </td>
+                            <td>
+                                ₱ <span id="downpayment_reserved">0</span>
+                            </td>
                         </tr>
+                        
+                        {{-- <tr>
+                            <td style="width:140px">Total Bill </td>
+                            <td>
+                                ₱ <span id="total_costt2">0</span>
+                            </td>
+                        </tr> --}}
+                        
                         <tr>
                             <td style="width:140px">Total Balance </td>
-                                <td>
-                                    ₱ <span id="total_balance">0</span>
-                                </td>
+                            <td>
+                                ₱ <span id="total_balance">0</span>
+                            </td>
                         </tr>
                     </tr>
                 </tbody>

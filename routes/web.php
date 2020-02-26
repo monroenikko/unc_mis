@@ -65,11 +65,11 @@ Route::group(['prefix' => 'finance', 'middleware' => 'auth', 'roles' => ['admin'
         Route::post('save-data', 'Finance\StudentController@save_data')->name('finance.student_account.save_data'); 
     });
     
-    Route::group(['prefix' => 'student-payment-account/{stud_id}'], function (){
-        Route::get('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
-        Route::post('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
-        Route::post('save-data', 'Finance\StudentAccountController@save_data')->name('finance.student_payment_account.save_data'); 
-    });
+    // Route::group(['prefix' => 'student-payment-account/{stud_id}'], function (){
+    //     Route::get('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
+    //     Route::post('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
+    //     Route::post('save-data', 'Finance\StudentAccountController@save_data')->name('finance.student_payment_account.save_data'); 
+    // });
 
     Route::group(['prefix' => 'maintenance'], function () {
         Route::group(['prefix' => 'tuition-fee'], function () {

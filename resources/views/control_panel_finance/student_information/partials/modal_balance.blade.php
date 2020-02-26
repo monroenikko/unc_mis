@@ -12,7 +12,7 @@
             </div>            
             
            
-            <form id="js-form_payment_transaction">
+            <form id="js-form_payment_balance">
                 {{ csrf_field() }}
                                 
                 @if ($StudentInformation)

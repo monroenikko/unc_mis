@@ -1,5 +1,5 @@
 <div class="col-lg-8">                            
-    <div class="box box-danger box-solid" style="height: 28.3em">
+    <div class="box box-danger box-solid">
         <div class="box-header">
             <h3 class="box-title">Input field(s)</h3>
         </div>
@@ -13,7 +13,7 @@
             <div class="form-group">
                 <label for="">Downpayment </label>
                 <input placeholder="0.00" type="number" class="form-control" name="downpayment" id="downpayment" value="">
-                <div class="help-block text-red text-center" id="js-downpayment"></div>
+                <div class="help-block text-red text-left" id="js-downpayment"></div>
             </div>
             <div class="form-group">
                 <label for="">Student Category</label>
@@ -23,15 +23,15 @@
                     @foreach($PaymentCategory as $p_cat)
                         <option value="{{$p_cat->id}}" 
                                 data-gradelvl="{{$p_cat->grade_level_id}}" 
-                                data-tuition="{{ number_format($p_cat->tuition->tuition_amt, 2) }}"
-                                data-misc="{{ number_format($p_cat->misc_fee->misc_amt, 2) }}"
+                                data-tuition="{{ $p_cat->tuition->tuition_amt }}"
+                                data-misc="{{ $p_cat->misc_fee->misc_amt }}"
                         >
                             {{$p_cat->stud_category->student_category}} {{$p_cat->grade_level_id}} - Tuition Fee: {{ number_format($p_cat->tuition->tuition_amt, 2) }} 
                             | Miscelleneous Fee {{ number_format($p_cat->misc_fee->misc_amt, 2) }}
                         </option>                    
                     @endforeach
                 </select>
-                <div class="help-block text-red text-center" id="js-payment_category">
+                <div class="help-block text-red text-left" id="js-payment_category">
                 </div>
             </div>
             <div class="form-group">
@@ -41,13 +41,13 @@
                     @foreach($Discount as $disc_fee)
                         <option value="{{$disc_fee->id}}"
                                 data-type="{{$disc_fee->disc_type}}" 
-                                data-fee="{{number_format($disc_fee->disc_amt)}}"
+                                data-fee="{{$disc_fee->disc_amt}}"
                         >
                             {{$disc_fee->disc_type}} {{number_format($disc_fee->disc_amt)}}
                         </option>                    
                     @endforeach
                 </select>
-                <div class="help-block text-red text-center" id="js-discount">
+                <div class="help-block text-red text-left" id="js-discount">
                 </div>
             </div>
         </div>
@@ -83,31 +83,26 @@
                         </tr>
                         <tr >
                             <td style="width:140px">Discount</td>
-                            {{-- <td align="right" id="disc_amt">0</td> --}}
-                            <td id="disc_amt" align="right">
-
+                            <td id="disc_amt" align="right">0</td>
+                        </tr>                       
+                                               
+                        <tr>
+                            <td style="width:140px">Total Balance</td>
+                            <td align="right">
+                                ₱ <span id="total_balance">0</span>
                             </td>
                         </tr>
-                        
-                        <tr>
+                        {{-- <tr>
                             <td style="width:140px">Total Bill </td>
                             <td align="right">
                                 ₱ <span id="total_costt2">0</span>
                             </td>
-                        </tr>                        
-                        <tr>
-                            <td style="width:140px">Total Balance </td>
-                            <td>
-                                ₱ <span id="total_balance">0</span>
-                            </td>
-                        </tr>
+                        </tr>  --}}
                     </tr>
                 </tbody>
 
             </table>
-            <div class="row" id="feesSponsorship">
-
-            </div>
+            
             
             <hr>
             <div class="form-group">
