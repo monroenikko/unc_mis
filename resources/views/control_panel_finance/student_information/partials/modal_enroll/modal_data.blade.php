@@ -106,8 +106,15 @@
             
             <hr>
             <div class="form-group" align="right">                
-                <button type="submit" class="btn btn-primary btn-flat"><i class="fas fa-save"></i> Save</button>
-                <button type="button" class="btn btn-danger btn-flat" id="js-btn_print" data-or="" data-id="{{ $StudentInformation->id }}">
+                <button type="submit" id="btn-save" data-id='1' class="btn btn-primary btn-flat">
+                    <i class="fas fa-save"></i> Save
+                </button>
+                <button type="button" 
+                        class="btn btn-danger btn-flat" 
+                        id="js-btn_print" 
+                        data-syid="{{$School_year_id->id}}"
+                        data-studid="{{ $StudentInformation->id }}"
+                >
                     <i class="fa fa-file-pdf"></i> Print
                 </button>
             </div>  

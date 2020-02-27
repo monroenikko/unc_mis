@@ -437,7 +437,8 @@ class StudentController extends Controller
                 'times_tardy_total' => array_sum($attendance_data->times_tardy),
             ];
             // return json_encode(['a' => $GradeSheetData, 'subj_count' => $subj_count, 'general_avg' => $general_avg]);
-            return view('control_panel_student.grade_sheet.partials.print', compact('GradeSheetData', 'grade_level', 'StudentInformation', 'ClassDetail', 'general_avg', 'student_attendance', 'table_header','Signatory'));
+            return view('control_panel_student.grade_sheet.partials.print', 
+                compact('GradeSheetData', 'grade_level', 'StudentInformation', 'ClassDetail', 'general_avg', 'student_attendance', 'table_header','Signatory'));
             $pdf = \PDF::loadView('control_panel_student.grade_sheet.partials.print', compact('GradeSheetData', 'grade_level', 'StudentInformation', 'ClassDetail','Signatory'));
             // $pdf->setPaper('Letter', 'landscape');
             return $pdf->stream();

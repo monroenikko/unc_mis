@@ -63,6 +63,7 @@ Route::group(['prefix' => 'finance', 'middleware' => 'auth', 'roles' => ['admin'
         Route::post('modal-data', 'Finance\StudentController@modal_data')->name('finance.student_account.modal');
         Route::post('modal-account', 'Finance\StudentController@modal_data')->name('finance.student_account.modal_account');
         Route::post('save-data', 'Finance\StudentController@save_data')->name('finance.student_account.save_data'); 
+        Route::get('print-enrollment-bill', 'Finance\StudentController@print_enrollment_bill')->name('finance.print_enrollment_bill');
     });
     
     // Route::group(['prefix' => 'student-payment-account/{stud_id}'], function (){

@@ -59,6 +59,8 @@ class StudentController extends Controller
         
         if ($request->id)
         {
+            $School_year_id = SchoolYear::where('status', 1)
+                ->where('current', 1)->first();
             $StudentInformation = StudentInformation::with(['user'])->where('id', $request->id)->first();
             $Gradelvl = GradeLevel::where('current', 1)->where('status', 1)->get();
             $Discount = DiscountFee::where('current', 1)->where('status', 1)->get();
@@ -75,11 +77,11 @@ class StudentController extends Controller
 
         if(!$Transaction){
             return view('control_panel_finance.student_information.partials.modal_data', 
-                compact('StudentInformation','Profile','Gradelvl','Discount','OtherFee','SchoolYear','StudentCategory','PaymentCategory','Transaction'))->render();  
+                compact('StudentInformation','Profile','Gradelvl','Discount','OtherFee','SchoolYear','StudentCategory','PaymentCategory','Transaction','School_year_id'))->render();  
         }else{
 
             return view('control_panel_finance.student_information.partials.modal_account',
-                compact('StudentInformation','Profile','Gradelvl','Discount','OtherFee','SchoolYear','StudentCategory','PaymentCategory','Transaction'))->render(); 
+                compact('StudentInformation','Profile','Gradelvl','Discount','OtherFee','SchoolYear','StudentCategory','PaymentCategory','Transaction','School_year_id'))->render(); 
         }
         
                 // return view('profile', array('user' => Auth::user()) );        
@@ -94,6 +96,7 @@ class StudentController extends Controller
     {
         $School_year_id = SchoolYear::where('status', 1)
                 ->where('current', 1)->first();
+
         if($request->stud_status == 0){
         
             $rules = [
@@ -212,5 +215,50 @@ class StudentController extends Controller
         }
     }
     
+    public function print_enrollment_bill(Request $request){
+
+        if (!$request->syid || !$request->studid || !$request->or_num) 
+        {
+            return "Invalid request";
+        }
+
+        $StudentInformation = StudentInformation::with(['user'])->where('id', $request->studid)->first();
+        
+        if ($StudentInformation) 
+        {
+           $Transaction = Transaction::join('student_informations', 'student_informations.id', '=' ,'transactions.student_id')
+                ->join('school_years', 'school_years.id', '=' ,'transactions.school_year_id')
+                ->join('payment_categories', 'payment_categories.id', 'transactions.payment_category_id')
+                ->select(\DB::raw("
+                    CONCAT(student_informations.last_name, ', ', student_informations.first_name, ' ', student_informations.middle_name) as student_name,
+                    school_years.school_year,
+                    transactions.or_number,
+                    transactions.downpayment,
+                    transactions.monthly_fee,
+                    transactions.balance,
+                    transactions.payment_category_id
+                "))
+                ->where('school_years.id', $request->syid)
+                ->where('student_informations.id', $request->studid)
+                ->where('transactions.or_number', $request->or_num)
+                ->where('transactions.status', 1)
+                ->first();
+
+            $Transaction_disc = TransactionDiscount::with('discountFee')->where('or_no', $Transaction->or_number)
+                ->get(); 
+
+            $PaymentCategory = PaymentCategory::with('stud_category','tuition','misc_fee')
+                ->where('status', 1)
+                ->where('current', 1)
+                ->where('id', $Transaction->payment_category_id)
+                ->first();
+
+        }
+        else{
+            return "Invalid request";
+        }
+        return view('control_panel_finance.student_information.partials.print_enrollment_bill',
+             compact('Transaction','PaymentCategory','Transaction_disc'));
+    }
     
 }

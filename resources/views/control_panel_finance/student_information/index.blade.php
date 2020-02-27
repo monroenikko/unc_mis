@@ -83,8 +83,10 @@
                             }
                             
                             $('#or_number').keyup(function() {
-                                $('#or_num').text($('#or_number').val());
-                                
+                                var or = $('#or_number').val();
+                                $('#or_num').text(or);
+                                $('#js-btn_print').data('or_num', or);
+                                // alert(or);
                             });
 
                             $('#downpayment').keyup(function() {
@@ -198,16 +200,19 @@
                 });
             })
 
-            $('body').on('click', '#js-btn_print_student_grade', function (e) {
+            $('body').on('click', '#js-btn_print', function (e) {
                 e.preventDefault();
-                {{--  loader_overlay();  --}}
-                var id = $('#print_student_id').val();
-                var print_sy = $('#print_sy').val();
-                if (print_sy < 1) {
-                    alert('Please select school year')
-                    return
-                }
-                window.open("{{ route('admin.student.information.print_student_grades') }}?id="+id+"&cid="+print_sy, '', 'height=800,width=800')
+                var btn_save = $(this).data('id');
+                // var id = $('#print_student_id').val();
+                // var print_sy = $('#print_sy').val();
+                var syid = $(this).data('syid');
+                var studid = $(this).data('studid');
+                var or_num = $(this).data('or_num');
+                // if (btn_save != 1) {
+                //     alert('Please Save first!')
+                //     return
+                // }
+                window.open("{{ route('finance.print_enrollment_bill') }}?syid="+syid+"&studid="+studid+"&or_num="+or_num, '', 'height=800,width=800')
             })
             
 

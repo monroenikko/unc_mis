@@ -15,4 +15,6 @@ class Transaction extends Model
     {
         return $this->hasOne(PaymentCategory::class, 'id', 'payment_category_id');
     }
+
+    
 }
