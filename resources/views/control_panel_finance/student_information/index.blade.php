@@ -86,6 +86,7 @@
                                 var or = $('#or_number').val();
                                 $('#or_num').text(or);
                                 $('#js-btn_print').data('or_num', or);
+                                $('#js-btn-save').data('or_num', or);
                                 // alert(or);
                             });
 
@@ -199,6 +200,25 @@
                     }
                 });
             })
+            
+            // $('body').on('click', '#js-btn-save', function (e) {
+            //     e.preventDefault();
+
+            //     var q = $(this).data('id');
+            //     var or_num = parseInt($(this).data('or_num'));
+                
+            //     if(or_num){
+            //         if(q == 1){
+            //             // alert('none');
+            //             dataSaved()
+            //         }                   
+            //     }
+                
+            // });
+
+            // function dataSaved(data, value) {                               
+            //         alert(data);
+            // }
 
             $('body').on('click', '#js-btn_print', function (e) {
                 e.preventDefault();
@@ -208,11 +228,33 @@
                 var syid = $(this).data('syid');
                 var studid = $(this).data('studid');
                 var or_num = $(this).data('or_num');
-                // if (btn_save != 1) {
-                //     alert('Please Save first!')
-                //     return
-                // }
-                window.open("{{ route('finance.print_enrollment_bill') }}?syid="+syid+"&studid="+studid+"&or_num="+or_num, '', 'height=800,width=800')
+
+                var downpayment = $('#downpayment').val();
+                var payment_category = $('#payment_category').val();
+                
+
+                if (or_num) {
+                    if(downpayment == '' || payment_category == ''){
+                        alertify.defaults.theme.ok = "btn btn-primary btn-flat";
+                        alertify
+                        .alert("Please save first before your print it.", function(){
+                            // alertify.message('OK');
+                        });
+                    }
+                    else{
+                        window.open("{{ route('finance.print_enrollment_bill') }}?syid="+syid+"&studid="+studid+"&or_num="+or_num, '', 'height=800,width=800')
+                    }
+                }
+                else
+                {
+                    alertify.defaults.theme.ok = "btn btn-primary btn-flat";
+                    alertify
+                    .alert("Please save first before your print it.", function(){
+                        // alertify.message('OK');
+                    });
+                    
+                }
+                
             })
             
 

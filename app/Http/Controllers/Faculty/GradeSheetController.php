@@ -266,8 +266,10 @@ class GradeSheetController extends Controller
         if (count($EnrollmentFemale) == 0 || count($EnrollmentMale) == 0) {
             return "invalid request";
         }
-        return view('control_panel_faculty.student_grade_sheet.partials.print', compact('EnrollmentFemale', 'EnrollmentMale', 'ClassSubjectDetail', 'FacultyInformation'));
-        $pdf = \PDF::loadView('control_panel_faculty.student_grade_sheet.partials.print', compact('EnrollmentFemale', 'EnrollmentMale', 'ClassSubjectDetail', 'FacultyInformation'));
+        return view('control_panel_faculty.student_grade_sheet.partials.print', 
+            compact('EnrollmentFemale', 'EnrollmentMale', 'ClassSubjectDetail', 'FacultyInformation'));
+        $pdf = \PDF::loadView('control_panel_faculty.student_grade_sheet.partials.print', 
+            compact('EnrollmentFemale', 'EnrollmentMale', 'ClassSubjectDetail', 'FacultyInformation'));
         $pdf->setPaper('Letter', 'portrait');
         return $pdf->stream();
     }

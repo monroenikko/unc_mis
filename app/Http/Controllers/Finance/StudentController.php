@@ -236,7 +236,8 @@ class StudentController extends Controller
                     transactions.downpayment,
                     transactions.monthly_fee,
                     transactions.balance,
-                    transactions.payment_category_id
+                    transactions.payment_category_id,
+                    transactions.created_at
                 "))
                 ->where('school_years.id', $request->syid)
                 ->where('student_informations.id', $request->studid)
@@ -258,7 +259,12 @@ class StudentController extends Controller
             return "Invalid request";
         }
         return view('control_panel_finance.student_information.partials.print_enrollment_bill',
-             compact('Transaction','PaymentCategory','Transaction_disc'));
+                compact('Transaction','PaymentCategory','Transaction_disc'));
+
+        $pdf = \PDF::loadView('control_panel_finance.student_information.partials.print_enrollment_bill', 
+                compact('Transaction','PaymentCategory','Transaction_disc'));
+        $pdf->setPaper('Letter', 'portrait');
+        return $pdf->stream();
     }
     
 }

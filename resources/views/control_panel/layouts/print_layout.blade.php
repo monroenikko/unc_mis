@@ -19,6 +19,9 @@
                 border: 1px solid #000;
                 padding: 3px;
             }
+            .td-center{
+                text-align: center !important;
+            }
             table {
                 width: 100%;
                 border-spacing: 0;

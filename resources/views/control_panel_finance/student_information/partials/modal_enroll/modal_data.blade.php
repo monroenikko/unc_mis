@@ -106,7 +106,7 @@
             
             <hr>
             <div class="form-group" align="right">                
-                <button type="submit" id="btn-save" data-id='1' class="btn btn-primary btn-flat">
+                <button type="submit" id="js-btn-save" data-id='1' class="btn btn-primary btn-flat">
                     <i class="fas fa-save"></i> Save
                 </button>
                 <button type="button" 
