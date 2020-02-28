@@ -244,9 +244,11 @@ class StudentController extends Controller
                 ->where('transactions.or_number', $request->or_num)
                 ->where('transactions.status', 1)
                 ->first();
-
-            $Transaction_disc = TransactionDiscount::with('discountFee')->where('or_no', $Transaction->or_number)
+                
+            if($Transaction->or_number){
+                $Transaction_disc = TransactionDiscount::with('discountFee')->where('or_no', $Transaction->or_number)
                 ->get(); 
+            }            
 
             $PaymentCategory = PaymentCategory::with('stud_category','tuition','misc_fee')
                 ->where('status', 1)

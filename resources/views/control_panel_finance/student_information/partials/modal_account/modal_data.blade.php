@@ -46,26 +46,26 @@
                     <tr>                       
                         <tr>
                             <td style="width:140px">OR Number</td>
-                            <td id="result_rsvn_no1"></td>
+                            <td id="js-or_num"></td>
                         </tr>                       
                         <tr>
                             <td style="width:140px">Month</td>
-                            <td id="arrivaldate"></td>
+                            <td id="js-month"></td>
                         </tr>
                         <tr>
                             <td style="width:140px">Monthly Fee</td>
-                            <td id="departuredate"></td>
+                            <td id="js-monthly_fee"></td>
                         </tr>
                         <tr>
                             <td style="width:140px">Collection</td>
-                            <td id="result2">0</td>
+                            <td id="js-collection">0</td>
                         </tr>
-                        <tr>
+                        {{-- <tr>
                             <td style="width:140px">Downpayment </td>
                             <td>
                                 ₱ <span id="downpayment_reserved">0</span>
                             </td>
-                        </tr>
+                        </tr> --}}
                         
                         {{-- <tr>
                             <td style="width:140px">Total Bill </td>
@@ -85,9 +85,19 @@
 
             </table>
             
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-flat pull-right">Add</button>
-            </div>  
+            <div class="form-group" align="right">                
+                <button type="submit" id="js-btn-save-monthly" data-id='1' class="btn btn-primary btn-flat">
+                    <i class="fas fa-save"></i> Save
+                </button>
+                <button type="button" 
+                        class="btn btn-danger btn-flat" 
+                        id="js-btn_print" 
+                        data-syid="{{$School_year_id->id}}"
+                        data-studid="{{ $StudentInformation->id }}"
+                >
+                    <i class="fa fa-file-pdf"></i> Print
+                </button>
+            </div>   
        
                                
     </div>                        

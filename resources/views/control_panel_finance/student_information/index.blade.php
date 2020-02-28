@@ -220,6 +220,14 @@
             //         alert(data);
             // }
 
+            function error(){
+                alertify.defaults.theme.ok = "btn btn-primary btn-flat";
+                alertify
+                .alert("Please save first before your print it.", function(){
+                    // alertify.message('OK');
+                });
+            }
+
             $('body').on('click', '#js-btn_print', function (e) {
                 e.preventDefault();
                 var btn_save = $(this).data('id');
@@ -235,11 +243,7 @@
 
                 if (or_num) {
                     if(downpayment == '' || payment_category == ''){
-                        alertify.defaults.theme.ok = "btn btn-primary btn-flat";
-                        alertify
-                        .alert("Please save first before your print it.", function(){
-                            // alertify.message('OK');
-                        });
+                        error();
                     }
                     else{
                         window.open("{{ route('finance.print_enrollment_bill') }}?syid="+syid+"&studid="+studid+"&or_num="+or_num, '', 'height=800,width=800')
@@ -247,12 +251,7 @@
                 }
                 else
                 {
-                    alertify.defaults.theme.ok = "btn btn-primary btn-flat";
-                    alertify
-                    .alert("Please save first before your print it.", function(){
-                        // alertify.message('OK');
-                    });
-                    
+                    error();
                 }
                 
             })
