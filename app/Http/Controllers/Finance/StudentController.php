@@ -213,13 +213,21 @@ class StudentController extends Controller
             }   
 
             $request->no_months_paid;
+            return response()->json(['res_code' => 0, 'res_msg' => 'Data successfully saved monthly account.']);
         }
     }
 
-    public function save_modal_account(Request $request){
-        // return 'save';
-        return response()->json(['res_code' => 0, 'res_msg' => 'Data successfully saved.']);
-    }
+    // public function save_modal_account(Request $request){
+    //     // return 'save';
+    //     $rules = [
+    //         'months' => 'required',
+    //         'or_number' => 'required',
+    //         'payment' => 'required',     
+    //     ];
+
+    //     $Validator = \Validator($request->all(), $rules);
+    //     return response()->json(['res_code' => 0, 'res_msg' => 'Data successfully saved.']);
+    // }
     
     public function print_enrollment_bill(Request $request){
 

@@ -12,7 +12,7 @@
             </div>            
             
            
-            <form id="js-form_payment_account">
+            <form id="js-form_payment_transaction">
                 {{ csrf_field() }}
                                 
                 @if ($StudentInformation)
@@ -36,8 +36,28 @@
 
                             <h3 style="margin-bottom: 1em">Payment Category:</h3>
                             
-                            <h4><b>Student Category:</b> <i style="color: red"><?php echo $stud_cat_payment->student_category; echo -  $payment->grade_level_id;?></i></h4>
-                            <h4><b>Tuition Fee:</b> <i style="color: red"> <?php echo number_format($tuitionfee_payment->tuition_amt, 2); ?> </i><b>| Miscelleneous Fee:</b> <i style="color: red"> <?php echo number_format($MiscFee_payment->misc_amt,2); ?></i></h4>
+                            <h4>
+                                <b>Student Category:</b> 
+                                <i style="color: red">
+                                    <?php echo $stud_cat_payment->student_category; echo -  $payment->grade_level_id;?>
+                                </i>
+                            </h4>
+                            <h4>
+                                <b>Tuition Fee:</b> 
+                                <i style="color: red"> 
+                                    <?php echo number_format($tuitionfee_payment->tuition_amt, 2); ?> 
+                                </i>
+                                <b>| Miscelleneous Fee:</b> 
+                                <i style="color: red"> 
+                                    <?php echo number_format($MiscFee_payment->misc_amt,2); ?>
+                                </i>
+                            </h4>
+                            <h4>
+                                <b>Monthly Fee:</b>
+                                 <i style="color: red">
+                                    {{number_format($Transaction->monthly_fee,2)}}
+                                </i>
+                            </h4>
                         </div>
                     </div>
                     <hr>
@@ -46,7 +66,7 @@
                     </div>
 
                     
-                    @include('control_panel_finance.student_information.partials.modal_others')
+                    {{-- @include('control_panel_finance.student_information.partials.modal_others') --}}
                      
             
                 </div>

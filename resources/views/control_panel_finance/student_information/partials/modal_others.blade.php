@@ -6,8 +6,8 @@
         <div class="box-body">
             <div class="form-group">
                 <label for="">O.R. # </label>
-                <input type="text" placeholder="00000000000" class="form-control" name="or_number" id="or_number" value="">
-                <div class="help-block text-red text-left" id="js-or_number"></div>
+                <input type="text" placeholder="00000000000" class="form-control" name="or_number_others" id="or_number_others" value="">
+                <div class="help-block text-red text-left" id="js-or_number_others"></div>
             </div>
 
             <label>Other(s)</label>
@@ -31,7 +31,7 @@
                     <tr>                       
                         <tr>
                             <td style="width:140px">OR Number</td>
-                            <td align="right" id="js-or_num"></td>
+                            <td align="right" id="js-or_num_others"></td>
                         </tr>                       
                         <tr>
                             <td style="width:140px">Description</td>

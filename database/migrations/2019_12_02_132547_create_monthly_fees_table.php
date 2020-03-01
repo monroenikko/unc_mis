@@ -18,7 +18,7 @@ class CreateMonthlyFeesTable extends Migration
             $table->integer('grade_level_id');
             $table->integer('tuition_fee_id');
             $table->integer('misc_fee_id');
-            $table->double('monthly_fee', 191);
+            $table->double('monthly_fee');
             $table->tinyInteger('current')->default('1');
             $table->tinyInteger('status')->default('1');
             $table->timestamps();

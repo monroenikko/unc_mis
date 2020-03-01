@@ -7,7 +7,7 @@
             <div class=""></div>
             <div class="form-group">
                 <label>Month(s):</label>
-                <select class="form-control select2" name="months[]" multiple="multiple" data-placeholder="Select month(s)" style="width: 100%;">
+                <select class="form-control select2 monthly_select" name="months[]" multiple="multiple" data-placeholder="Select month(s)" style="width: 100%;">
                     <option value="">Select months</option>
                     <option value="2">July</option>
                     <option value="3">August</option>
@@ -19,17 +19,18 @@
                     <option value="9">February</option>
                     <option value="10">March</option>
                 </select>
+                <div class="help-block text-red text-left" id="js-months"></div>
             </div>
 
             <div class="form-group">
                 <label for="">O.R. # </label>
-                <input type="text" placeholder="00000000000" class="form-control" name="or_number" id="or_number" value="">
-                <div class="help-block text-red text-left" id="js-or_number"></div>
+                <input type="text" placeholder="00000000000" class="form-control" name="or_number_others" id="or_number_others" value="">
+                <div class="help-block text-red text-left" id="js-or_number_others"></div>
             </div>
         
             <div class="form-group">
                 <label for="">Payment </label>
-                <input placeholder="0.00" type="number" class="form-control" name="payment" id="payment" value="">
+                <input placeholder="0.00" type="number" class="form-control" name="payment" id="payment" value="{{ $Transaction->monthly_fee }}">
                 <div class="help-block text-red text-left" id="js-payment"></div>
             </div>
         </div>
@@ -46,20 +47,19 @@
                     <tr>                       
                         <tr>
                             <td style="width:140px">OR Number</td>
-                            <td align="right" id="js-or_num"></td>
+                            <td align="right" id="js-or_num_others"></td>
                         </tr>                       
                         <tr>
                             <td style="width:140px">Month</td>
-                            <td align="right" id="js-month"></td>
+                            <td align="right" id="js-month_others"></td>
                         </tr>
                         <tr>
                             <td style="width:140px">Monthly Fee</td>
-                            <td align="right" id="js-monthly_fee"></td>
+                            <td align="right" id="js-monthly_fee_others">
+                                {{ $Transaction->monthly_fee }}
+                            </td>
                         </tr>
-                        <tr>
-                            <td style="width:140px">Collection</td>
-                            <td align="right" id="js-collection">0</td>
-                        </tr>
+                        
                         {{-- <tr>
                             <td style="width:140px">Downpayment </td>
                             <td>

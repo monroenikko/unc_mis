@@ -27,7 +27,9 @@
                         @include('control_panel_finance.student_information.partials.modal_enroll.modal_data')
                     </div>   
 
-                    @include('control_panel_finance.student_information.partials.modal_others')         
+                    <hr>
+
+                    {{-- @include('control_panel_finance.student_information.partials.modal_others')          --}}
                 
                 </div>
                 <div class="modal-footer">

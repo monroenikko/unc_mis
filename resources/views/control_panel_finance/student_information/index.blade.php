@@ -143,7 +143,57 @@
                                 less_total= disc_total + downpayment_total;
                                 total = tuition_total + misc_total - less_total;
                                 $('#total_balance').text(currencyFormat(total));           
-                            }                                           
+                            } 
+
+                            // monthly fee    
+
+                            $(".monthly_select").change(function () {
+                                var str = "";
+                                disc = [];
+                                $('#disc_amt').html("");
+                                $( ".monthly_select option:selected" ).each(function() {
+                                // str += $( this ).text() + " ";
+                                    disc.push({
+                                        type: $(this).data('type'),
+                                        fee: $(this).data('fee')
+                                    });
+                                });
+                                $.each(disc, function (index, value) {
+                                    
+                                    disc_total += parseFloat(value.fee);
+
+                                    $item = ''
+                                        + value.type +' '+ value.fee.toLocaleString() + '<br/>'
+                                        ;
+
+                                    $('#disc_amt').append($item);
+                                });
+                                // $( "div" ).text( str );
+                                // alert('str')
+                                total_fees();
+                            })
+                            .change();
+                            
+                            $('#or_number_others').keyup(function() {
+                                var or = $('#or_number_others').val();
+                                $('#js-or_num_others').text(or);
+                                // $('#js-btn_print').data('or_num', or);
+                                // $('#js-btn-save').data('or_num', or);
+                                // alert(or);
+                            }); 
+
+                            $('#payment').keyup(function() {
+                                function currencyFormat(num) {
+                                    return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+                                }
+                                $('#js-monthly_fee_others').text(currencyFormat(parseFloat($('#payment').val())));
+                                // downpayment_total = parseFloat($('#payment').val());
+                                // total_fees();
+                            });   
+
+                            function total_fees(){
+
+                            }                                    
                             
                         });
                     }
@@ -284,38 +334,38 @@
                 });
             });
 
-            $('body').on('submit', '#js-form_payment_account', function (e) {
-                e.preventDefault();
-                var formData = new FormData($(this)[0]);
-                $.ajax({
-                    url         : "{{ route('finance.student_account.save_modal_account') }}",
-                    type        : 'POST',
-                    data        : formData,
-                    processData : false,
-                    contentType : false,
-                    success     : function (res) {
-                        $('.help-block').html('');
-                        if (res.res_code == 1)
-                        {
-                            for (var err in res.res_error_msg)
-                            {
-                                $('#js-' + err).html('<code> '+ res.res_error_msg[err] +' </code>');
-                            }
-                        }
-                        else
-                        {
-                            // $('.js-modal_holder .modal').modal('hide');
-                            show_toast_alert({
-                                heading : 'Success',
-                                message : res.res_msg,
-                                type    : 'success'
-                            });
-                            // document.getElementById("js-form_payment_transaction").reset();
-                            fetch_data();
-                        }
-                    }
-                });
-            });
+            // $('body').on('submit', '#js-form_payment_account', function (e) {
+            //     e.preventDefault();
+            //     var formData = new FormData($(this)[0]);
+            //     $.ajax({
+            //         url         : "{{ route('finance.student_account.save_modal_account') }}",
+            //         type        : 'POST',
+            //         data        : formData,
+            //         processData : false,
+            //         contentType : false,
+            //         success     : function (res) {
+            //             $('.help-block').html('');
+            //             if (res.res_code == 1)
+            //             {
+            //                 for (var err in res.res_error_msg)
+            //                 {
+            //                     $('#js-' + err).html('<code> '+ res.res_error_msg[err] +' </code>');
+            //                 }
+            //             }
+            //             else
+            //             {
+            //                 // $('.js-modal_holder .modal').modal('hide');
+            //                 show_toast_alert({
+            //                     heading : 'Success',
+            //                     message : res.res_msg,
+            //                     type    : 'success'
+            //                 });
+            //                 // document.getElementById("js-form_payment_transaction").reset();
+            //                 fetch_data();
+            //             }
+            //         }
+            //     });
+            // });
 
             
 
