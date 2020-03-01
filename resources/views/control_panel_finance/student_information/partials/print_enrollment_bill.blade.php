@@ -1,18 +1,13 @@
 @extends('control_panel.layouts.print_layout')
 
-@section('content')
-    <p class="heading1">Republic of the Philippines</p>
-    <p class="heading1">Department of Education</p>
-    <p class="heading1">Region III</p>
-    <p class="heading1">Division of Bataan</p>
-    <br/>
-    <h2 class="heading2 ">UNIVERSITY OF NUEVA CACERES</h2>
-    <p class="heading2 heading2-subtitle"><b>K to 12 BASIC EDUCATION CURRICULUM</b></p>
-    <p class="heading2 heading2-subtitle">Dinalupihan, Bataan</p>
-    <br/>
-    <br/>
+@section ('content_title')
+    Invoice
+@endsection
 
-    <table class="table-student-info">
+@section('content')
+    
+
+    <table class="table-student-info" style="margin-top: 50px">
         <tr>
             <td><p class="p0 m0 student-info"><b>Name</b> : {{ $Transaction->student_name}}</p></td>
             <td><p class="p0 m0 student-info"><b>Date</b> : {{ date_format(date_create($Transaction->created_at), 'F d, Y')}}</p></td>
@@ -25,7 +20,7 @@
             </td>
             <td>
                 <p class="p0 m0 student-info">                    
-                    <b>School Year</b> : {{ ucfirst($Transaction->school_year)}}</p>
+                    <b>School Year</b> : {{ ucfirst($Transaction->school_year)}}
                 </p>
             </td>
         </tr>
@@ -44,7 +39,7 @@
         </tr>
     </table>
                
-    <h3 style="text-align: center">Summary Bill for Invoice</h3>
+    <h3 style="text-align: center; margin-top: 50px">Summary Bill for Invoice</h3>
     <table class="table table-bordered table-striped table-hover">
         <thead>
         <tr>

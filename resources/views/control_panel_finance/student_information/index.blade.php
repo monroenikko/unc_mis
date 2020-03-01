@@ -52,8 +52,7 @@
             });
         }
         
-        $(function () {
-            
+        $(function () {            
             $('body').on('click', '.js-btn_account', function (e) {
                 e.preventDefault();
                  {{-- loader_overlay();  --}}
@@ -97,8 +96,7 @@
                                 $('#dp_enrollment').text(currencyFormat(parseFloat($('#downpayment').val())));
                                 downpayment_total = parseFloat($('#downpayment').val());
                                 total_fees();
-                            });
-                           
+                            });                           
                             
                             $('#payment_category').on('change', function() {
                                 var dataid = $("#payment_category option:selected").attr('value');
@@ -113,8 +111,6 @@
                                 total_fees();
                                 // alert(total)
                             });
-                            
-                            
 
                             $(".discountSelected").change(function () {
                                 var str = "";
@@ -143,14 +139,11 @@
                             })
                             .change();
 
-                            
-
                             function total_fees(){
                                 less_total= disc_total + downpayment_total;
                                 total = tuition_total + misc_total - less_total;
                                 $('#total_balance').text(currencyFormat(total));           
-                            }
-                                             
+                            }                                           
                             
                         });
                     }
@@ -220,6 +213,7 @@
             //         alert(data);
             // }
 
+           
             function error(){
                 alertify.defaults.theme.ok = "btn btn-primary btn-flat";
                 alertify
@@ -283,12 +277,47 @@
                                 message : res.res_msg,
                                 type    : 'success'
                             });
-
+                            // document.getElementById("js-form_payment_transaction").reset();
                             fetch_data();
                         }
                     }
                 });
             });
+
+            $('body').on('submit', '#js-form_payment_account', function (e) {
+                e.preventDefault();
+                var formData = new FormData($(this)[0]);
+                $.ajax({
+                    url         : "{{ route('finance.student_account.save_modal_account') }}",
+                    type        : 'POST',
+                    data        : formData,
+                    processData : false,
+                    contentType : false,
+                    success     : function (res) {
+                        $('.help-block').html('');
+                        if (res.res_code == 1)
+                        {
+                            for (var err in res.res_error_msg)
+                            {
+                                $('#js-' + err).html('<code> '+ res.res_error_msg[err] +' </code>');
+                            }
+                        }
+                        else
+                        {
+                            // $('.js-modal_holder .modal').modal('hide');
+                            show_toast_alert({
+                                heading : 'Success',
+                                message : res.res_msg,
+                                type    : 'success'
+                            });
+                            // document.getElementById("js-form_payment_transaction").reset();
+                            fetch_data();
+                        }
+                    }
+                });
+            });
+
+            
 
             $('body').on('submit', '#js-form_search', function (e) {
                 e.preventDefault();

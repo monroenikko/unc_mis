@@ -152,6 +152,7 @@ class StudentController extends Controller
                         ->where('current', 1)
                         ->where('status', 1)->first();
 
+                    
                     $total_disc += $DiscountFee->disc_amt;
 
                     $DiscountFeeSave = new TransactionDiscount();
@@ -214,6 +215,11 @@ class StudentController extends Controller
             $request->no_months_paid;
         }
     }
+
+    public function save_modal_account(Request $request){
+        // return 'save';
+        return response()->json(['res_code' => 0, 'res_msg' => 'Data successfully saved.']);
+    }
     
     public function print_enrollment_bill(Request $request){
 
@@ -245,10 +251,13 @@ class StudentController extends Controller
                 ->where('transactions.status', 1)
                 ->first();
                 
-            if($Transaction->or_number){
+            if($Transaction){
                 $Transaction_disc = TransactionDiscount::with('discountFee')->where('or_no', $Transaction->or_number)
                 ->get(); 
-            }            
+            }     
+            else{
+                return "Save the transaction first!";
+            }       
 
             $PaymentCategory = PaymentCategory::with('stud_category','tuition','misc_fee')
                 ->where('status', 1)

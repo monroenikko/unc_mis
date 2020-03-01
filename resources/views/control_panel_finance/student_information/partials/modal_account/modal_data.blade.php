@@ -1,7 +1,7 @@
 <div class="col-lg-8">                            
     <div class="box box-danger box-solid">
         <div class="box-header">
-            <h3 class="box-title">Input field(s)</h3>
+            <h3 class="box-title">Tuition Fee</h3>
         </div>
         <div class="box-body">
             <div class=""></div>
@@ -46,19 +46,19 @@
                     <tr>                       
                         <tr>
                             <td style="width:140px">OR Number</td>
-                            <td id="js-or_num"></td>
+                            <td align="right" id="js-or_num"></td>
                         </tr>                       
                         <tr>
                             <td style="width:140px">Month</td>
-                            <td id="js-month"></td>
+                            <td align="right" id="js-month"></td>
                         </tr>
                         <tr>
                             <td style="width:140px">Monthly Fee</td>
-                            <td id="js-monthly_fee"></td>
+                            <td align="right" id="js-monthly_fee"></td>
                         </tr>
                         <tr>
                             <td style="width:140px">Collection</td>
-                            <td id="js-collection">0</td>
+                            <td align="right" id="js-collection">0</td>
                         </tr>
                         {{-- <tr>
                             <td style="width:140px">Downpayment </td>
@@ -76,7 +76,7 @@
                         
                         <tr>
                             <td style="width:140px">Total Balance </td>
-                            <td>
+                            <td align="right">
                                 ₱ <span id="total_balance">0</span>
                             </td>
                         </tr>
@@ -97,8 +97,6 @@
                 >
                     <i class="fa fa-file-pdf"></i> Print
                 </button>
-            </div>   
-       
-                               
+            </div>                              
     </div>                        
 </div>

@@ -22,6 +22,7 @@
                 @endif
                 
                 <div class="modal-body">
+                    
                     @include('control_panel_finance.student_information.partials.modal_data_list')        
                     <hr>
                     <div class="row ">   
@@ -41,30 +42,18 @@
                     </div>
                     <hr>
                     <div class="row">
-                        @include('control_panel_finance.student_information.partials.modal_account.modal_data')
+                        @include('control_panel_finance.student_information.partials.modal_account.modal_data')                        
                     </div>
 
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <label>Other(s)</label>
-                            <select class="form-control select2" name="others[]" multiple="multiple" data-placeholder="Select month(s)" style="width: 100%;">
-                                @foreach ($OtherFee as $otherfee)                                        
-                                    <option value="{{ $otherfee->id }}">{{ $otherfee->other_fee_name }} {{ number_format($otherfee->other_fee_amt) }}</option>
-                                @endforeach
-                            </select>
-                            <div class="help-block text-red text-center" id="js-others">                            
-                        </div>  
-                        <div class="col-lg-6">
-                            this is half right
-                        </div>    
-                    </div>
+                    
+                    @include('control_panel_finance.student_information.partials.modal_others')
+                     
             
                 </div>
         
                 </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary btn-flat">Save</button>
                     </div>
                 </form>
         </div><!-- /.modal-content -->

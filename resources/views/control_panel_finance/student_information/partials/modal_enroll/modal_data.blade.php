@@ -1,7 +1,7 @@
 <div class="col-lg-8">                            
     <div class="box box-danger box-solid">
         <div class="box-header">
-            <h3 class="box-title">Input field(s)</h3>
+            <h3 class="box-title">Tuition Fee</h3>
         </div>
         
         <div class="box-body">
@@ -9,12 +9,7 @@
                 <label for="">O.R. # </label>
                 <input type="text" placeholder="00000000000" class="form-control" name="or_number" id="or_number" value="">
                 <div class="help-block text-red text-left" id="js-or_number"></div>
-            </div>
-            <div class="form-group">
-                <label for="">Downpayment </label>
-                <input placeholder="0.00" type="number" class="form-control" name="downpayment" id="downpayment" value="">
-                <div class="help-block text-red text-left" id="js-downpayment"></div>
-            </div>
+            </div>            
             <div class="form-group">
                 <label for="">Student Category</label>
                
@@ -33,6 +28,11 @@
                 </select>
                 <div class="help-block text-red text-left" id="js-payment_category">
                 </div>
+            </div>
+            <div class="form-group">
+                <label for="">Downpayment </label>
+                <input placeholder="0.00" type="number" class="form-control" name="downpayment" id="downpayment" value="">
+                <div class="help-block text-red text-left" id="js-downpayment"></div>
             </div>
             <div class="form-group">
                 <label for="">Discount: </label>
@@ -122,3 +122,4 @@
                                
     </div>                        
 </div>
+   

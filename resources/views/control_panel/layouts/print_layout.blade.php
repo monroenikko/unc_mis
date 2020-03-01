@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Student Gradesheet</title>
+    <title>@yield('content_title')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="main.js"></script>
@@ -56,7 +56,8 @@
                 margin:0;
             }
             .heading2-title {
-                font-family: "Old English Text MT", Times, serif;
+                /* font-family: "Old English Text MT", Times, serif; */
+                font-family: 'Times New Roman', Times, serif;
             }
             .heading2-subtitle {
                 font-size: 12px;
@@ -130,6 +131,19 @@
         </style>
 </head>
 <body>
+    
+    <p class="heading1">Republic of the Philippines</p>
+    <p class="heading1">Department of Education</p>
+    <p class="heading1">Region III</p>
+    <p class="heading1">Division of Bataan</p>
+    <br/>
+    <h2 class="heading2 heading2-title">UNIVERSITY OF NUEVA CACERES</h2>
+    <p class="heading2 heading2-subtitle"><b>K to 12 BASIC EDUCATION CURRICULUM</b></p>
+    <p class="heading2 heading2-subtitle">Dinalupihan, Bataan</p>
+    <br/>
+    <br/>
+    <img src="{{ asset('/img/unc-logo.png') }}" style="height: 100px; float:left; margin-top:-120px; margin-left: 50px">
+
     @yield('content')
 </body>
 </html>
