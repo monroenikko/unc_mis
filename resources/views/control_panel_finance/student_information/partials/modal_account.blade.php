@@ -18,7 +18,7 @@
                 @if ($StudentInformation)
                     <input type="hidden" name="id" value="{{ $StudentInformation->id }}">
                     <input type="hidden" name="stud_status" value="1">
-                    <input type="hidden" name="no_months_paid" value="{{$Transaction->no_month_paid}}" />
+                    <input type="hidden" name="no_months_paid" value="{{$Transaction->no_month_paid}}" />                    
                 @endif
                 
                 <div class="modal-body">
@@ -58,6 +58,12 @@
                                     {{number_format($Transaction->monthly_fee,2)}}
                                 </i>
                             </h4>
+                            <h4>
+                                <b>Total Balance:</b>
+                                 <i style="color: red">
+                                    {{number_format($Transaction->balance,2)}}
+                                </i>
+                            </h4>
                         </div>
                     </div>
                     <hr>
@@ -66,7 +72,7 @@
                     </div>
 
                     
-                    {{-- @include('control_panel_finance.student_information.partials.modal_others') --}}
+                    {{-- @include('csontrol_panel_finance.student_information.partials.modal_others') --}}
                      
             
                 </div>

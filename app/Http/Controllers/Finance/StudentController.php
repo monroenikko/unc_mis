@@ -199,7 +199,7 @@ class StudentController extends Controller
         {
             $rules = [
                 'months' => 'required',
-                'or_number' => 'required',
+                'or_number_others' => 'required',
                 'payment' => 'required',     
             ];
 
@@ -212,7 +212,57 @@ class StudentController extends Controller
                     => $Validator->getMessageBag()]);
             }   
 
-            $request->no_months_paid;
+            // if(!empty($request->months)){
+            //     // echo $request->payment.' ';
+            //     // echo $request->mo_fee.' ';
+               
+            //     foreach($request->months as $get_data){
+                    
+            //         $get_month;
+
+            //         if($get_data == 2){
+            //             $get_month = 'July';
+            //         }else if($get_data == 3){
+            //             $get_month = 'August';
+            //         }else if($get_data == 4){
+            //             $get_month = 'September';
+            //         }else if($get_data == 5){
+            //             $get_month = 'October';
+            //         }else if($get_data == 6){
+            //             $get_month = 'November';
+            //         }else if($get_data == 7){
+            //             $get_month = 'December';
+            //         }else if($get_data == 8){
+            //             $get_month = 'January';
+            //         }else if($get_data == 9){
+            //             $get_month = 'February';
+            //         }else if($get_data == 10){
+            //             $get_month = 'March';   
+            //         }
+
+                    
+            //         echo $get_month.' ';
+            //         echo $request->or_number_others.' ';
+            //         echo $request->id.' ';
+
+                    
+            //         // echo $request->payment.' ';
+            //         // echo $request->mo_fee.' ';
+            //     }
+            // }
+                    
+            echo $request->months.' ';
+            echo $request->or_number_others.' ';
+            echo $request->id.' ';
+
+            // $TransactionMonthsPaid = new TransactionMonthPaid();
+            // $TransactionMonthsPaid->or_number = $request->or_number_others;
+            // $TransactionMonthsPaid->student_id = $request->id;
+            // $TransactionMonthsPaid->month_paid = $request->months;
+            // $TransactionMonthsPaid->school_year_id = $School_year_id->id; //not decided
+            // $TransactionMonthsPaid->downpayment = $request->downpayment;
+            // $TransactionMonthsPaid->save();
+            // $request->no_months_paid;
             return response()->json(['res_code' => 0, 'res_msg' => 'Data successfully saved monthly account.']);
         }
     }
