@@ -63,6 +63,7 @@
                                  <i style="color: red">
                                     {{number_format($Transaction->balance,2)}}
                                 </i>
+                                <input type="hidden" name="js_current_balance" id="js-current_balance" value="{{$Transaction->balance}}">
                             </h4>
                         </div>
                     </div>

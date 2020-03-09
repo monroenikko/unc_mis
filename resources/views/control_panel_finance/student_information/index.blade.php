@@ -128,7 +128,7 @@
                                     disc_total += parseFloat(value.fee);
 
                                     $item = ''
-                                        + value.type +' '+ value.fee.toLocaleString() + '<br/>'
+                                        + value.type +' '+ value.fee + '<br/>'
                                         ;
 
                                     $('#disc_amt').append($item);
@@ -147,33 +147,33 @@
 
                             // monthly fee    
 
-                            $(".monthly_select").change(function () {
-                                var str = "";
-                                disc = [];
-                                $('#disc_amt').html("");
-                                $( ".monthly_select option:selected" ).each(function() {
-                                // str += $( this ).text() + " ";
-                                    disc.push({
-                                        type: $(this).data('type'),
-                                        fee: $(this).data('fee')
-                                    });
-                                });
-                                $.each(disc, function (index, value) {
+                            // $(".monthly_select").change(function () {
+                            //     var str = "";
+                            //     disc = [];
+                            //     $('#disc_amt').html("");
+                            //     $( ".monthly_select option:selected" ).each(function() {
+                            //     // str += $( this ).text() + " ";
+                            //         disc.push({
+                            //             type: $(this).data('type'),
+                            //             fee: $(this).data('fee')
+                            //         });
+                            //     });
+                            //     $.each(disc, function (index, value) {
                                     
-                                    disc_total += parseFloat(value.fee);
+                            //         disc_total += parseFloat(value.fee);
 
-                                    $item = ''
-                                        + value.type +' '+ value.fee.toLocaleString() + '<br/>'
-                                        ;
+                            //         $item = ''
+                            //             + value.type +' '+ value.fee.toLocaleString() + '<br/>'
+                            //             ;
 
-                                    $('#disc_amt').append($item);
-                                });
-                                // $( "div" ).text( str );
-                                // alert('str')
-                                total_fees();
-                            })
-                            .change();
-                            
+                            //         $('#disc_amt').append($item);
+                            //     });
+                            //     // $( "div" ).text( str );
+                            //     // alert('str')
+                            //     total_fees();
+                            // })
+                            // .change();
+                            current_balance();
                             $('#or_number_others').keyup(function() {
                                 var or = $('#or_number_others').val();
                                 $('#js-or_num_others').text(or);
@@ -189,10 +189,20 @@
                                 $('#js-monthly_fee_others').text(currencyFormat(parseFloat($('#payment').val())));
                                 // downpayment_total = parseFloat($('#payment').val());
                                 // total_fees();
+                                current_balance();
                             });   
 
-                            function total_fees(){
+                            $('.monthly_select').on('change', function() {
+                                var mo = $('.monthly_select').val();
+                                $('#js-month_others').text(mo);
+                            });
 
+                            function current_balance(){
+                                var bal = $('#js-current_balance').val()
+                                var mo = $('#payment').val();
+                                // $('#js-month_others').text(mo);
+                                current_bal = bal - mo;
+                                $('#js-current_bal').text(currencyFormat(current_bal));     
                             }                                    
                             
                         });

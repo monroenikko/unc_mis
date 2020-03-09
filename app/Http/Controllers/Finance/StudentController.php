@@ -251,18 +251,31 @@ class StudentController extends Controller
             //     }
             // }
                     
-            echo $request->months.' ';
-            echo $request->or_number_others.' ';
-            echo $request->id.' ';
+            // echo $request->months.' ';
+            // echo $request->or_number_others.' ';
+            // echo $request->id.' ';
 
-            // $TransactionMonthsPaid = new TransactionMonthPaid();
-            // $TransactionMonthsPaid->or_number = $request->or_number_others;
-            // $TransactionMonthsPaid->student_id = $request->id;
-            // $TransactionMonthsPaid->month_paid = $request->months;
-            // $TransactionMonthsPaid->school_year_id = $School_year_id->id; //not decided
-            // $TransactionMonthsPaid->downpayment = $request->downpayment;
-            // $TransactionMonthsPaid->save();
-            // $request->no_months_paid;
+            // $current_bal = $request->js_current_balance;
+            // $total_current_bal = $current_bal - $request->payment;
+            // echo $total_current_bal;
+
+            $TransactionMonthsPaid = new TransactionMonthPaid();
+            $TransactionMonthsPaid->or_no = $request->or_number_others;
+            $TransactionMonthsPaid->student_id = $request->id;
+            $TransactionMonthsPaid->month_paid = $request->months;
+            $TransactionMonthsPaid->school_year_id = $School_year_id->id; //not decided
+            $TransactionMonthsPaid->payment = $request->payment;
+            $TransactionMonthsPaid->save();
+
+            $Transaction = \App\Transaction::where('school_year_id', $School_year_id->id)
+                    ->where('student_id', $request->id)->first();
+
+            $current_bal = $request->js_current_balance;
+            $total_current_bal = $current_bal - $request->payment;
+
+            $Transaction->balance = $total_current_bal;
+            $Transaction->save();
+            
             return response()->json(['res_code' => 0, 'res_msg' => 'Data successfully saved monthly account.']);
         }
     }

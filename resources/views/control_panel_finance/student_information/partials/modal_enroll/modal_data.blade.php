@@ -1,5 +1,5 @@
 <div class="col-lg-8">                            
-    <div class="box box-danger box-solid">
+    <div class="box box-danger box-solid" style="height: 30em;">
         <div class="box-header">
             <h3 class="box-title">Tuition Fee</h3>
         </div>
@@ -54,7 +54,7 @@
     </div>
 </div>
 <div class="col-lg-4">
-    <div class="box box-danger box-solid">
+    <div class="box box-danger box-solid" style="height: 30em;">
         <div class="box-header">
         <h3 class="box-title">Summary Bill for Invoice</h3>
         </div>
@@ -105,7 +105,7 @@
             
             
             <hr>
-            <div class="form-group" align="right">                
+            <div class="form-group" style="margin-top: 40px" align="right">                
                 <button type="submit" id="js-btn-save" data-id='1' class="btn btn-primary btn-flat">
                     <i class="fas fa-save"></i> Save
                 </button>
