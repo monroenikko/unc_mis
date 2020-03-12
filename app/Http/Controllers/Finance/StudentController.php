@@ -85,9 +85,16 @@ class StudentController extends Controller
             $MiscFee_payment =  \App\MiscFee::where('id', $Payment->misc_fee_id)->first();
             $Tuitionfee_payment =  \App\TuitionFee::where('id', $Payment->tuition_fee_id)->first();
             $Stud_cat_payment =  \App\StudentCategory::where('id', $Payment->student_category_id)->first();
+            if($Transaction){
+                $Transaction_disc = TransactionDiscount::with('discountFee')->where('or_no', $Transaction->or_number)
+                ->get(); 
+            }     
+            else{
+                return "Save the transaction first!";
+            }  
             return view('control_panel_finance.student_information.partials.modal_account',
                 compact('StudentInformation','Profile','Gradelvl','Discount','OtherFee','SchoolYear','StudentCategory',
-                'PaymentCategory','Transaction','School_year_id','Payment','MiscFee_payment','Tuitionfee_payment','Stud_cat_payment'))->render(); 
+                'PaymentCategory','Transaction','School_year_id','Payment','MiscFee_payment','Tuitionfee_payment','Stud_cat_payment','Transaction_disc'))->render(); 
         }
         
                 // return view('profile', array('user' => Auth::user()) );        
