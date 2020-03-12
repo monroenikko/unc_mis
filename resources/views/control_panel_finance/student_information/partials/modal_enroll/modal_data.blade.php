@@ -110,8 +110,7 @@
                     <i class="fas fa-save"></i> Save
                 </button>
                 <button type="button" 
-                        class="btn btn-danger btn-flat" 
-                        id="js-btn_print" 
+                        class="btn btn-danger btn-flat js-btn_print" 
                         data-syid="{{$School_year_id->id}}"
                         data-studid="{{ $StudentInformation->id }}"
                 >

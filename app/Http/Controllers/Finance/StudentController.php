@@ -73,15 +73,21 @@ class StudentController extends Controller
 
             $Transaction = Transaction::with('payment_cat')->where('student_id', $request->id)
                 ->where('status', 1)->first();
+            
         }
 
         if(!$Transaction){
             return view('control_panel_finance.student_information.partials.modal_data', 
                 compact('StudentInformation','Profile','Gradelvl','Discount','OtherFee','SchoolYear','StudentCategory','PaymentCategory','Transaction','School_year_id'))->render();  
         }else{
-
+            // existing account
+            $Payment =  \App\PaymentCategory::where('id', $Transaction->payment_category_id)->first();
+            $MiscFee_payment =  \App\MiscFee::where('id', $Payment->misc_fee_id)->first();
+            $Tuitionfee_payment =  \App\TuitionFee::where('id', $Payment->tuition_fee_id)->first();
+            $Stud_cat_payment =  \App\StudentCategory::where('id', $Payment->student_category_id)->first();
             return view('control_panel_finance.student_information.partials.modal_account',
-                compact('StudentInformation','Profile','Gradelvl','Discount','OtherFee','SchoolYear','StudentCategory','PaymentCategory','Transaction','School_year_id'))->render(); 
+                compact('StudentInformation','Profile','Gradelvl','Discount','OtherFee','SchoolYear','StudentCategory',
+                'PaymentCategory','Transaction','School_year_id','Payment','MiscFee_payment','Tuitionfee_payment','Stud_cat_payment'))->render(); 
         }
         
                 // return view('profile', array('user' => Auth::user()) );        
@@ -197,6 +203,9 @@ class StudentController extends Controller
         }
         else
         {
+            $School_year_id = SchoolYear::where('status', 1)
+                ->where('current', 1)->first();
+
             $rules = [
                 'months' => 'required',
                 'or_number_others' => 'required',
@@ -294,59 +303,101 @@ class StudentController extends Controller
     
     public function print_enrollment_bill(Request $request){
 
-        if (!$request->syid || !$request->studid || !$request->or_num) 
-        {
-            return "Invalid request";
-        }
-
+        // if (!$request->syid || !$request->studid || !$request->or_num || !$request->stud_status) 
+        // {
+        //     return "Invalid request";
+        // }
+        $stud_stats = $request->stud_status;
         $StudentInformation = StudentInformation::with(['user'])->where('id', $request->studid)->first();
+        $balance = $request->balance;
         
-        if ($StudentInformation) 
-        {
-           $Transaction = Transaction::join('student_informations', 'student_informations.id', '=' ,'transactions.student_id')
-                ->join('school_years', 'school_years.id', '=' ,'transactions.school_year_id')
-                ->join('payment_categories', 'payment_categories.id', 'transactions.payment_category_id')
-                ->select(\DB::raw("
-                    CONCAT(student_informations.last_name, ', ', student_informations.first_name, ' ', student_informations.middle_name) as student_name,
-                    school_years.school_year,
-                    transactions.or_number,
-                    transactions.downpayment,
-                    transactions.monthly_fee,
-                    transactions.balance,
-                    transactions.payment_category_id,
-                    transactions.created_at
-                "))
-                ->where('school_years.id', $request->syid)
-                ->where('student_informations.id', $request->studid)
-                ->where('transactions.or_number', $request->or_num)
-                ->where('transactions.status', 1)
-                ->first();
-                
-            if($Transaction){
-                $Transaction_disc = TransactionDiscount::with('discountFee')->where('or_no', $Transaction->or_number)
-                ->get(); 
-            }     
-            else{
-                return "Save the transaction first!";
-            }       
 
-            $PaymentCategory = PaymentCategory::with('stud_category','tuition','misc_fee')
-                ->where('status', 1)
-                ->where('current', 1)
-                ->where('id', $Transaction->payment_category_id)
-                ->first();
+        if($stud_stats == 0){
 
+            if ($StudentInformation) 
+            {  
+                $Transaction = Transaction::join('student_informations', 'student_informations.id', '=' ,'transactions.student_id')
+                        ->join('school_years', 'school_years.id', '=' ,'transactions.school_year_id')
+                        ->join('payment_categories', 'payment_categories.id', 'transactions.payment_category_id')
+                        ->select(\DB::raw("
+                            CONCAT(student_informations.last_name, ', ', student_informations.first_name, ' ', student_informations.middle_name) as student_name,
+                            school_years.school_year,
+                            transactions.or_number,
+                            transactions.downpayment,
+                            transactions.monthly_fee,
+                            transactions.balance,
+                            transactions.payment_category_id,
+                            transactions.created_at
+                        "))
+                        ->where('school_years.id', $request->syid)
+                        ->where('student_informations.id', $request->studid)
+                        ->where('transactions.or_number', $request->or_num)
+                        ->where('transactions.status', 1)
+                        ->first();
+                    
+                if($Transaction){
+                    $Transaction_disc = TransactionDiscount::with('discountFee')->where('or_no', $Transaction->or_number)
+                    ->get(); 
+                }     
+                else{
+                    return "Save the transaction first!";
+                }  
+
+                $PaymentCategory = PaymentCategory::with('stud_category','tuition','misc_fee')
+                    ->where('status', 1)
+                    ->where('current', 1)
+                    ->where('id', $Transaction->payment_category_id)
+                    ->first();
+
+            }
+            else
+            {
+                return "Invalid request";
+            }
+
+            
+        }else{
+
+            if ($StudentInformation){   
+
+                $TransactionMonthPaid = TransactionMonthPaid::join('student_informations', 'student_informations.id', '=' ,'transaction_month_paids.student_id')
+                    ->join('school_years', 'school_years.id', '=' ,'transaction_month_paids.school_year_id')
+                    ->join('transactions', 'transactions.student_id', 'transaction_month_paids.student_id' )
+                    ->join('payment_categories', 'payment_categories.id', 'transactions.payment_category_id')                   
+                    ->select(\DB::raw("
+                        CONCAT(student_informations.last_name, ', ', student_informations.first_name, ' ', student_informations.middle_name) as student_name,
+                        school_years.school_year,
+                        transaction_month_paids.or_no,
+                        transaction_month_paids.payment,
+                        transaction_month_paids.month_paid,                          
+                        transactions.balance,
+                        transactions.monthly_fee,
+                        transactions.payment_category_id,
+                        transactions.created_at
+                    "))
+                    ->where('school_years.id', $request->syid)
+                    ->where('student_informations.id', $request->studid)
+                    ->where('transaction_month_paids.or_no', $request->or_num)
+                    ->where('transactions.status', 1)
+                    ->first();
+
+                $PaymentCategory = PaymentCategory::with('stud_category','tuition','misc_fee')
+                    ->where('status', 1)
+                    ->where('current', 1)
+                    ->where('id', $TransactionMonthPaid->payment_category_id)
+                    ->first();
+            }else{
+                return "Invalid request";
+            }
         }
-        else{
-            return "Invalid request";
-        }
+
         return view('control_panel_finance.student_information.partials.print_enrollment_bill',
-                compact('Transaction','PaymentCategory','Transaction_disc'));
+                    compact('Transaction','PaymentCategory','Transaction_disc', 'stud_stats','TransactionMonthPaid','balance'));
 
-        $pdf = \PDF::loadView('control_panel_finance.student_information.partials.print_enrollment_bill', 
-                compact('Transaction','PaymentCategory','Transaction_disc'));
-        $pdf->setPaper('Letter', 'portrait');
-        return $pdf->stream();
+            $pdf = \PDF::loadView('control_panel_finance.student_information.partials.print_enrollment_bill', 
+                    compact('Transaction','PaymentCategory','Transaction_disc', 'stud_stats','TransactionMonthPaid','balance'));
+            $pdf->setPaper('Letter', 'portrait');
+            return $pdf->stream();
     }
     
 }

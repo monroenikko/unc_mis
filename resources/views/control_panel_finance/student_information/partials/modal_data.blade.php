@@ -2,13 +2,13 @@
     <div class="modal-dialog box box-danger" style="width: 1140px;" role="document">
         <div class="modal-content">
             <div class="box-body">
-                <div class="modal-header">
+                {{-- <div class="modal-header"> --}}
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>                            
                         <h4 style="margin-right: 5em;" class="modal-title">
                             {{-- {{ $StudentInformation ? 'Edit Registrar Information' : 'Add Registrar Information' }} --}}
                             <img src="{{ asset('/img/unc-logo.png') }}" style="height: 70px;"> Student Account
                         </h4>
-                </div>
+                {{-- </div> --}}
             </div>
             
            
@@ -17,7 +17,7 @@
                                 
                 @if ($StudentInformation)
                     <input type="hidden" name="id" value="{{ $StudentInformation->id }}">
-                    <input type="hidden" name="stud_status" value="0">
+                    <input type="hidden" id='stud_status' name="stud_status" value="0">
                 @endif
                 
                 <div class="modal-body">

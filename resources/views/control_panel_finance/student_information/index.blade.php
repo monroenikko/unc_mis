@@ -84,7 +84,7 @@
                             $('#or_number').keyup(function() {
                                 var or = $('#or_number').val();
                                 $('#or_num').text(or);
-                                $('#js-btn_print').data('or_num', or);
+                                $('.js-btn_print').data('or_num', or);
                                 $('#js-btn-save').data('or_num', or);
                                 // alert(or);
                             });
@@ -177,8 +177,9 @@
                             $('#or_number_others').keyup(function() {
                                 var or = $('#or_number_others').val();
                                 $('#js-or_num_others').text(or);
-                                // $('#js-btn_print').data('or_num', or);
-                                // $('#js-btn-save').data('or_num', or);
+                                $('.js-btn_print').data('or_num', or);
+                                $('#js-btn-save-monthly').data('or_num', or);
+
                                 // alert(or);
                             }); 
 
@@ -233,26 +234,7 @@
                 });
             });
             
-            $('body').on('click', '.js-btn_print_grade', function (e) {
-                e.preventDefault();
-                {{--  loader_overlay();  --}}
-                var id = $(this).data('id');
-                $.ajax({
-                    url : "{{ route('admin.student.information.print_student_grade_modal') }}",
-                    type : 'POST',
-                    data : { _token : '{{ csrf_token() }}', id : id },
-                    success : function (res) {
-                        $('.js-modal_holder').html(res);
-                        $('.js-modal_holder .modal').modal({ backdrop : 'static' });
-                        $('.js-modal_holder .modal').on('shown.bs.modal', function () {
-                            //Date picker
-                            $('#datepicker').datepicker({
-                                autoclose: true
-                            })  
-                        });
-                    }
-                });
-            })
+           
             
             // $('body').on('click', '#js-btn-save', function (e) {
             //     e.preventDefault();
@@ -282,7 +264,7 @@
                 });
             }
 
-            $('body').on('click', '#js-btn_print', function (e) {
+            $('body').on('click', '.js-btn_print', function (e) {
                 e.preventDefault();
                 var btn_save = $(this).data('id');
                 // var id = $('#print_student_id').val();
@@ -294,13 +276,16 @@
                 var downpayment = $('#downpayment').val();
                 var payment_category = $('#payment_category').val();
                 
+                var stud_status = $('#stud_status').val();
+                var balance = $('#js-current_balance').val();
 
+                
                 if (or_num) {
                     if(downpayment == '' || payment_category == ''){
                         error();
                     }
                     else{
-                        window.open("{{ route('finance.print_enrollment_bill') }}?syid="+syid+"&studid="+studid+"&or_num="+or_num, '', 'height=800,width=800')
+                        window.open("{{ route('finance.print_enrollment_bill') }}?syid="+syid+"&studid="+studid+"&or_num="+or_num+"&stud_status="+stud_status+"&balance="+balance, '', 'height=800,width=800')
                     }
                 }
                 else

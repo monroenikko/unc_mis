@@ -60,20 +60,7 @@
                                 {{ number_format($Transaction->monthly_fee, 2) }}
                             </td>
                         </tr>
-                        
-                        {{-- <tr>
-                            <td style="width:140px">Downpayment </td>
-                            <td>
-                                ₱ <span id="downpayment_reserved">0</span>
-                            </td>
-                        </tr> --}}
-                        
-                        {{-- <tr>
-                            <td style="width:140px">Total Bill </td>
-                            <td>
-                                ₱ <span id="total_costt2">0</span>
-                            </td>
-                        </tr> --}}
+                       
                         
                         <tr>
                             <td style="width:140px">Current Balance </td>
@@ -91,8 +78,7 @@
                     <i class="fas fa-save"></i> Save
                 </button>
                 <button type="button" 
-                        class="btn btn-danger btn-flat" 
-                        id="js-btn_print" 
+                        class="btn btn-danger btn-flat js-btn_print" 
                         data-syid="{{$School_year_id->id}}"
                         data-studid="{{ $StudentInformation->id }}"
                 >
