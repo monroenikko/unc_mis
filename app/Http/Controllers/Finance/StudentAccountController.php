@@ -12,12 +12,20 @@ use App\SchoolYear;
 use App\StudentCategory;
 use App\PaymentCategory;
 use App\Transaction;
+use App\TransactionOtherFee;
+use App\TransactionMonthPaid;
+use App\TuitionFee;
+use App\MiscFee;
+use App\TransactionDiscount;
 
 class StudentAccountController extends Controller
 {
     public function index(Request $request, $stud_id){
 
         $Profile = StudentInformation::where('id', $stud_id)->first(); 
+        $School_year_id = SchoolYear::where('status', 1)
+                ->where('current', 1)->first();
+
         $StudentInformation = NULL;
         if($request->ajax()){
             // $StudentInformation = $StudentInformation->paginate(10);
@@ -41,9 +49,36 @@ class StudentAccountController extends Controller
         $StudentInformation = StudentInformation::with(['user'])
             ->where('id', $stud_id)
             ->first();
+
+        if($Transaction){
+        
+            $Payment =  PaymentCategory::where('id', $Transaction->payment_category_id)->first();
+            $MiscFee_payment =  MiscFee::where('id', $Payment->misc_fee_id)->first();
+            $Tuitionfee_payment =  TuitionFee::where('id', $Payment->tuition_fee_id)->first();
+            $Stud_cat_payment =  StudentCategory::where('id', $Payment->student_category_id)->first();
+
+            $TransactionMonthPaid = TransactionMonthPaid::where('student_id', $stud_id)
+                                    ->where('school_year_id', $SchoolYear->id)->orderBY('id', 'DESC')->get();
+
+                // $PaymentCategory = PaymentCategory::with('stud_category','tuition','misc_fee')
+                //     ->where('status', 1)
+                //     ->where('current', 1)
+                //     ->where('id', $TransactionMonthPaid->payment_category_id)
+                //     ->first();
+
+            if($Transaction){
+                $Transaction_disc = TransactionDiscount::with('discountFee')->where('or_no', $Transaction->or_number)
+                ->get(); 
+            }     
+            else{
+                return "Save the transaction first!";
+            }  
+        }
         // return json_encode(['student_info' => $StudentInformation]);
         return view('control_panel_finance.student_payment_account.index', 
-            compact('StudentInformation','Profile','Gradelvl','Discount','OtherFee','SchoolYear','StudentCategory','PaymentCategory','Transaction'));
+            compact('StudentInformation','Profile','Gradelvl','Discount','OtherFee','SchoolYear','StudentCategory','PaymentCategory','Transaction'
+                    ,'Stud_cat_payment','Payment','MiscFee_payment','Tuitionfee_payment','School_year_id','Transaction_disc','TransactionMonthPaid'
+                    ));
     }
 
 
@@ -51,6 +86,7 @@ class StudentAccountController extends Controller
     {
         $School_year_id = SchoolYear::where('status', 1)
                 ->where('current', 1)->first();
+
         if($request->stud_status == 0){
         
             $rules = [
@@ -106,6 +142,7 @@ class StudentAccountController extends Controller
                         ->where('current', 1)
                         ->where('status', 1)->first();
 
+                    
                     $total_disc += $DiscountFee->disc_amt;
 
                     $DiscountFeeSave = new TransactionDiscount();
@@ -150,9 +187,12 @@ class StudentAccountController extends Controller
         }
         else
         {
+            $School_year_id = SchoolYear::where('status', 1)
+                ->where('current', 1)->first();
+
             $rules = [
                 'months' => 'required',
-                'or_number' => 'required',
+                'or_number_others' => 'required',
                 'payment' => 'required',     
             ];
 
@@ -165,14 +205,184 @@ class StudentAccountController extends Controller
                     => $Validator->getMessageBag()]);
             }   
 
-            $request->no_months_paid;
+            // if(!empty($request->months)){
+            //     // echo $request->payment.' ';
+            //     // echo $request->mo_fee.' ';
+               
+            //     foreach($request->months as $get_data){
+                    
+            //         $get_month;
+
+            //         if($get_data == 2){
+            //             $get_month = 'July';
+            //         }else if($get_data == 3){
+            //             $get_month = 'August';
+            //         }else if($get_data == 4){
+            //             $get_month = 'September';
+            //         }else if($get_data == 5){
+            //             $get_month = 'October';
+            //         }else if($get_data == 6){
+            //             $get_month = 'November';
+            //         }else if($get_data == 7){
+            //             $get_month = 'December';
+            //         }else if($get_data == 8){
+            //             $get_month = 'January';
+            //         }else if($get_data == 9){
+            //             $get_month = 'February';
+            //         }else if($get_data == 10){
+            //             $get_month = 'March';   
+            //         }
+
+                    
+            //         echo $get_month.' ';
+            //         echo $request->or_number_others.' ';
+            //         echo $request->id.' ';
+
+                    
+            //         // echo $request->payment.' ';
+            //         // echo $request->mo_fee.' ';
+            //     }
+            // }
+                    
+            // echo $request->months.' ';
+            // echo $request->or_number_others.' ';
+            // echo $request->id.' ';
+
+            // $current_bal = $request->js_current_balance;
+            // $total_current_bal = $current_bal - $request->payment;
+            // echo $total_current_bal;
+
+            $TransactionMonthsPaid = new TransactionMonthPaid();
+            $TransactionMonthsPaid->or_no = $request->or_number_others;
+            $TransactionMonthsPaid->student_id = $request->id;
+            $TransactionMonthsPaid->month_paid = $request->months;
+            $TransactionMonthsPaid->school_year_id = $School_year_id->id; //not decided
+            $TransactionMonthsPaid->payment = $request->payment;
+            $TransactionMonthsPaid->save();
+
+            $Transaction = \App\Transaction::where('school_year_id', $School_year_id->id)
+                    ->where('student_id', $request->id)->first();
+
+            $current_bal = $request->js_current_balance;
+            $total_current_bal = $current_bal - $request->payment;
+
+            $Transaction->balance = $total_current_bal;
+            $Transaction->save();
+            
+            return response()->json(['res_code' => 0, 'res_msg' => 'Data successfully saved monthly account.']);
+        }
+    }
+
+    // public function save_modal_account(Request $request){
+    //     // return 'save';
+    //     $rules = [
+    //         'months' => 'required',
+    //         'or_number' => 'required',
+    //         'payment' => 'required',     
+    //     ];
+
+    //     $Validator = \Validator($request->all(), $rules);
+    //     return response()->json(['res_code' => 0, 'res_msg' => 'Data successfully saved.']);
+    // }
+    
+    public function print_enrollment_bill(Request $request){
+
+        // if (!$request->syid || !$request->studid || !$request->or_num || !$request->stud_status) 
+        // {
+        //     return "Invalid request"; 
+        // }
+        $stud_stats = $request->stud_status;
+        $StudentInformation = StudentInformation::with(['user'])->where('id', $request->studid)->first();
+        $balance = $request->balance;
+        
+
+        if($stud_stats == 0){
+
+            if ($StudentInformation) 
+            {  
+                $Transaction = Transaction::join('student_informations', 'student_informations.id', '=' ,'transactions.student_id')
+                        ->join('school_years', 'school_years.id', '=' ,'transactions.school_year_id')
+                        ->join('payment_categories', 'payment_categories.id', 'transactions.payment_category_id')
+                        ->select(\DB::raw("
+                            CONCAT(student_informations.last_name, ', ', student_informations.first_name, ' ', student_informations.middle_name) as student_name,
+                            school_years.school_year,
+                            transactions.or_number,
+                            transactions.downpayment,
+                            transactions.monthly_fee,
+                            transactions.balance,
+                            transactions.payment_category_id,
+                            transactions.created_at
+                        "))
+                        ->where('school_years.id', $request->syid)
+                        ->where('student_informations.id', $request->studid)
+                        ->where('transactions.or_number', $request->or_num)
+                        ->where('transactions.status', 1)
+                        ->first();
+                    
+                if($Transaction){
+                    $Transaction_disc = TransactionDiscount::with('discountFee')->where('or_no', $Transaction->or_number)
+                    ->get(); 
+                }     
+                else{
+                    return "Save the transaction first!";
+                }  
+
+                $PaymentCategory = PaymentCategory::with('stud_category','tuition','misc_fee')
+                    ->where('status', 1)
+                    ->where('current', 1)
+                    ->where('id', $Transaction->payment_category_id)
+                    ->first();
+
+            }
+            else
+            {
+                return "Invalid request";
+            }
+
+            
+        }else{
+
+            if ($StudentInformation){   
+
+                $TransactionMonthPaid = TransactionMonthPaid::join('student_informations', 'student_informations.id', '=' ,'transaction_month_paids.student_id')
+                    ->join('school_years', 'school_years.id', '=' ,'transaction_month_paids.school_year_id')
+                    ->join('transactions', 'transactions.student_id', 'transaction_month_paids.student_id' )
+                    ->join('payment_categories', 'payment_categories.id', 'transactions.payment_category_id')                   
+                    ->select(\DB::raw("
+                        CONCAT(student_informations.last_name, ', ', student_informations.first_name, ' ', student_informations.middle_name) as student_name,
+                        school_years.school_year,
+                        transaction_month_paids.or_no,
+                        transaction_month_paids.payment,
+                        transaction_month_paids.month_paid,                          
+                        transactions.balance,
+                        transactions.monthly_fee,
+                        transactions.payment_category_id,
+                        transactions.created_at
+                    "))
+                    ->where('school_years.id', $request->syid)
+                    ->where('student_informations.id', $request->studid)
+                    ->where('transaction_month_paids.or_no', $request->or_num)
+                    ->where('transactions.status', 1)
+                    ->first();
+
+                $PaymentCategory = PaymentCategory::with('stud_category','tuition','misc_fee')
+                    ->where('status', 1)
+                    ->where('current', 1)
+                    ->where('id', $TransactionMonthPaid->payment_category_id)
+                    ->first();
+            }else{
+                return "Invalid request";
+            }
         }
 
-        
+        return view('control_panel_finance.student_information.partials.print_enrollment_bill',
+                    compact('Transaction','PaymentCategory','Transaction_disc', 'stud_stats','TransactionMonthPaid','balance'));
+
+            $pdf = \PDF::loadView('control_panel_finance.student_information.partials.print_enrollment_bill', 
+                    compact('Transaction','PaymentCategory','Transaction_disc', 'stud_stats','TransactionMonthPaid','balance'));
+            $pdf->setPaper('Letter', 'portrait');
+            return $pdf->stream();
     }
 
-    public function print_enroll(Request $request)
-    {
-
-    }
+    
 }

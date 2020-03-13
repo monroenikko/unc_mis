@@ -5,7 +5,7 @@
 @endsection
 
 @section ('content')
-    <div class="box">
+    <div class="box box-danger">
         {{-- <div class="box-header with-border">
             <h3 class="box-title">Search</h3>
             <form id="js-form_search">
@@ -32,8 +32,118 @@
     <script src="{{ asset('cms/plugins/datepicker/bootstrap-datepicker.js') }}"></script>
     <script>
         // var page = 1;
+        total = 0;
+        disc_total = 0;
+        tuition_total = 0;
+        misc_total = 0;
+        downpayment_total=0;
+        less_total = 0;
+        function currencyFormat(num) {
+            return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+        }
+        
+        $('#or_number').keyup(function() {
+            var or = $('#or_number').val();
+            $('#or_num').text(or);
+            $('.js-btn_print').data('or_num', or);
+            $('#js-btn-save').data('or_num', or);
+            // alert(or);
+        });
+
+        $('#downpayment').keyup(function() {
+            function currencyFormat(num) {
+                return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+            }
+            $('#dp_enrollment').text(currencyFormat(parseFloat($('#downpayment').val())));
+            downpayment_total = parseFloat($('#downpayment').val());
+            total_fees();
+        });                           
+        
+        $('#payment_category').on('change', function() {
+            var dataid = $("#payment_category option:selected").attr('value');
+            // const dataid = $("#payment_category option:selected").attr('data-gradelvl');
+            var tuition = $("#payment_category option:selected").attr('data-tuition');
+            var misc = $("#payment_category option:selected").attr('data-misc');
+            // alert(dataid);
+            $('#tuition_fee').text(currencyFormat(parseFloat(tuition)));
+            $('#misc_fee').text(currencyFormat(parseFloat(misc)));
+
+            tuition_total = parseFloat(tuition) + parseFloat(misc);
+            total_fees();
+            // alert(total)
+        });
+
+        $(".discountSelected").change(function () {
+            var str = "";
+            disc = [];
+            $('#disc_amt').html("");
+            $( ".discountSelected option:selected" ).each(function() {
+            // str += $( this ).text() + " ";
+                disc.push({
+                    type: $(this).data('type'),
+                    fee: $(this).data('fee')
+                });
+            });
+            $.each(disc, function (index, value) {
+                
+                disc_total += parseFloat(value.fee);
+
+                $item = ''
+                    + value.type +' '+ value.fee + '<br/>'
+                    ;
+
+                $('#disc_amt').append($item);
+            });
+            // $( "div" ).text( str );
+            // alert('str')
+            total_fees();
+        })
+        .change();
+
+        function total_fees(){
+            less_total= disc_total + downpayment_total;
+            total = tuition_total + misc_total - less_total;
+            $('#total_balance').text(currencyFormat(total));           
+        } 
+
+        
+        current_balance();
+        $('#or_number_others').keyup(function() {
+            var or = $('#or_number_others').val();
+            $('#js-or_num_others').text(or);
+            $('.js-btn_print').data('or_num', or);
+            $('#js-btn-save-monthly').data('or_num', or);
+
+            // alert(or);
+        }); 
+
+        $('#payment').keyup(function() {
+            function currencyFormat(num) {
+                return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+            }
+            $('#js-monthly_fee_others').text(currencyFormat(parseFloat($('#payment').val())));
+            // downpayment_total = parseFloat($('#payment').val());
+            // total_fees();
+            current_balance();
+        });   
+
+        $('.monthly_select').on('change', function() {
+            var mo = $('.monthly_select').val();
+            $('#js-month_others').text(mo);
+        });
+
+        function current_balance(){
+            var bal = $('#js-current_balance').val()
+            var mo = $('#payment').val();
+            // $('#js-month_others').text(mo);
+            current_bal = bal - mo;
+            $('#js-current_bal').text(currencyFormat(current_bal));     
+        } 
+
         $('.select2').select2();
-        function fetch_data1 () {
+
+        function fetch_data () {
+
             var formData = new FormData($('#js-form_search')[0]);
             formData.append('page', page);
             loader_overlay();
@@ -55,6 +165,13 @@
 
         
         $(function () {
+
+            $('body').on('click', '.js-history', function (e) {
+                e.preventDefault();
+                // loader_overlay();
+                
+            });
+
             $('body').on('click', '.js-btn_account', function (e) {
                 e.preventDefault();
                  {{-- loader_overlay();  --}}
@@ -100,6 +217,45 @@
                     }
                 });
             });
+
+            function error(){
+                alertify.defaults.theme.ok = "btn btn-primary btn-flat";
+                alertify
+                .alert("Please save first before your print it.", function(){
+                    // alertify.message('OK');
+                });
+            }
+
+            $('body').on('click', '.js-btn_print', function (e) {
+                e.preventDefault();
+                var btn_save = $(this).data('id');
+                // var id = $('#print_student_id').val();
+                // var print_sy = $('#print_sy').val();
+                var syid = $(this).data('syid');
+                var studid = $(this).data('studid');
+                var or_num = $(this).data('or_num');
+
+                var downpayment = $('#downpayment').val();
+                var payment_category = $('#payment_category').val();
+                
+                var stud_status = $('#stud_status').val();
+                var balance = $('#js-current_balance').val();
+
+                
+                if (or_num) {
+                    if(downpayment == '' || payment_category == ''){
+                        error();
+                    }
+                    else{
+                        window.open("{{ route('finance.print_enrollment_bill') }}?syid="+syid+"&studid="+studid+"&or_num="+or_num+"&stud_status="+stud_status+"&balance="+balance, '', 'height=800,width=800')
+                    }
+                }
+                else
+                {
+                    error();
+                }
+                
+            })
             
             $('body').on('click', '.js-btn_print_grade', function (e) {
                 e.preventDefault();
