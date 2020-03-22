@@ -9,8 +9,7 @@
         </li>
     </ul>
     <div class="tab-content">
-        <div class="active tab-pane" id="bills">
-            
+        <div class="active tab-pane" id="bills">            
                                 
                 @if ($StudentInformation)
                     <input type="hidden" name="id" value="{{ $StudentInformation->id }}">
@@ -168,8 +167,8 @@
 
         <div class="tab-pane" id="history">
             <div class="">
-                <h3>Paid History</h3>
-                    
+            <h3>Payment History {{$hello}}</h3>
+                
                 @foreach ($TransactionMonthPaid as $key => $item)
                      
                     <div class="box box-danger">

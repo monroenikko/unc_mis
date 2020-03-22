@@ -384,5 +384,10 @@ class StudentAccountController extends Controller
             return $pdf->stream();
     }
 
+    public function history(){
+        $hello = 'this is history';
+        return view('control_panel_finance.student_payment_account.partials.data_list', compact('hello'))->render();
+    }
+
     
 }
