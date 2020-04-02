@@ -63,13 +63,20 @@ Route::group(['prefix' => 'finance', 'middleware' => ['auth', 'userroles'], 'rol
         Route::post('modal-data', 'Finance\StudentController@modal_data')->name('finance.student_account.modal');
         Route::post('modal-account', 'Finance\StudentController@modal_data')->name('finance.student_account.modal_account');
         Route::post('save-data', 'Finance\StudentController@save_data')->name('finance.student_account.save_data'); 
-        Route::get('print-enrollment-bill', 'Finance\StudentController@print_enrollment_bill')->name('finance.print_enrollment_bill');
+        Route::get('print-enrollment-bill', 'Finance\StudentController@print_enrollm
+        
+        ent_bill')->name('finance.print_enrollment_bill');
         Route::post('save', 'Finance\StudentController@save_modal_account')->name('finance.student_account.save_modal_account');
     });
     
     Route::group(['prefix' => 'student-payment-account'], function (){
         Route::get('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
         Route::post('', 'Finance\StudentAccountController@index')->name('finance.student_payment_account');
+<<<<<<< HEAD
+=======
+        // Route::post('history','Finance\StudentAccountController@history')->name('finance.student_payment_account.history');
+        // Route::get('history','Finance\StudentAccountController@history')->name('finance.student_payment_account.history');
+>>>>>>> 66df5b190ed2db7fe83a1063a85242a9157a0650
         Route::post('save-data', 'Finance\StudentAccountController@save_data')->name('finance.student_payment_account.save_data');
         Route::get('print-enrollment-bill', 'Finance\StudentAccountController@print_enrollment_bill')->name('finance.student_payment_account.print_enrollment_bill');
     });
