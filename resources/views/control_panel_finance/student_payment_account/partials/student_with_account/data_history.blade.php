@@ -6,12 +6,14 @@
          
         <div class="box box-danger">
             <div class="box-header">
-            <div class="col-lg-6">
-                <h3 class="box-title">
-                    OR Number: {{ $item->or_no }}
-                </h3>
-            </div>
-            <div class="col-lg-6" align="right">{{ date_format(date_create($item->created_at), 'F d, Y H:i:s') }}</div>
+                <div class="row">    
+                    <div class="col-lg-6">
+                        <h3 class="box-title">
+                            OR Number: {{ $item->or_no }}
+                        </h3>
+                    </div>
+                    <div class="col-lg-6" align="right">{{ date_format(date_create($item->created_at), 'F d, Y H:i:s') }}</div>
+                </div>
             </div>
             <!-- /.box-header -->
                                       
@@ -20,7 +22,7 @@
                         <tbody>
                             <tr>
                                 <th style="width: 10px">#</th>
-                                <th>Description</th>
+                                <th style="width: 50%">Description</th>
                                 <th>Fee</th>
                             </tr>
                             
@@ -35,7 +37,7 @@
                                 <td>2.</td>
                                 <td>Total Balance</td>
                                 <td>
-                                    {{ $Transaction->balan }}
+                                    {{ $Transaction->balance }}
                                 </td>                                             
                             </tr>
                             <tr>
@@ -69,7 +71,7 @@
                     <tbody>
                         <tr>
                             <th style="width: 10px">#</th>
-                            <th>Description</th>
+                            <th style="width: 50%">Description</th>
                             <th>Fee</th>
                         </tr>
                         <tr>

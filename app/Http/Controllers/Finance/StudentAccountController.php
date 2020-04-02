@@ -28,7 +28,7 @@ class StudentAccountController extends Controller
 
         $StudentInformation = NULL;
         if($request->ajax()){
-
+            $stud_id = \Crypt::decrypt($request->c);
             $Gradelvl = GradeLevel::where('current', 1)->where('status', 1)->get();
             $Discount = DiscountFee::where('current', 1)->where('status', 1)->get();
             $OtherFee = OtherFee::where('current', 1)->where('status', 1)->get();  
@@ -55,8 +55,7 @@ class StudentAccountController extends Controller
                 if($Transaction){
                     $Transaction_disc = TransactionDiscount::with('discountFee')->where('or_no', $Transaction->or_number)
                     ->get(); 
-                }     
-                else{
+                }else{
                     return "Save the transaction first!";
                 }  
             }
@@ -65,7 +64,7 @@ class StudentAccountController extends Controller
             ->where('id', $stud_id)
             ->first();
 
-            return view('control_panel_finance.student_payment_account.partials.student_with_account.data_others', 
+            return view('control_panel_finance.student_payment_account.partials.data_list', 
             compact('StudentInformation','Profile','Gradelvl','Discount','OtherFee','SchoolYear','StudentCategory','PaymentCategory','Transaction'
                     ,'Stud_cat_payment','Payment','MiscFee_payment','Tuitionfee_payment','School_year_id','Transaction_disc','TransactionMonthPaid'
                     ));
@@ -233,53 +232,7 @@ class StudentAccountController extends Controller
                     => $Validator->getMessageBag()]);
             }   
 
-            // if(!empty($request->months)){
-            //     // echo $request->payment.' ';
-            //     // echo $request->mo_fee.' ';
-               
-            //     foreach($request->months as $get_data){
-                    
-            //         $get_month;
-
-            //         if($get_data == 2){
-            //             $get_month = 'July';
-            //         }else if($get_data == 3){
-            //             $get_month = 'August';
-            //         }else if($get_data == 4){
-            //             $get_month = 'September';
-            //         }else if($get_data == 5){
-            //             $get_month = 'October';
-            //         }else if($get_data == 6){
-            //             $get_month = 'November';
-            //         }else if($get_data == 7){
-            //             $get_month = 'December';
-            //         }else if($get_data == 8){
-            //             $get_month = 'January';
-            //         }else if($get_data == 9){
-            //             $get_month = 'February';
-            //         }else if($get_data == 10){
-            //             $get_month = 'March';   
-            //         }
-
-                    
-            //         echo $get_month.' ';
-            //         echo $request->or_number_others.' ';
-            //         echo $request->id.' ';
-
-                    
-            //         // echo $request->payment.' ';
-            //         // echo $request->mo_fee.' ';
-            //     }
-            // }
-                    
-            // echo $request->months.' ';
-            // echo $request->or_number_others.' ';
-            // echo $request->id.' ';
-
-            // $current_bal = $request->js_current_balance;
-            // $total_current_bal = $current_bal - $request->payment;
-            // echo $total_current_bal;
-
+            
             $TransactionMonthsPaid = new TransactionMonthPaid();
             $TransactionMonthsPaid->or_no = $request->or_number_others;
             $TransactionMonthsPaid->student_id = $request->id;
@@ -301,6 +254,52 @@ class StudentAccountController extends Controller
         }
     }
 
+    public function modal_data (Request $request) 
+    {
+        $StudentInformation = NULL;
+        $Gradelvl = NULL;
+        $Profile = StudentInformation::where('id', $request->id)->first(); 
+        
+        if ($request->id)
+        {
+            $School_year_id = SchoolYear::where('status', 1)
+                ->where('current', 1)->first();
+            $StudentInformation = StudentInformation::with(['user'])->where('id', $request->id)->first();
+            $Gradelvl = GradeLevel::where('current', 1)->where('status', 1)->get();
+            $Discount = DiscountFee::where('current', 1)->where('status', 1)->get();
+            $OtherFee = OtherFee::where('current', 1)->where('status', 1)->get();  
+            $SchoolYear = SchoolYear::where('current', 1)->where('status', 1)->first();
+            $StudentCategory = StudentCategory::where('status', 1)->get();
+            
+            $PaymentCategory = PaymentCategory::with('stud_category','tuition','misc_fee')
+                ->where('status', 1)->where('current', 1)->get();
+
+            $Transaction = Transaction::with('payment_cat')->where('student_id', $request->id)
+                ->where('status', 1)->first();
+            
+        }
+
+        
+        //with existing account
+        $Payment =  \App\PaymentCategory::where('id', $Transaction->payment_category_id)->first();
+        $MiscFee_payment =  \App\MiscFee::where('id', $Payment->misc_fee_id)->first();
+        $Tuitionfee_payment =  \App\TuitionFee::where('id', $Payment->tuition_fee_id)->first();
+        $Stud_cat_payment =  \App\StudentCategory::where('id', $Payment->student_category_id)->first();
+        if($Transaction){
+            $Transaction_disc = TransactionDiscount::with('discountFee')->where('or_no', $Transaction->or_number)
+            ->get(); 
+        }     
+        else{
+            return "Save the transaction first!";
+        }  
+        return view('control_panel_finance.student_payment_account.partials.student_with_account.modal_payment',
+            compact('StudentInformation','Profile','Gradelvl','Discount','OtherFee','SchoolYear','StudentCategory',
+            'PaymentCategory','Transaction','School_year_id','Payment','MiscFee_payment','Tuitionfee_payment','Stud_cat_payment','Transaction_disc'))->render(); 
+    
+        
+                // return view('profile', array('user' => Auth::user()) );        
+    }
+
     // public function save_modal_account(Request $request){
     //     // return 'save';
     //     $rules = [
@@ -315,10 +314,6 @@ class StudentAccountController extends Controller
     
     public function print_enrollment_bill(Request $request){
 
-        // if (!$request->syid || !$request->studid || !$request->or_num || !$request->stud_status) 
-        // {
-        //     return "Invalid request"; 
-        // }
         $stud_stats = $request->stud_status;
         $StudentInformation = StudentInformation::with(['user'])->where('id', $request->studid)->first();
         $balance = $request->balance;
@@ -417,10 +412,7 @@ class StudentAccountController extends Controller
         return view('control_panel_finance.student_payment_account.partials.data_list', compact('hello'))->render();
     }
 
-    public function history(){
-        $hello = 'this is history';
-        return view('control_panel_finance.student_payment_account.partials.data_list', compact('hello'))->render();
-    }
+    
 
     
 }
