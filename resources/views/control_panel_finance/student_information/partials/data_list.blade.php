@@ -29,9 +29,9 @@
                                                 <div class="input-group-btn pull-left text-left">
 
                                                     @if(!$Transaction)                                                                 
-                                                        <a href="{{ route('finance.student_payment_account', $data->id) }}" data-id="{{ $data->id }}" class="btn btn-flat btn-primary btn-sm">
+                                                        <a href="{{ route('finance.student_payment_account') }}?c={{ encrypt($data->id) }}" data-id="{{ encrypt($data->id) }}" class="btn btn-flat btn-primary btn-sm">
                                                             Account
-                                                        </a>                                            
+                                                        </a>   
                                                     @endif
                                                     {{-- for modal --}}
                                                         {{-- <a href="#" class="js-btn_account btn btn-flat btn-primary btn-sm" data-id="{{ $data->id }}">Account</a>                                                                                                             --}}

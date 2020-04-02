@@ -18,12 +18,7 @@ class ClassSubjectsController extends Controller
             $ClassSubjectDetail = \App\ClassSubjectDetail::join('subject_details', 'subject_details.id', '=' ,'class_subject_details.subject_id')
             ->join('class_details', 'class_details.id', '=' ,'class_subject_details.class_details_id')
             ->join('faculty_informations', 'faculty_informations.id', '=' ,'class_subject_details.faculty_id')
-            // ->join('rooms', 'rooms.id', '=' ,'class_subject_details.room_id')
-
-            // class_details.room_id,
-                // rooms.room_code,
-                // rooms.room_description
-            ->selectRaw("
+           ->selectRaw("
                 class_subject_details.id,
                 class_details.school_year_id,
                 class_details.grade_level,
@@ -39,7 +34,6 @@ class ClassSubjectsController extends Controller
             ->where('class_subject_details.class_details_id', $class_id)
             ->where('class_subject_details.status', 1)
             ->where('class_subject_details.sem', 1)
-            // ->orderBy('class_subject_details.class_time_from', 'ASC');
             ->orderBy('class_subject_details.class_subject_order', 'ASC');
         }
         else 
@@ -47,11 +41,6 @@ class ClassSubjectsController extends Controller
             $ClassSubjectDetail = \App\ClassSubjectDetail::join('subject_details', 'subject_details.id', '=' ,'class_subject_details.subject_id')
             ->join('class_details', 'class_details.id', '=' ,'class_subject_details.class_details_id')
             ->join('faculty_informations', 'faculty_informations.id', '=' ,'class_subject_details.faculty_id')
-            // ->join('rooms', 'rooms.id', '=' ,'class_subject_details.room_id')
-
-            // class_details.room_id,
-                // rooms.room_code,
-                // rooms.room_description
             ->selectRaw("
                 class_subject_details.id,
                 class_details.school_year_id,
@@ -68,18 +57,12 @@ class ClassSubjectsController extends Controller
             ->where('class_subject_details.class_details_id', $class_id)
             ->where('class_subject_details.status', 1)
             ->where('class_subject_details.sem', 2)
-            // ->orderBy('class_subject_details.class_time_from', 'ASC');
             ->orderBy('class_subject_details.class_subject_order', 'ASC');
         }
 
         $ClassSubjectDetail1 = \App\ClassSubjectDetail::join('subject_details', 'subject_details.id', '=' ,'class_subject_details.subject_id')
             ->join('class_details', 'class_details.id', '=' ,'class_subject_details.class_details_id')
             ->join('faculty_informations', 'faculty_informations.id', '=' ,'class_subject_details.faculty_id')
-            // ->join('rooms', 'rooms.id', '=' ,'class_subject_details.room_id')
-
-            // class_details.room_id,
-                // rooms.room_code,
-                // rooms.room_description
             ->selectRaw("
                 class_subject_details.id,
                 class_details.school_year_id,
@@ -96,7 +79,6 @@ class ClassSubjectsController extends Controller
             ->where('class_subject_details.class_details_id', $class_id)
             ->where('class_subject_details.status', 1)
             ->where('class_subject_details.sem', 1)
-            // ->orderBy('class_subject_details.class_time_from', 'ASC');
             ->orderBy('class_subject_details.class_subject_order', 'ASC');
         
         
@@ -125,7 +107,8 @@ class ClassSubjectsController extends Controller
             ->where('section_details.status', 1)
             ->first();
 
-            return view('control_panel_registrar.class_subjects.partials.data_list', compact('ClassSubjectDetail','Semester','ClassSubjectDetail1','ClassDetail'))->render();
+            return view('control_panel_registrar.class_subjects.partials.data_list',
+             compact('ClassSubjectDetail','Semester','ClassSubjectDetail1','ClassDetail'))->render();
         }
         else 
         {
@@ -152,7 +135,8 @@ class ClassSubjectsController extends Controller
 
         $ClassSubjectDetail = $ClassSubjectDetail->paginate(10);
         $ClassSubjectDetail1 = $ClassSubjectDetail1->paginate(10);
-        return view('control_panel_registrar.class_subjects.index', compact('ClassSubjectDetail', 'class_id', 'ClassDetail','Semester','ClassSubjectDetail1'));
+        return view('control_panel_registrar.class_subjects.index',
+         compact('ClassSubjectDetail', 'class_id', 'ClassDetail','Semester','ClassSubjectDetail1'));
     }
     public function modal_data (Request $request) 
     {

@@ -13,7 +13,7 @@
             <div class="modal-body">
                 @include('control_panel_finance.student_payment_account.partials.data_student')    
             <hr>
-                @include('control_panel_finance.student_payment_account.partials.data_account') 
+                @include('control_panel_finance.student_payment_account.partials.student_with_account.data_account') 
                      
         @else            
             @if ($StudentInformation)

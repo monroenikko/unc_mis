@@ -20,21 +20,55 @@ use App\TransactionDiscount;
 
 class StudentAccountController extends Controller
 {
-    public function index(Request $request, $stud_id){
-
+    public function index(Request $request){
+        $stud_id = \Crypt::decrypt($request->c);
         $Profile = StudentInformation::where('id', $stud_id)->first(); 
         $School_year_id = SchoolYear::where('status', 1)
                 ->where('current', 1)->first();
 
         $StudentInformation = NULL;
         if($request->ajax()){
-            // $StudentInformation = $StudentInformation->paginate(10);
+
+            $Gradelvl = GradeLevel::where('current', 1)->where('status', 1)->get();
+            $Discount = DiscountFee::where('current', 1)->where('status', 1)->get();
+            $OtherFee = OtherFee::where('current', 1)->where('status', 1)->get();  
+            $SchoolYear = SchoolYear::where('current', 1)->where('status', 1)->first();
+            $StudentCategory = StudentCategory::where('status', 1)->get();        
+            $PaymentCategory = PaymentCategory::with('stud_category','tuition','misc_fee')
+                ->where('status', 1)->where('current', 1)->get();
+            $Transaction = Transaction::with('payment_cat')->where('student_id', $stud_id)
+                ->where('status', 1)->first();
+            $StudentInformation = StudentInformation::with(['user'])
+                ->where('id', $stud_id)
+                ->first();
+
+            if($Transaction){
+            
+                $Payment =  PaymentCategory::where('id', $Transaction->payment_category_id)->first();
+                $MiscFee_payment =  MiscFee::where('id', $Payment->misc_fee_id)->first();
+                $Tuitionfee_payment =  TuitionFee::where('id', $Payment->tuition_fee_id)->first();
+                $Stud_cat_payment =  StudentCategory::where('id', $Payment->student_category_id)->first();
+
+                $TransactionMonthPaid = TransactionMonthPaid::where('student_id', $stud_id)
+                                        ->where('school_year_id', $SchoolYear->id)->orderBY('id', 'DESC')->get();
+                
+                if($Transaction){
+                    $Transaction_disc = TransactionDiscount::with('discountFee')->where('or_no', $Transaction->or_number)
+                    ->get(); 
+                }     
+                else{
+                    return "Save the transaction first!";
+                }  
+            }
 
             $StudentInformation = StudentInformation::with(['user'])
             ->where('id', $stud_id)
             ->first();
 
-            return view('control_panel_finance.student_payment_account.partials.data_list', compact('StudentInformation'))->render();
+            return view('control_panel_finance.student_payment_account.partials.student_with_account.data_others', 
+            compact('StudentInformation','Profile','Gradelvl','Discount','OtherFee','SchoolYear','StudentCategory','PaymentCategory','Transaction'
+                    ,'Stud_cat_payment','Payment','MiscFee_payment','Tuitionfee_payment','School_year_id','Transaction_disc','TransactionMonthPaid'
+                    ));
         }
 
         $Gradelvl = GradeLevel::where('current', 1)->where('status', 1)->get();
@@ -59,13 +93,7 @@ class StudentAccountController extends Controller
 
             $TransactionMonthPaid = TransactionMonthPaid::where('student_id', $stud_id)
                                     ->where('school_year_id', $SchoolYear->id)->orderBY('id', 'DESC')->get();
-
-                // $PaymentCategory = PaymentCategory::with('stud_category','tuition','misc_fee')
-                //     ->where('status', 1)
-                //     ->where('current', 1)
-                //     ->where('id', $TransactionMonthPaid->payment_category_id)
-                //     ->first();
-
+               
             if($Transaction){
                 $Transaction_disc = TransactionDiscount::with('discountFee')->where('or_no', $Transaction->or_number)
                 ->get(); 
@@ -382,6 +410,11 @@ class StudentAccountController extends Controller
                     compact('Transaction','PaymentCategory','Transaction_disc', 'stud_stats','TransactionMonthPaid','balance'));
             $pdf->setPaper('Letter', 'portrait');
             return $pdf->stream();
+    }
+     
+    public function history(){
+        $hello = 'this is history';
+        return view('control_panel_finance.student_payment_account.partials.data_list', compact('hello'))->render();
     }
 
     
