@@ -24,6 +24,6 @@
             <div class="modal-body">
                 @include('control_panel_finance.student_payment_account.partials.data_student')         
             <hr>               
-                @include('control_panel_finance.student_payment_account.partials.data_enroll')
+                @include('control_panel_finance.student_payment_account.partials.student_enroll.data_enroll')
         @endif
     </form>

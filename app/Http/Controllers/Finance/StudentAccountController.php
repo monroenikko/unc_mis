@@ -37,7 +37,7 @@ class StudentAccountController extends Controller
             $PaymentCategory = PaymentCategory::with('stud_category','tuition','misc_fee')
                 ->where('status', 1)->where('current', 1)->get();
             $Transaction = Transaction::with('payment_cat')->where('student_id', $stud_id)
-                ->where('status', 1)->first();
+                ->where('status', 1)->where('school_year_id', $SchoolYear->id )->first();
             $StudentInformation = StudentInformation::with(['user'])
                 ->where('id', $stud_id)
                 ->first();
@@ -77,8 +77,9 @@ class StudentAccountController extends Controller
         $StudentCategory = StudentCategory::where('status', 1)->get();        
         $PaymentCategory = PaymentCategory::with('stud_category','tuition','misc_fee')
             ->where('status', 1)->where('current', 1)->get();
+
         $Transaction = Transaction::with('payment_cat')->where('student_id', $stud_id)
-            ->where('status', 1)->first();
+            ->where('status', 1)->where('school_year_id', $SchoolYear->id)->first();
         $StudentInformation = StudentInformation::with(['user'])
             ->where('id', $stud_id)
             ->first();
@@ -252,6 +253,10 @@ class StudentAccountController extends Controller
             
             return response()->json(['res_code' => 0, 'res_msg' => 'Data successfully saved monthly account.']);
         }
+    }
+
+    public function save_others(){
+        return response()->json(['res_code' => 0, 'res_msg' => 'Data successfully saved.']);
     }
 
     public function modal_data (Request $request) 

@@ -6,7 +6,7 @@
 
 @section ('content')
     <div class="box box-danger">
-        <div class="box-header with-border">
+        <div class="box-header">
             
             <form id="js-form_search">
                 {{ csrf_field() }}
@@ -19,7 +19,9 @@
                 </button> --}}
             </form>
         </div>
-        <div class="overlay hidden" id="js-loader-overlay"><i class="fa fa-refresh fa-spin"></i></div>
+        <div class="overlay hidden" id="js-loader-overlay">
+            <i class="fa fa-refresh fa-spin"></i>
+        </div>
         <div class="box-body">
             <div class="js-data-container">                
                 @include('control_panel_finance.student_payment_account.partials.data_list')                       
@@ -35,7 +37,7 @@
         function fetch_data () {
             var formData = new FormData($('#js-form_search')[0]);
             formData.append('page', page);
-            loader_overlay();
+            // loader_overlay();
             $.ajax({
                 url : "{{ route('finance.student_payment_account') }}",
                 type : 'POST',
@@ -49,7 +51,9 @@
             });
         }
 
+        $('.select2').select2();
         // var page = 1;
+        get_data();
         function get_data(){
             total = 0;
             disc_total = 0;
@@ -57,6 +61,7 @@
             misc_total = 0;
             downpayment_total=0;
             less_total = 0;
+            
             function currencyFormat(num) {
                 return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
             }
@@ -104,17 +109,12 @@
                     });
                 });
                 $.each(disc, function (index, value) {
-                    
                     disc_total += parseFloat(value.fee);
-
                     $item = ''
-                        + value.type +' '+ value.fee + '<br/>'
-                        ;
-
+                        + value.type +' '+ value.fee + '<br/>';
                     $('#disc_amt').append($item);
                 });
-                // $( "div" ).text( str );
-                // alert('str')
+                
                 total_fees();
             })
             .change();
@@ -123,32 +123,30 @@
                 less_total= disc_total + downpayment_total;
                 total = tuition_total + misc_total - less_total;
                 $('#total_balance').text(currencyFormat(total));           
-            } 
-
+            }
             
             current_balance();
-            $('#or_number_others').keyup(function() {
-                var or = $('#or_number_others').val();
-                $('#js-or_num_others').text(or);
-                $('.js-btn_print').data('or_num', or);
-                $('#js-btn-save-monthly').data('or_num', or);
+            // $('#or_number_payment').keyup(function() {
+            //     var or = $('#or_number_payment').val();
+            //     $('#js-or_num_payment').text(or);
+            //     $('.js-btn_print').data('or_num', or);
+            //     $('#js-btn-save-monthly').data('or_num', or);
 
-                // alert(or);
-            }); 
+            //     // alert(or);
+            // }); 
 
-            $('#payment').keyup(function() {
+            $('#payment_bill').keyup(function() {
                 function currencyFormat(num) {
                     return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
                 }
-                $('#js-monthly_fee_others').text(currencyFormat(parseFloat($('#payment').val())));
-                // downpayment_total = parseFloat($('#payment').val());
-                // total_fees();
+                $('#js-monthly_fee_payment').text(currencyFormat(parseFloat($('#payment_bill').val())));
+                // $('#js-monthly_fee_payment').text($('#payment').val());
                 current_balance();
-            });   
+            });
 
             $('.monthly_select').on('change', function() {
                 var mo = $('.monthly_select').val();
-                $('#js-month_others').text(mo);
+                $('#js-month_payment').text(mo);
             });
 
             function current_balance(){
@@ -161,13 +159,10 @@
 
             $('.select2').select2();
         }
-       
-
         
 
         
         $(function () {
-
             $('body').on('click', '.js-history', function (e) {
                 e.preventDefault();
                 // loader_overlay();                

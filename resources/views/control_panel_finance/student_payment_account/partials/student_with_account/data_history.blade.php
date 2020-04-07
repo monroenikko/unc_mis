@@ -1,115 +1,84 @@
 <div class="col-12">
     
-    <h3>Paid History</h3>
+    <h3>Payment History</h3>
         
-    @foreach ($TransactionMonthPaid as $key => $item)
-         
-        <div class="box box-danger">
-            <div class="box-header">
-                <div class="row">    
-                    <div class="col-lg-6">
-                        <h3 class="box-title">
-                            OR Number: {{ $item->or_no }}
-                        </h3>
-                    </div>
-                    <div class="col-lg-6" align="right">{{ date_format(date_create($item->created_at), 'F d, Y H:i:s') }}</div>
-                </div>
-            </div>
-            <!-- /.box-header -->
-                                      
-                <div class="box-body no-padding">
-                    <table class="table table-striped table-bordered">
-                        <tbody>
-                            <tr>
-                                <th style="width: 10px">#</th>
-                                <th style="width: 50%">Description</th>
-                                <th>Fee</th>
-                            </tr>
-                            
-                            <tr>
-                                <td>1.</td>
-                                <td>Payment</td>
-                                <td>
-                                    {{ $item->payment }}
-                                </td>                                              
-                            </tr>
-                            <tr>
-                                <td>2.</td>
-                                <td>Total Balance</td>
-                                <td>
-                                    {{ $Transaction->balance }}
-                                </td>                                             
-                            </tr>
-                            <tr>
-                                <td>3.</td>
-                                <td>Remarks</td>
-                                <td>                                                
-                                    <span class="label label-success">Paid</span>
-                                </td>                                              
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-           
-            <!-- /.box-body -->
-        </div>                    
-    @endforeach
-        <div class="box box-danger">
-            <div class="box-header">  
-                <div class="row">                                        
-                    <div class="col-lg-6">
-                        <h3 class="box-title">
-                            OR Number: {{ $Transaction->or_number }}
-                        </h3>
-                    </div>
-                    <div class="col-lg-6" align="right">{{ date_format(date_create($Transaction->created_at), 'F d, Y H:i:s') }}</div>
-                </div>  
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body no-padding">
-                <table class="table table-striped table-bordered">
-                    <tbody>
-                        <tr>
-                            <th style="width: 10px">#</th>
-                            <th style="width: 50%">Description</th>
-                            <th>Fee</th>
-                        </tr>
-                        <tr>
-                            <td>1.</td>
-                            <td>Discount</td>
-                            <td>
-                                @if($Transaction_disc)
-                                    @foreach($Transaction_disc as $data)
-                                        {{$data->discountFee->disc_type}} {{number_format($data->discountFee->disc_amt,2)}}<br/>
-                                    @endforeach
-                                @endif
-                            </td>                                                
-                        </tr>
-                        <tr>
-                            <td>2.</td>
-                            <td>Downpayment</td>
-                            <td>
-                                {{ number_format($Transaction->downpayment, 2) }}
-                            </td>                                              
-                        </tr>
-                        <tr>
-                            <td>3.</td>
-                            <td>Total Balance</td>
-                            <td>
-                                {{ number_format($Transaction->balance, 2) }}
-                            </td>                                             
-                        </tr>
-                        <tr>
-                            <td>4.</td>
-                            <td>Remarks</td>
-                            <td>                                                
-                                <span class="label label-success">Paid</span>
-                            </td>                                              
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.box-body -->
-        </div>
+    <table class="table table-bordered table-hover" style="margin-top: 20px">
+        <thead>
+            <tr>
+                <th>OR Number</th>
+                <th>For the Month</th>
+                <th>Payment Fee</th>
+                <th>Remarks</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        @if(!$TransactionMonthPaid)
+            @foreach ($TransactionMonthPaid as $key => $item)
+                <tr>
+                    <td>{{ $item->or_no }}</td>
+                    <td>{{ $item->month_paid }}</td>
+                    <td>{{ number_format($item->payment, 2)}}</td>
+                    <td><span class="label label-success">Paid</span></td>
+                    <td>{{ date_format(date_create($item->created_at), 'F d, Y H:i:s') }}</td>
+                </tr>
+            @endforeach
+        @else
+        <th colspan="5" style="text-align: center">No payment history yet.</th>
+        @endif
+    </table>
+
+    <h3>First Payment</h3>
+    <table class="table table-bordered table-hover" style="margin-top: 20px">
+        <thead>
+            <tr>
+                <th>OR Number</th>
+                <th>Discount</th>
+                <th>Downpayment</th>
+                <th>Total Balance</th>
+                <th>Remarks</th>
+                <th>Date</th>
+            </tr>
+        </thead>        
+        <tr>
+            <td>{{ $Transaction->or_number }}</td>
+            <td>
+                @if($Transaction_disc)
+                    @foreach($Transaction_disc as $data)
+                        {{$data->discountFee->disc_type}} {{number_format($data->discountFee->disc_amt,2)}}<br/>
+                    @endforeach
+                @endif
+            </td>
+            <td>{{ number_format($Transaction->downpayment, 2)}}</td>
+            <td>{{ number_format($Transaction->balance, 2) }}</td>
+            <td><span class="label label-success">Paid</span></td>
+            <td>{{ date_format(date_create($Transaction->created_at), 'F d, Y H:i:s') }}</td>
+        </tr>       
+    </table>
+
+    <h3>Other Payment</h3>
+    <table class="table table-bordered table-hover" style="margin-top: 20px">
+        <thead>
+            <tr>
+                <th>OR Number</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>total number</th>
+                <th>Remarks</th>
+                <th>Date</th>
+            </tr>
+        </thead>        
+        <tr>
+            <td></td>
+            <td>
+               
+            </td>
+            <td></td>
+            <td></td>
+            <td><span class="label label-success">Paid</span></td>
+            <td></td>
+        </tr>       
+    </table>
+    
+    
 
 </div>   
