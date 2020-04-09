@@ -11,7 +11,7 @@
                 <th>Date</th>
             </tr>
         </thead>
-        @if(!$TransactionMonthPaid)
+        @if($TransactionMonthPaid)
             @foreach ($TransactionMonthPaid as $key => $item)
                 <tr>
                     <td>{{ $item->or_no }}</td>
@@ -22,7 +22,7 @@
                 </tr>
             @endforeach
         @else
-        <th colspan="5" style="text-align: center">No payment history yet.</th>
+            <th colspan="5" style="text-align: center">No payment history yet.</th>
         @endif
     </table>
 

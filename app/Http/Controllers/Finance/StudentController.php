@@ -227,67 +227,21 @@ class StudentController extends Controller
                     => 'Please fill all required fields.', 'res_error_msg' 
                     => $Validator->getMessageBag()]);
             }   
-
-            // if(!empty($request->months)){
-            //     // echo $request->payment.' ';
-            //     // echo $request->mo_fee.' ';
-               
-            //     foreach($request->months as $get_data){
-                    
-            //         $get_month;
-
-            //         if($get_data == 2){
-            //             $get_month = 'July';
-            //         }else if($get_data == 3){
-            //             $get_month = 'August';
-            //         }else if($get_data == 4){
-            //             $get_month = 'September';
-            //         }else if($get_data == 5){
-            //             $get_month = 'October';
-            //         }else if($get_data == 6){
-            //             $get_month = 'November';
-            //         }else if($get_data == 7){
-            //             $get_month = 'December';
-            //         }else if($get_data == 8){
-            //             $get_month = 'January';
-            //         }else if($get_data == 9){
-            //             $get_month = 'February';
-            //         }else if($get_data == 10){
-            //             $get_month = 'March';   
-            //         }
-
-                    
-            //         echo $get_month.' ';
-            //         echo $request->or_number_others.' ';
-            //         echo $request->id.' ';
-
-                    
-            //         // echo $request->payment.' ';
-            //         // echo $request->mo_fee.' ';
-            //     }
-            // }
-                    
-            // echo $request->months.' ';
-            // echo $request->or_number_others.' ';
-            // echo $request->id.' ';
-
-            // $current_bal = $request->js_current_balance;
-            // $total_current_bal = $current_bal - $request->payment;
-            // echo $total_current_bal;
+          
 
             $TransactionMonthsPaid = new TransactionMonthPaid();
-            $TransactionMonthsPaid->or_no = $request->or_number_others;
+            $TransactionMonthsPaid->or_no = $request->or_number_payment;
             $TransactionMonthsPaid->student_id = $request->id;
             $TransactionMonthsPaid->month_paid = $request->months;
             $TransactionMonthsPaid->school_year_id = $School_year_id->id; //not decided
-            $TransactionMonthsPaid->payment = $request->payment;
+            $TransactionMonthsPaid->payment = $request->payment_bill;
             $TransactionMonthsPaid->save();
 
             $Transaction = \App\Transaction::where('school_year_id', $School_year_id->id)
                     ->where('student_id', $request->id)->first();
 
             $current_bal = $request->js_current_balance;
-            $total_current_bal = $current_bal - $request->payment;
+            $total_current_bal = $current_bal - $request->payment_bill;
 
             $Transaction->balance = $total_current_bal;
             $Transaction->save();

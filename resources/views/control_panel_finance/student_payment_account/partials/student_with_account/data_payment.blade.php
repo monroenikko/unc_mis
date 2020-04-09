@@ -1,13 +1,10 @@
-<form id="js-form_payment_transaction">
-    {{ csrf_field() }}
-                    
-    @if ($StudentInformation)
-        <input type="hidden" name="id" value="{{ $StudentInformation->id }}">
-        <input type="hidden" id='stud_status' name="stud_status" value="1">
-        <input type="hidden" name="no_months_paid" value="{{$Transaction->no_month_paid}}" />                    
-    @endif
-    
-    <div class="modal-body">                                        
+@if ($StudentInformation)
+    <input type="hidden" name="id" value="{{ $StudentInformation->id }}">
+    <input type="hidden" id='stud_status' name="stud_status" value="1">
+    <input type="hidden" name="no_months_paid" value="{{$Transaction->no_month_paid}}" />                    
+@endif
+
+<div class="modal-body">                                        
         @include('control_panel_finance.student_payment_account.partials.student_with_account.data_status')
         <hr>
         <div class="row">
@@ -98,8 +95,7 @@
                 </div>                        
             </div>
         </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default btn-flat btn-close" data-dismiss="modal">Close</button>
-    </div>
-</form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default btn-flat btn-close" data-dismiss="modal">Close</button>
+</div>
