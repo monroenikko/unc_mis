@@ -220,8 +220,8 @@ class StudentAccountController extends Controller
 
             $rules = [
                 'months' => 'required',
-                'or_number_others' => 'required',
-                'payment' => 'required',     
+                'or_number_payment' => 'required',
+                'payment_bill' => 'required',     
             ];
 
             $Validator = \Validator($request->all(), $rules);
@@ -235,11 +235,11 @@ class StudentAccountController extends Controller
 
             
             $TransactionMonthsPaid = new TransactionMonthPaid();
-            $TransactionMonthsPaid->or_no = $request->or_number_others;
+            $TransactionMonthsPaid->or_no = $request->or_number_payment;
             $TransactionMonthsPaid->student_id = $request->id;
             $TransactionMonthsPaid->month_paid = $request->months;
             $TransactionMonthsPaid->school_year_id = $School_year_id->id; //not decided
-            $TransactionMonthsPaid->payment = $request->payment;
+            $TransactionMonthsPaid->payment = $request->payment_bill;
             $TransactionMonthsPaid->save();
 
             $Transaction = \App\Transaction::where('school_year_id', $School_year_id->id)

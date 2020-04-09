@@ -1,9 +1,8 @@
-<div class="col-12">
-    
+<div class="col-12">    
     <h3>Payment History</h3>
         
-    <table class="table table-bordered table-hover" style="margin-top: 20px">
-        <thead>
+    <table class="table table-bordered table-hover table-striped" style="margin-top: 20px">
+        <thead class="thead-dark">
             <tr>
                 <th>OR Number</th>
                 <th>For the Month</th>
@@ -28,7 +27,7 @@
     </table>
 
     <h3>First Payment</h3>
-    <table class="table table-bordered table-hover" style="margin-top: 20px">
+    <table class="table table-bordered table-hover table-striped" style="margin-top: 20px">
         <thead>
             <tr>
                 <th>OR Number</th>
@@ -54,31 +53,5 @@
             <td>{{ date_format(date_create($Transaction->created_at), 'F d, Y H:i:s') }}</td>
         </tr>       
     </table>
-
-    <h3>Other Payment</h3>
-    <table class="table table-bordered table-hover" style="margin-top: 20px">
-        <thead>
-            <tr>
-                <th>OR Number</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>total number</th>
-                <th>Remarks</th>
-                <th>Date</th>
-            </tr>
-        </thead>        
-        <tr>
-            <td></td>
-            <td>
-               
-            </td>
-            <td></td>
-            <td></td>
-            <td><span class="label label-success">Paid</span></td>
-            <td></td>
-        </tr>       
-    </table>
-    
-    
 
 </div>   

@@ -215,8 +215,8 @@ class StudentController extends Controller
 
             $rules = [
                 'months' => 'required',
-                'or_number_others' => 'required',
-                'payment' => 'required',     
+                'or_number_payment' => 'required',
+                'payment_bill' => 'required',       
             ];
 
             $Validator = \Validator($request->all(), $rules);

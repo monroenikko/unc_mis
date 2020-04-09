@@ -20,7 +20,7 @@
                         <div class=""></div>
                         <div class="form-group">
                             <label>Month(s):</label>
-                            <select class="form-control  monthly_select" name="months" data-placeholder="Select month(s)" style="width: 100%;">
+                            <select class="form-control monthly_select" name="months" data-placeholder="Select month(s)" style="width: 100%;">
                                 <option value="">Select months</option>
                                 <option value="July">July</option>
                                 <option value="August">August</option>
@@ -43,7 +43,6 @@
                     
                         <div class="form-group">
                             <label for="">Payment </label>
-                            <input type="hidden" name="mo_fee" value="{{ number_format($Transaction->monthly_fee,2)}}" />
                             <input placeholder="0.00" type="number" class="form-control" name="payment_bill" id="payment_bill" value="{{ $Transaction->monthly_fee }}">
                             <div class="help-block text-red text-left" id="js-payment_bill"></div>
                         </div>

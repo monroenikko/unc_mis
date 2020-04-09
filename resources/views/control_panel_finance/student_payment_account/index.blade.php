@@ -6,17 +6,9 @@
 
 @section ('content')
     <div class="box box-danger">
-        <div class="box-header">
-            
+        <div class="box-header">            
             <form id="js-form_search">
                 {{ csrf_field() }}
-                {{-- <div id="js-form_search" class="form-group col-sm-12 col-md-3" style="padding-left:0;padding-right:0">
-                    <input type="text" class="form-control" name="search">
-                </div>                
-                <button type="submit" class="btn btn-flat btn-success">Search</button>
-                <button type="button" class="pull-right btn btn-flat btn-danger btn-sm" id="js-button-add">
-                    <i class="fa fa-plus"></i> Add
-                </button> --}}
             </form>
         </div>
         <div class="overlay hidden" id="js-loader-overlay">
@@ -170,7 +162,6 @@
 
             $('body').on('click', '#js-button-payment', function (e) {
                 e.preventDefault();
-                 {{-- loader_overlay();  --}}
                 var id = $(this).data('id');
                 $.ajax({
                     url : "{{ route('finance.student_payment_account.modal') }}",
@@ -196,7 +187,6 @@
 
             $('body').on('click', '.js-button-payment', function (e) {
                 e.preventDefault();
-                 {{-- loader_overlay();  --}}
                 var id = $(this).data('id');
                 $.ajax({
                     url : "{{ route('finance.student_account.modal_account') }}",

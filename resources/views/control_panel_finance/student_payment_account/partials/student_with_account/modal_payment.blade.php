@@ -28,7 +28,7 @@
                     </div>
                     
                     <div class="tab-pane" id="other">
-                        {{-- @include('control_panel_finance.student_payment_account.partials.data_others') --}}
+                        @include('control_panel_finance.student_payment_account.partials.data_others')
                     </div>
                 </div>
             </div>

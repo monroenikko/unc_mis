@@ -1,6 +1,6 @@
                     
        
-    <form id="js-form_payment_transaction">
+    {{-- <form id="js-form_payment_transaction"> --}}
         {{ csrf_field() }} 
 
         @if($Transaction)                  
@@ -26,4 +26,4 @@
             <hr>               
                 @include('control_panel_finance.student_payment_account.partials.student_enroll.data_enroll')
         @endif
-    </form>
+    {{-- </form> --}}

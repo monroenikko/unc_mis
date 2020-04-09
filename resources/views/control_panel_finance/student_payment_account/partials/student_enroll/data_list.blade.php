@@ -92,12 +92,7 @@
                                 ₱ <span id="total_balance">0</span>
                             </td>
                         </tr>
-                        {{-- <tr>
-                            <td style="width:140px">Total Bill </td>
-                            <td align="right">
-                                ₱ <span id="total_costt2">0</span>
-                            </td>
-                        </tr>  --}}
+                        
                     </tr>
                 </tbody>
 
