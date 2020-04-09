@@ -329,38 +329,7 @@
                 });
             });
 
-            // $('body').on('submit', '#js-form_payment_account', function (e) {
-            //     e.preventDefault();
-            //     var formData = new FormData($(this)[0]);
-            //     $.ajax({
-            //         url         : "{{ route('finance.student_account.save_modal_account') }}",
-            //         type        : 'POST',
-            //         data        : formData,
-            //         processData : false,
-            //         contentType : false,
-            //         success     : function (res) {
-            //             $('.help-block').html('');
-            //             if (res.res_code == 1)
-            //             {
-            //                 for (var err in res.res_error_msg)
-            //                 {
-            //                     $('#js-' + err).html('<code> '+ res.res_error_msg[err] +' </code>');
-            //                 }
-            //             }
-            //             else
-            //             {
-            //                 // $('.js-modal_holder .modal').modal('hide');
-            //                 show_toast_alert({
-            //                     heading : 'Success',
-            //                     message : res.res_msg,
-            //                     type    : 'success'
-            //                 });
-            //                 // document.getElementById("js-form_payment_transaction").reset();
-            //                 fetch_data();
-            //             }
-            //         }
-            //     });
-            // });
+        
 
             
 
