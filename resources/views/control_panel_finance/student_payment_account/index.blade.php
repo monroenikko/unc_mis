@@ -118,14 +118,15 @@
             }
             
             current_balance();
-            // $('#or_number_payment').keyup(function() {
-            //     var or = $('#or_number_payment').val();
-            //     $('#js-or_num_payment').text(or);
-            //     $('.js-btn_print').data('or_num', or);
-            //     $('#js-btn-save-monthly').data('or_num', or);
+            
+            $('#or_number_payment').keyup(function() {
+                var or = $('#or_number_payment').val();
+                $('#js-or_num_payment').text(or);
+                $('.js-btn_print').data('or_num', or);
+                $('#js-btn-save-monthly').data('or_num', or);
 
-            //     // alert(or);
-            // }); 
+                // alert(or);
+            }); 
 
             $('#payment_bill').keyup(function() {
                 function currencyFormat(num) {
@@ -151,15 +152,97 @@
 
             $('.select2').select2();
         }
-        
+
+        getOthers();
+
+        function getOthers()
+        {
+            // $('#item-qty-input').keyup(function() {
+            //     $('.item-qty').text($('#item-qty-input').val());
+            // });
+            $('.js-btnRemove').on('click', function(e){
+                e.preventDefault();
+                alert('remove');
+            });
+
+            $('#or_number_others').keyup(function() {
+                var or = $('#or_number_others').val();
+                $('#js-or_num_others').text(or);
+                $('.js-btn_print').data('or_num', or);
+                $('#js-btn-save').data('or_num', or);
+                // alert(or);
+            });
+
+            $('.js-btnAdd').on('click', function(){
+                
+                if($(this).closest('tr').find('.item-qty').val() == '' || $(this).closest('tr').find('.item-qty').val() < 0){
+                    alert('empty');
+                }else{
+                    
+                    function currencyFormat(num) {
+                        return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+                    }
+                    var currentRow=$(this).closest("tr");
+                    var col1 = currentRow.find(".item-description").html();
+                    var col2 = $(this).closest('tr').find('.item-qty').val();
+
+                    var price = currentRow.find(".item-price").html();
+                    var item_id = currentRow.find(".item-id").html();
+
+                    var id_qty = item_id+'.'+col2;
+                    var total = (col2 * price);
+                   
+                    var action = '<button id="btnremove" class="btn btn-sm btn-flat btn-danger js-btnRemove"><i class="far fa-trash-alt"></i></button>';
+                   
+                    var input_description = '<input type="hidden" name="id_qty[]" class="selected_description" value='+id_qty+'>';
+                    
+                    var row = $(this).closest("tr").html();
+                    $("#others_result tbody").append("<tr><td>" + col1 + "</td><td class='quantity' style='text-align: center'> " + col2 + "</td><td class='inputed_price' style='text-align: right'><span class='total_price' style='display:none'>" +total+ "</span>" + currencyFormat(total) + "</td><td  style='text-align: center'>"+action+" " +input_description+"</td></tr>");
+                    
+                    $('table thead th').each(function(i) {
+                        calculateColumn(i);
+                    });
+                }
+                
+            });
+
+            $('#others_result tbody').on('click', '#btnremove', function(e){
+                alertify.confirm('a callback will be invoked on cancel.').set('oncancel', function(closeEvent){ alertify.error('Cancel');} );
+                $(this).closest('tr').remove()
+                // alert('hello');
+                $('table thead th').each(function(i) {
+                    calculateColumn(i);
+                });
+            });
+
+            $("#others_item tr td").on("click", function() {
+                var row = $(this).closest("tr").html();
+                $("#table2").append("<tr>" + row + "</tr>");
+            });
+
+            // $('.js-btnRemove').on("click", "#others_result tr td", function() {
+            //     $(this).parent().remove();
+            // });
+            
+        }
+
+        function calculateColumn(index) {
+             var total = 0;
+             $('table tr').each(function() {
+                 var value = parseInt($('.total_price', this).eq(index).text());
+                 if (!isNaN(value)) {
+                     total += value;
+                 }
+             });
+             function currencyFormat(num) {
+                 return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+             }
+             $('table tfoot #total').eq(index).text(currencyFormat(total));
+         }
+    
 
         
         $(function () {
-            $('body').on('click', '.js-history', function (e) {
-                e.preventDefault();
-                // loader_overlay();                
-            });
-
             $('body').on('click', '#js-button-payment', function (e) {
                 e.preventDefault();
                 var id = $(this).data('id');
@@ -176,6 +259,15 @@
                                 autoclose: true
                             })  
                             get_data();
+                            getOthers();
+                            
+                            $(document).ready(function() {
+                                $('table thead th').each(function(i) {
+                                    calculateColumn(i);
+                                });
+                            });
+
+                            
                         });;
                     }
                 });
@@ -284,7 +376,41 @@
                 e.preventDefault();
                 var formData = new FormData($(this)[0]);
                 $.ajax({
-                    url         : "{{ route('finance.student_account.save_data') }}",
+                    url         : "{{ route('finance.student_payment_account.save_data') }}",
+                    type        : 'POST',
+                    data        : formData,
+                    processData : false,
+                    contentType : false,
+                    success     : function (res) {
+                        $('.help-block').html('');
+                        if (res.res_code == 1)
+                        {
+                            for (var err in res.res_error_msg)
+                            {
+                                $('#js-' + err).html('<code> '+ res.res_error_msg[err] +' </code>');
+                            }
+                        }
+                        else
+                        {
+                            // $('.js-modal_holder .modal').modal('hide');
+                            show_toast_alert({
+                                heading : 'Success',
+                                message : res.res_msg,
+                                type    : 'success'
+                            });
+
+                            fetch_data();
+                        }
+                    }
+                });
+            });
+
+            $('body').on('submit', '#js-others_item', function (e) {
+                e.preventDefault();
+                
+                var formData = new FormData($(this)[0]);
+                $.ajax({
+                    url         : "{{ route('finance.student_payment_account.save_others') }}",
                     type        : 'POST',
                     data        : formData,
                     processData : false,

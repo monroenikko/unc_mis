@@ -4,14 +4,14 @@
     <table class="table table-bordered table-hover table-striped" style="margin-top: 20px">
         <thead class="thead-dark">
             <tr>
-                <th>OR Number</th>
-                <th>For the Month</th>
-                <th>Payment Fee</th>
-                <th>Remarks</th>
-                <th>Date</th>
+                <th  style="width: 20%">OR Number</th>
+                <th  style="width: 20%">For the Month</th>
+                <th  style="width: 20%">Payment Fee</th>
+                <th  style="width: 20%">Remarks</th>
+                <th  style="width: 20%">Date</th>
             </tr>
         </thead>
-        @if($TransactionMonthPaid)
+        @if($Account)
             @foreach ($TransactionMonthPaid as $key => $item)
                 <tr>
                     <td>{{ $item->or_no }}</td>
@@ -26,16 +26,15 @@
         @endif
     </table>
 
-    <h3>First Payment</h3>
+    <h3>Enrollment Payment</h3>
     <table class="table table-bordered table-hover table-striped" style="margin-top: 20px">
         <thead>
             <tr>
-                <th>OR Number</th>
-                <th>Discount</th>
-                <th>Downpayment</th>
-                <th>Total Balance</th>
-                <th>Remarks</th>
-                <th>Date</th>
+                <th  style="width: 20%">OR Number</th>
+                <th  style="width: 20%">Discount</th>
+                <th  style="width: 20%">Downpayment</th>
+                <th  style="width: 20%">Remarks</th>
+                <th  style="width: 20%">Date</th>
             </tr>
         </thead>        
         <tr>
@@ -48,7 +47,6 @@
                 @endif
             </td>
             <td>{{ number_format($Transaction->downpayment, 2)}}</td>
-            <td>{{ number_format($Transaction->balance, 2) }}</td>
             <td><span class="label label-success">Paid</span></td>
             <td>{{ date_format(date_create($Transaction->created_at), 'F d, Y H:i:s') }}</td>
         </tr>       

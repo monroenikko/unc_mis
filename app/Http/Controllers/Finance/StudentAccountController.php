@@ -38,7 +38,7 @@ class StudentAccountController extends Controller
                 ->where('status', 1)->where('current', 1)->get();
             $Transaction = Transaction::with('payment_cat')->where('student_id', $stud_id)
                 ->where('status', 1)->where('school_year_id', $SchoolYear->id )->first();
-            $StudentInformation = StudentInformation::with(['user'])
+            $StudentInformation = StudentInformation::with(['user','transactions'])
                 ->where('id', $stud_id)
                 ->first();
 
@@ -51,6 +51,8 @@ class StudentAccountController extends Controller
 
                 $TransactionMonthPaid = TransactionMonthPaid::where('student_id', $stud_id)
                                         ->where('school_year_id', $SchoolYear->id)->orderBY('id', 'DESC')->get();
+
+                $Account = TransactionMonthPaid::where('student_id', $stud_id)->first();
                 
                 if($Transaction){
                     $Transaction_disc = TransactionDiscount::with('discountFee')->where('or_no', $Transaction->or_number)
@@ -67,6 +69,7 @@ class StudentAccountController extends Controller
             return view('control_panel_finance.student_payment_account.partials.data_list', 
             compact('StudentInformation','Profile','Gradelvl','Discount','OtherFee','SchoolYear','StudentCategory','PaymentCategory','Transaction'
                     ,'Stud_cat_payment','Payment','MiscFee_payment','Tuitionfee_payment','School_year_id','Transaction_disc','TransactionMonthPaid'
+                    ,'Account'
                     ));
         }
 
@@ -80,7 +83,7 @@ class StudentAccountController extends Controller
 
         $Transaction = Transaction::with('payment_cat')->where('student_id', $stud_id)
             ->where('status', 1)->where('school_year_id', $SchoolYear->id)->first();
-        $StudentInformation = StudentInformation::with(['user'])
+        $StudentInformation = StudentInformation::with(['user','transactions'])
             ->where('id', $stud_id)
             ->first();
 
@@ -93,7 +96,8 @@ class StudentAccountController extends Controller
 
             $TransactionMonthPaid = TransactionMonthPaid::where('student_id', $stud_id)
                                     ->where('school_year_id', $SchoolYear->id)->orderBY('id', 'DESC')->get();
-               
+
+            $Account = TransactionMonthPaid::where('student_id', $stud_id)->first();   
             if($Transaction){
                 $Transaction_disc = TransactionDiscount::with('discountFee')->where('or_no', $Transaction->or_number)
                 ->get(); 
@@ -106,6 +110,7 @@ class StudentAccountController extends Controller
         return view('control_panel_finance.student_payment_account.index', 
             compact('StudentInformation','Profile','Gradelvl','Discount','OtherFee','SchoolYear','StudentCategory','PaymentCategory','Transaction'
                     ,'Stud_cat_payment','Payment','MiscFee_payment','Tuitionfee_payment','School_year_id','Transaction_disc','TransactionMonthPaid'
+                    ,'Account'
                     ));
     }
 
@@ -221,7 +226,7 @@ class StudentAccountController extends Controller
             $rules = [
                 'months' => 'required',
                 'or_number_payment' => 'required',
-                'payment_bill' => 'required',     
+                'payment_bill' => 'required',      
             ];
 
             $Validator = \Validator($request->all(), $rules);
@@ -255,7 +260,20 @@ class StudentAccountController extends Controller
         }
     }
 
-    public function save_others(){
+    public function save_others(Request $request){
+
+        
+        if(!empty($request->id_qty)){
+            
+            foreach($request->id_qty as $get_data){
+                $data_description = explode(".", $get_data);
+                echo "item id = $data_description[0]<br />";
+                echo "item qty = $data_description[1]<br />";
+                // echo $data_description;
+            }
+               
+        }
+
         return response()->json(['res_code' => 0, 'res_msg' => 'Data successfully saved.']);
     }
 

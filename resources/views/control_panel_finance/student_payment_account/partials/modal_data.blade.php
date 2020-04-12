@@ -6,7 +6,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>                            
                         <h4 style="margin-right: 5em;" class="modal-title">
                             {{-- {{ $StudentInformation ? 'Edit Registrar Information' : 'Add Registrar Information' }} --}}
-                            <img src="{{ asset('/img/unc-logo.png') }}" style="height: 70px;"> Student Account
+                            Student Account
                         </h4>
                 </div>
             </div>

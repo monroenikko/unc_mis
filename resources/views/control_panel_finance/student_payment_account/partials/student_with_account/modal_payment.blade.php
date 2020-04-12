@@ -1,11 +1,11 @@
 <div class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog box box-danger" style="width: 900px;" role="document">
+    <div class="modal-dialog box box-danger" style="width: 1140px;" role="document">
         <div class="modal-content">
             <div class="box-body">
                 <div class="modal-header">
                     <button type="button" class="close btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>                            
-                    <h4 style="margin-right: 5em;" class="modal-title">
-                        <img src="{{ asset('/img/unc-logo.png') }}" style="height: 70px;"> Student Account modal
+                    <h4 class="modal-title">
+                        Student Account
                     </h4>
                 </div>
             </div>            

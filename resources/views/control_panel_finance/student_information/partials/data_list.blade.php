@@ -20,10 +20,26 @@
                                             <td>{{ $data->user->username }}</td>
                                             <td>{{ ($data->gender == 1 ? 'Male' : 'Female') }}</td>
                                             <td style="color: red">
-                                                <span class="label {{ $data->status == 1 ? 'label-success' : 'label-danger' }}">{{ $data->status == 1 ? 'Paid' : 'Not-Paid' }}</span>
+                                                @if($data->transactions)
+                                                    @if($data->transactions->school_year_id == $School_year_id)
+                                                        <span class="label {{ $data->transactions->status == 0 ? 'label-success' : 'label-danger' }}">
+                                                            {{ $data->transactions->status == 0 ? 'Paid' : 'Not-Paid' }}
+                                                        </span>
+                                                    @else
+                                                        <span class="label label-danger">
+                                                            Not-Paid
+                                                        </span> 
+                                                    @endif
+                                                @else
+                                                    <span class="label label-danger">
+                                                       Not-Paid
+                                                    </span>
+                                                @endif
                                             </td>
                                             <td>
-                                                <span class="badge {{ $data->status == 1 ? 'bg-green' : 'bg-red' }}">{{ $data->status == 1 ? 'Active' : 'Inactive' }}</span>
+                                                <span class="badge {{ $data->status == 1 ? 'bg-green' : 'bg-red' }}">
+                                                    {{ $data->status == 1 ? 'Active' : 'Inactive' }}
+                                                </span>
                                             </td>
                                             <td>
                                                 <div class="input-group-btn pull-left text-left">

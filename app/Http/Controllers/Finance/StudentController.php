@@ -22,9 +22,13 @@ class StudentController extends Controller
 {
     public function index (Request $request) 
     {
+        $School_year_id = SchoolYear::where('status', 1)
+            ->where('current', 1)->first()->id;
+
         if ($request->ajax())
         {
-            $StudentInformation = StudentInformation::with(['user', 'enrolled_class'])->where('status', 1)
+            $StudentInformation = StudentInformation::with(['user', 'enrolled_class','transactions'])
+                ->where('status', 1)
                 ->orderBY('last_name', 'ASC')
                 ->where(function ($query) use ($request) {
                     $query->where('first_name', 'like', '%'.$request->search.'%');
@@ -34,21 +38,29 @@ class StudentController extends Controller
             // ->orWhere('first_name', 'like', '%'.$request->search.'%')
             ->paginate(10);
 
-            $Transaction = Transaction::with('payment_cat')->where('student_id', $request->id)
-            ->where('status', 1)->first();
+            $Transaction = Transaction::with('payment_cat')
+                ->where('school_year_id', $School_year_id)
+                ->where('student_id', $request->id)
+                ->where('status', 1)->first();
             
             // return json_encode(['student_info' => $StudentInformation]);
-            return view('control_panel_finance.student_information.partials.data_list', compact('StudentInformation','Transaction'))->render();
+            return view('control_panel_finance.student_information.partials.data_list', 
+                compact('StudentInformation','Transaction','School_year_id'))->render();
         }
         
-        $StudentInformation = StudentInformation::with(['user', 'enrolled_class'])->where('status', 1)
+        $StudentInformation = StudentInformation::with(['user', 'enrolled_class', 'transactions'])
+            ->where('status', 1)
             ->orderBY('last_name', 'ASC')
             ->paginate(10);
 
-        $Transaction = Transaction::with('payment_cat')->where('student_id', $request->id)
+        $Transaction = Transaction::with('payment_cat')
+            ->where('school_year_id', $School_year_id)
+            ->where('student_id', $request->id)
             ->where('status', 1)->first();
+
         // return json_encode(['student_info' => $StudentInformation]);
-        return view('control_panel_finance.student_information.index', compact('StudentInformation','Transaction'));
+        return view('control_panel_finance.student_information.index', 
+            compact('StudentInformation','Transaction','School_year_id'));
     }
 
     public function modal_data (Request $request) 

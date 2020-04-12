@@ -24,8 +24,7 @@
                             @endif
                         </select>
                         <div class="help-block text-red text-center" id="js-stud_cat">
-                        </div>
-                        
+                        </div>                        
                     </div>
                     <div class="form-group">
                         <label for="">Grade lvl</label>
@@ -38,8 +37,7 @@
                             @endif
                         </select>
                         <div class="help-block text-red text-center" id="js-gradelvl">
-                        </div>
-                        
+                        </div>                        
                     </div>
 
                     <div class="form-group">

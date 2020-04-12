@@ -27,7 +27,25 @@
         {{-- <input type="hidden" name="school_year_id" value="{{ $SchoolYear->school_year_id }}"> --}}
 
         <label for="">Payment Status: </label>
-        <p style="margin-top: -5px; color: red">Paid/not yet paid</p>
+        <p style="margin-top: -5px">
+            
+                @if($StudentInformation->transactions)
+                    @if($StudentInformation->transactions->school_year_id == $School_year_id->id)
+                        <span class="label {{ $StudentInformation->transactions->status == 0 ? 'label-success' : 'label-danger' }}">
+                            {{ $StudentInformation->transactions->status == 0 ? 'Paid' : 'Not-Paid' }}
+                        </span>
+                    @else
+                        <span class="label label-danger">
+                            Not-Paid
+                        </span>
+                    @endif
+                @else
+                    <span class="label label-danger">
+                        Not-Paid
+                    </span>
+                @endif
+            
+        </p>
         
         {{-- <label for="">Address: </label>
         <p style="margin-top: -5px">{{ $StudentInformation ? $StudentInformation->c_address : '' }}</p> --}}
