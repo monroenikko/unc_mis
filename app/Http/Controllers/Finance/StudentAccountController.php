@@ -52,7 +52,8 @@ class StudentAccountController extends Controller
                 $TransactionMonthPaid = TransactionMonthPaid::where('student_id', $stud_id)
                                         ->where('school_year_id', $SchoolYear->id)->orderBY('id', 'DESC')->get();
 
-                $Account = TransactionMonthPaid::where('student_id', $stud_id)->first();
+                $Account = TransactionMonthPaid::where('student_id', $stud_id)
+                    ->where('school_year_id', $SchoolYear->id)->first();
                 
                 if($Transaction){
                     $Transaction_disc = TransactionDiscount::with('discountFee')->where('or_no', $Transaction->or_number)
@@ -260,8 +261,8 @@ class StudentAccountController extends Controller
         }
     }
 
-    public function save_others(Request $request){
-
+    public function save_others(Request $request)
+    {
         
         if(!empty($request->id_qty)){
             
@@ -269,7 +270,8 @@ class StudentAccountController extends Controller
                 $data_description = explode(".", $get_data);
                 echo "item id = $data_description[0]<br />";
                 echo "item qty = $data_description[1]<br />";
-                // echo $data_description;
+                echo "item price = $data_description[2]<br />";
+                echo $data_description;
             }
                
         }

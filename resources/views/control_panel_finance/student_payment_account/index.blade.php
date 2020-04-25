@@ -189,7 +189,7 @@
                     var price = currentRow.find(".item-price").html();
                     var item_id = currentRow.find(".item-id").html();
 
-                    var id_qty = item_id+'.'+col2;
+                    var id_qty = item_id+'.'+col2+'.'+price;
                     var total = (col2 * price);
                    
                     var action = '<button id="btnremove" class="btn btn-sm btn-flat btn-danger js-btnRemove"><i class="far fa-trash-alt"></i></button>';
