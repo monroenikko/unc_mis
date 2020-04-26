@@ -1,8 +1,11 @@
 <div class="row">
+    <form id="js-others_item">
+        {{ csrf_field() }}
     <div class="col-lg-6">
         <div class="box box-danger box-solid" 
         {{-- style="height: 16em;" --}}
         >
+        
             <div class="box-header">
                 <h3 class="box-title">Other(s)</h3>
             </div>
@@ -53,8 +56,9 @@
             </div>
             <div class="box-body">
                 
-                <form id="js-others_item">
-                    {{ csrf_field() }}
+                
+                    <input type="hidden" name="id" value="{{ $StudentInformation->id }}">
+                    
                     <div>
                         <h5><b>OR Number:</b> <span id="js-or_num_others" style="text-align: right !important">00000000000000</span></h5>
                     </div>

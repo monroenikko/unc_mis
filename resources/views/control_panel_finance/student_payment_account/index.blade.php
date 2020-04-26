@@ -182,6 +182,7 @@
                     function currencyFormat(num) {
                         return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
                     }
+                    var or = $('#or_number_others').val();
                     var currentRow=$(this).closest("tr");
                     var col1 = currentRow.find(".item-description").html();
                     var col2 = $(this).closest('tr').find('.item-qty').val();
@@ -189,13 +190,12 @@
                     var price = currentRow.find(".item-price").html();
                     var item_id = currentRow.find(".item-id").html();
 
-                    var id_qty = item_id+'.'+col2+'.'+price;
                     var total = (col2 * price);
+
+                    var id_qty = item_id+'.'+col2+'.'+price+'.'+total;
                    
-                    var action = '<button id="btnremove" class="btn btn-sm btn-flat btn-danger js-btnRemove"><i class="far fa-trash-alt"></i></button>';
-                   
-                    var input_description = '<input type="hidden" name="id_qty[]" class="selected_description" value='+id_qty+'>';
-                    
+                    var action = '<button id="btnremove" class="btn btn-sm btn-flat btn-danger js-btnRemove"><i class="far fa-trash-alt"></i></button>';                   
+                    var input_description = '<input type="hidden" name="id_qty[]" class="selected_description" value='+id_qty+'>';                    
                     var row = $(this).closest("tr").html();
                     $("#others_result tbody").append("<tr><td>" + col1 + "</td><td class='quantity' style='text-align: center'> " + col2 + "</td><td class='inputed_price' style='text-align: right'><span class='total_price' style='display:none'>" +total+ "</span>" + currencyFormat(total) + "</td><td  style='text-align: center'>"+action+" " +input_description+"</td></tr>");
                     
@@ -361,7 +361,7 @@
 
             $('body').on('click', '#js-btn_print_student_grade', function (e) {
                 e.preventDefault();
-                {{--  loader_overlay();  --}}
+               
                 var id = $('#print_student_id').val();
                 var print_sy = $('#print_sy').val();
                 if (print_sy < 1) {
@@ -407,6 +407,7 @@
 
             $('body').on('submit', '#js-others_item', function (e) {
                 e.preventDefault();
+                
                 
                 var formData = new FormData($(this)[0]);
                 $.ajax({

@@ -19,6 +19,8 @@ class CreateTransactionOtherFeesTable extends Migration
             $table->integer('student_id');
             $table->integer('others_fee_id');
             $table->integer('school_year_id');
+            $table->integer('item_qty');
+            $table->double('item_price');       
             $table->timestamps();
         });
     }

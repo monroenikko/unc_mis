@@ -72,39 +72,39 @@ class AdvisoryClassController extends Controller
             $class_id = \Crypt::decrypt($request->c);
             
             $EnrollmentMale = \App\Enrollment::join('student_informations', 'student_informations.id', '=', 'enrollments.student_information_id')
-            ->join('class_details', 'class_details.id', '=', 'enrollments.class_details_id')
-            ->join('users', 'users.id', '=', 'student_informations.user_id')
-            ->whereRaw('class_details.adviser_id = '. $FacultyInformation->id)
-            ->whereRaw('enrollments.class_details_id = '. $class_id)
-            ->whereRaw('student_informations.gender = 1')       
-            ->select(\DB::raw("
-                enrollments.id as e_id,
-                student_informations.id,
-                users.username,
-                CONCAT(student_informations.last_name, ' ', student_informations.first_name, ' ', student_informations.middle_name) as student_name
-            "))
-            ->orderBY('student_name', 'ASC')
-            ->paginate(100);
+                ->join('class_details', 'class_details.id', '=', 'enrollments.class_details_id')
+                ->join('users', 'users.id', '=', 'student_informations.user_id')
+                ->whereRaw('class_details.adviser_id = '. $FacultyInformation->id)
+                ->whereRaw('enrollments.class_details_id = '. $class_id)
+                ->whereRaw('student_informations.gender = 1')       
+                ->select(\DB::raw("
+                    enrollments.id as e_id,
+                    student_informations.id,
+                    users.username,
+                    CONCAT(student_informations.last_name, ' ', student_informations.first_name, ' ', student_informations.middle_name) as student_name
+                "))
+                ->orderBY('student_name', 'ASC')
+                ->paginate(100);
 
             $EnrollmentFemale = \App\Enrollment::join('student_informations', 'student_informations.id', '=', 'enrollments.student_information_id')
-            ->join('class_details', 'class_details.id', '=', 'enrollments.class_details_id')
-            ->join('users', 'users.id', '=', 'student_informations.user_id')
-            ->whereRaw('class_details.adviser_id = '. $FacultyInformation->id)
-            ->whereRaw('enrollments.class_details_id = '. $class_id)
-            ->whereRaw('student_informations.gender = 2')       
-            ->select(\DB::raw("
-                enrollments.id as e_id,
-                student_informations.id,
-                users.username,
-                CONCAT(student_informations.last_name, ' ', student_informations.first_name, ' ', student_informations.middle_name) as student_name
-            "))
-            ->orderBY('student_name', 'ASC')
-            ->paginate(100);
+                ->join('class_details', 'class_details.id', '=', 'enrollments.class_details_id')
+                ->join('users', 'users.id', '=', 'student_informations.user_id')
+                ->whereRaw('class_details.adviser_id = '. $FacultyInformation->id)
+                ->whereRaw('enrollments.class_details_id = '. $class_id)
+                ->whereRaw('student_informations.gender = 2')       
+                ->select(\DB::raw("
+                    enrollments.id as e_id,
+                    student_informations.id,
+                    users.username,
+                    CONCAT(student_informations.last_name, ' ', student_informations.first_name, ' ', student_informations.middle_name) as student_name
+                "))
+                ->orderBY('student_name', 'ASC')
+                ->paginate(100);
 
-            $ClassDetails = \App\ClassDetail::join('section_details', 'section_details.id', '=', 'class_details.section_id')
-            ->join('school_years', 'school_years.id', '=', 'class_details.school_year_id')
-            ->where('class_details.id', $class_id)
-            ->first();
+                $ClassDetails = \App\ClassDetail::join('section_details', 'section_details.id', '=', 'class_details.section_id')
+                ->join('school_years', 'school_years.id', '=', 'class_details.school_year_id')
+                ->where('class_details.id', $class_id)
+                ->first();
             
             return view('control_panel_faculty.class_advisory.index_view_class_list', compact('EnrollmentMale','EnrollmentFemale', 'ClassDetails', 'class_id'))->render();
         } catch (Illuminate\Contracts\Encryption\DecryptException $e) {
@@ -257,6 +257,7 @@ class AdvisoryClassController extends Controller
     {
         $ClassDetail = NULL;
         $FacultyInformation = \App\FacultyInformation::where('status', 1)->get();
+
         if ($request->id)
         {
             $ClassDetail = \App\ClassDetail::where('id', $request->id)->first();
@@ -536,24 +537,11 @@ class AdvisoryClassController extends Controller
                     $second = $grade->sec_g > 0 ? $grade->sec_g : 0;
                     $third = $grade->thi_g > 0 ? $grade->thi_g : 0;
                     $fourth = $grade->fou_g > 0 ? $grade->fou_g : 0;
-                    // $third = 0;
-                    // $fourth = 0;
-                    // if ($grade_level <= 11)
-                    // {
-                    //     $third = $grade->thi_g > 0 ? $grade->thi_g : 0;
-                    //     $fourth = $grade->fou_g > 0 ? $grade->fou_g : 0;
-                    // }
-                    
+                                        
                     $sum += $grade->fir_g > 0 ? $grade->fir_g : 0;
                     $sum += $grade->sec_g > 0 ? $grade->sec_g : 0;
                     $sum += $grade->thi_g > 0 ? $grade->thi_g : 0;
                     $sum += $grade->fou_g > 0 ? $grade->fou_g : 0;
-
-                    // if ($grade_level <= 11)
-                    // {
-                    //     $sum += $grade->thi_g > 0 ? $grade->thi_g : 0;
-                    //     $sum += $grade->fou_g > 0 ? $grade->fou_g : 0;
-                    // }
 
                     $divisor = 0;
                     $divisor += $first > 0 ? 1 : 0;

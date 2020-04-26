@@ -52,6 +52,13 @@ class StudentAccountController extends Controller
                 $TransactionMonthPaid = TransactionMonthPaid::where('student_id', $stud_id)
                                         ->where('school_year_id', $SchoolYear->id)->orderBY('id', 'DESC')->get();
 
+                $TransactionOR = TransactionOtherFee::where('student_id', $stud_id)
+                    ->where('school_year_id', $SchoolYear->id)->orderBY('id', 'DESC')
+                    ->distinct()->get(['or_no']);   
+
+                $AccountOthers = TransactionOtherFee::where('student_id', $stud_id)
+                    ->where('school_year_id', $SchoolYear->id)->first();
+
                 $Account = TransactionMonthPaid::where('student_id', $stud_id)
                     ->where('school_year_id', $SchoolYear->id)->first();
                 
@@ -70,7 +77,7 @@ class StudentAccountController extends Controller
             return view('control_panel_finance.student_payment_account.partials.data_list', 
             compact('StudentInformation','Profile','Gradelvl','Discount','OtherFee','SchoolYear','StudentCategory','PaymentCategory','Transaction'
                     ,'Stud_cat_payment','Payment','MiscFee_payment','Tuitionfee_payment','School_year_id','Transaction_disc','TransactionMonthPaid'
-                    ,'Account'
+                    ,'Account','TransactionOR','AccountOthers'
                     ));
         }
 
@@ -98,7 +105,18 @@ class StudentAccountController extends Controller
             $TransactionMonthPaid = TransactionMonthPaid::where('student_id', $stud_id)
                                     ->where('school_year_id', $SchoolYear->id)->orderBY('id', 'DESC')->get();
 
+            $AccountOthers = TransactionOtherFee::where('student_id', $stud_id)
+                ->where('school_year_id', $SchoolYear->id)->first();                                       
+            
+            $TransactionOR = TransactionOtherFee::where('student_id', $stud_id)
+                ->where('school_year_id', $SchoolYear->id)
+                ->distinct()
+                ->get(['or_no']);    
+                
+            
+            
             $Account = TransactionMonthPaid::where('student_id', $stud_id)->first();   
+
             if($Transaction){
                 $Transaction_disc = TransactionDiscount::with('discountFee')->where('or_no', $Transaction->or_number)
                 ->get(); 
@@ -111,7 +129,7 @@ class StudentAccountController extends Controller
         return view('control_panel_finance.student_payment_account.index', 
             compact('StudentInformation','Profile','Gradelvl','Discount','OtherFee','SchoolYear','StudentCategory','PaymentCategory','Transaction'
                     ,'Stud_cat_payment','Payment','MiscFee_payment','Tuitionfee_payment','School_year_id','Transaction_disc','TransactionMonthPaid'
-                    ,'Account'
+                    ,'Account','TransactionOR','AccountOthers'
                     ));
     }
 
@@ -263,20 +281,41 @@ class StudentAccountController extends Controller
 
     public function save_others(Request $request)
     {
-        
+        $School_year_id = SchoolYear::where('status', 1)
+            ->where('current', 1)->first();
+
+        $rules = [
+            'or_number_others' => 'required'                 
+        ];
+
+        $Validator = \Validator($request->all(), $rules);
+
+        if ($Validator->fails())
+        {
+            return response()->json(['res_code' => 1, 'res_msg' 
+                => 'Please fill all required fields.', 'res_error_msg' 
+                => $Validator->getMessageBag()]);
+        }   
+
         if(!empty($request->id_qty)){
             
             foreach($request->id_qty as $get_data){
                 $data_description = explode(".", $get_data);
-                echo "item id = $data_description[0]<br />";
-                echo "item qty = $data_description[1]<br />";
-                echo "item price = $data_description[2]<br />";
-                echo $data_description;
+                
+                $TransactionOtherFee = new TransactionOtherFee();               
+                $TransactionOtherFee->student_id = $request->id;
+                $TransactionOtherFee->or_no = $request->or_number_others;
+                $TransactionOtherFee->others_fee_id = $data_description[0];
+                $TransactionOtherFee->others_fee_qty = $data_description[1];
+                $TransactionOtherFee->others_fee_price = $data_description[2];
+                $TransactionOtherFee->school_year_id = $School_year_id->id;
+                $TransactionOtherFee->save();
             }
-               
+
+            return response()->json(['res_code' => 0, 'res_msg' => 'Data successfully saved.']);
         }
 
-        return response()->json(['res_code' => 0, 'res_msg' => 'Data successfully saved.']);
+        
     }
 
     public function modal_data (Request $request) 
@@ -436,8 +475,5 @@ class StudentAccountController extends Controller
         $hello = 'this is history';
         return view('control_panel_finance.student_payment_account.partials.data_list', compact('hello'))->render();
     }
-
-    
-
     
 }
